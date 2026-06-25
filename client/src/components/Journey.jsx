@@ -1,4 +1,7 @@
+import { useEffect, useRef } from 'react'
+
 export default function Journey() {
+
   const items = [
     { side: 'left', year: 'Certification · ASRM', title: 'Andrology Certification', desc: 'Awarded by the American Society for Reproductive Medicine — formal credentialing in male fertility and reproductive surgery.' },
     { side: 'right', year: 'Observership · Dubai', title: 'First IVF, Dubai (UAE)', desc: 'International observership in advanced reproductive medicine, deepening expertise in andrology and assisted fertility.' },
@@ -7,6 +10,35 @@ export default function Journey() {
     { side: 'left', year: 'Present · Medanta', title: 'Consultant — Medanta, Gurugram', desc: "Practising across urology, andrology, uro-oncology and renal transplantation at one of India's most respected institutions." },
   ]
 
+  const tlRef = useRef(null)
+
+  useEffect(() => {
+    const tl = tlRef.current
+    if (!tl) return
+    const spine = tl.querySelector('.spine')
+    const rows = tl.querySelectorAll('.tl-row')
+
+    const nodeIO = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') }),
+      { threshold: 0.55 }
+    )
+    rows.forEach(r => nodeIO.observe(r))
+
+    const onScroll = () => {
+      if (!spine) return
+      const rect = tl.getBoundingClientRect()
+      const visible = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / rect.height))
+      spine.style.height = `${visible * 100}%`
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+
+    return () => {
+      nodeIO.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
   return (
     <section className="section timeline-sec" id="journey">
       <div className="wrap tl-head reveal">
@@ -14,7 +46,7 @@ export default function Journey() {
         <h2>Training that crosses<br/>borders &amp; disciplines.</h2>
       </div>
       <div className="wrap">
-        <div className="timeline">
+        <div className="timeline" ref={tlRef}>
           <div className="spine"></div>
           {items.map((item, i) => (
             <div key={i} className="tl-row">

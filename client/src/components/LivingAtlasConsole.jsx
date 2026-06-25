@@ -165,7 +165,9 @@ export default function LivingAtlasConsole() {
             </span>
             <span className="coord">LAT 0.00 · AP 12.4 · FULL TRACT</span>
           </div>
-          <div className="console-prog"><i></i></div>
+          <div className="console-prog">
+            <i key={active} className="run" style={{'--dwell': `${AUTO_DELAY / 1000}s`}}></i>
+          </div>
 
           <div className="console-body">
             <div className="console-rail">

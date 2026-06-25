@@ -8,7 +8,8 @@ export default function Preloader() {
     if (!el) return
     const timer = setTimeout(() => {
       el.classList.add('done')
-      setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el) }, 900)
+      document.querySelector('.hero')?.classList.add('lit')
+      setTimeout(() => el.remove(), 900)
     }, 1800)
     return () => clearTimeout(timer)
   }, [])

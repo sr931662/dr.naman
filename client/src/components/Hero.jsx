@@ -1,3 +1,5 @@
+import drNaman from '../assets/Dr__Naman.png'
+
 export default function Hero() {
   return (
     <header className="hero" id="top">
@@ -11,7 +13,14 @@ export default function Hero() {
         <line className="tick" x1="500" y1="260" x2="518" y2="260"/>
       </svg>
       <div className="hero-photo">
-        <image-slot id="doc-hero" shape="rect" fit="cover" position="50% 16%" placeholder="Drag Dr. Aggarwal's portrait here"></image-slot>
+        <img
+          src={drNaman}
+          alt="Dr. Naman Aggarwal — Consultant Urologist &amp; Renal Transplant Surgeon at Medanta Gurugram"
+          className="hero-img"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
       <div className="hero-fade"></div>
       <div className="measure">
