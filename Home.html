@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dr. Naman Aggarwal — Urology · Andrology · Renal Transplant · Medanta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="console.css"/>
+<link rel="stylesheet" href="pages.css"/>
+</head>
+<body>
+
+<!-- shared anatomy symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="kidney" viewBox="0 0 100 130">
+    <path fill="#fbeef0" stroke="#b3122a" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke" d="M64 8 C90 12 100 42 96 76 C92 108 74 126 50 124 C28 122 12 102 12 76 C12 60 24 54 36 62 C24 50 16 28 26 16 C36 6 50 4 64 8 Z"/>
+    <path fill="none" stroke="#b3122a" stroke-width="1.2" opacity=".5" vector-effect="non-scaling-stroke" d="M40 64 C30 60 24 54 18 46"/>
+    <path fill="none" stroke="#b3122a" stroke-width="1.2" opacity=".5" vector-effect="non-scaling-stroke" d="M44 70 C34 70 28 68 22 62"/>
+  </symbol>
+</defs></svg>
+
+<!-- ECG PRELOADER -->
+<div id="preloader">
+  <div class="pl-wipe"></div>
+  <div class="pl-in">
+    <div class="pl-mono">N</div>
+    <svg class="pl-ecg" viewBox="0 0 240 60"><path d="M0 30 L70 30 L86 30 L96 12 L108 48 L120 6 L132 44 L142 30 L160 30 L172 30 L180 22 L188 30 L240 30"/></svg>
+    <div class="pl-name">Dr. Naman Aggarwal · Medanta</div>
+  </div>
+</div>
+
+<!-- SURGICAL CURSOR -->
+<div class="cursor-ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5"/><path class="med" d="M18 9.5 V26.5 M9.5 18 H26.5"/></svg></div>
+<div class="cursor-dot"></div>
+
+<!-- SCROLL VITAL -->
+<div class="vital-bar"><i></i></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" data-magnetic="0.25">
+      <span class="mono">N</span>
+      <span class="bn">Dr. Naman Aggarwal<small>Urology · Transplant</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#expertise">Expertise</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#journey">Journey</a>
+      <a href="#voices">Voices</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn btn-primary" href="#contact" data-magnetic="0.3">Book a consultation</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-aura"></div>
+  <svg class="hero-ring" viewBox="0 0 520 520">
+    <circle cx="260" cy="260" r="258"/><circle cx="260" cy="260" r="210"/>
+    <line class="tick" x1="260" y1="2" x2="260" y2="20"/><line class="tick" x1="260" y1="500" x2="260" y2="518"/>
+    <line class="tick" x1="2" y1="260" x2="20" y2="260"/><line class="tick" x1="500" y1="260" x2="518" y2="260"/>
+  </svg>
+  <div class="hero-photo">
+    <image-slot id="doc-hero" shape="rect" fit="cover" position="50% 16%" placeholder="Drag Dr. Aggarwal's portrait here"></image-slot>
+  </div>
+  <div class="hero-fade"></div>
+  <div class="measure"><div class="mt"><span class="ml">EST · MEDANTA · GURUGRAM</span><span class="ml">N · A · 28.45°N 77.04°E</span></div></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow reveal"><span class="pulse"></span>Urology · Andrology · Uro-oncology · Renal Transplant</span>
+      <h1><span class="word">Surgical</span> <span class="word">precision,</span><br/><span class="word">profoundly</span> <span class="word"><em>human</em></span> <span class="word">care.</span></h1>
+      <p class="lead reveal d3">Consultant Urologist &amp; Renal Transplant Surgeon at Medanta, Gurugram — uniting robotic, minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.</p>
+      <div class="hero-cta reveal d4">
+        <a class="btn btn-primary" href="#contact" data-magnetic="0.3">Book a consultation</a>
+        <a class="btn btn-ghost" href="#expertise" data-magnetic="0.3">Enter the Atlas <span class="arr">→</span></a>
+      </div>
+      <div class="hero-stats reveal d5">
+        <div class="st"><b>04</b><span>Sub-specialties</span></div>
+        <div class="st"><b>ASRM</b><span>Andrology certified</span></div>
+        <div class="st"><b>2022</b><span>Devon Fellowship</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scrollcue">Scroll<i></i></div>
+</header>
+
+<!-- CREDENTIALS MARQUEE -->
+<section class="marquee" aria-hidden="true">
+  <div class="track">
+    <div class="item">
+      <span class="m"><b>Medanta</b> — The Medicity</span><span class="star">✦</span>
+      <span class="m">American Society for <b>Reproductive Medicine</b></span><span class="star">✦</span>
+      <span class="m"><b>First IVF</b>, Dubai · Observership</span><span class="star">✦</span>
+      <span class="m"><b>Devon</b> Traveling Fellowship</span><span class="star">✦</span>
+      <span class="m">Speaker · <b>SIU · UAA · USICON</b></span><span class="star">✦</span>
+    </div>
+    <div class="item">
+      <span class="m"><b>Medanta</b> — The Medicity</span><span class="star">✦</span>
+      <span class="m">American Society for <b>Reproductive Medicine</b></span><span class="star">✦</span>
+      <span class="m"><b>First IVF</b>, Dubai · Observership</span><span class="star">✦</span>
+      <span class="m"><b>Devon</b> Traveling Fellowship</span><span class="star">✦</span>
+      <span class="m">Speaker · <b>SIU · UAA · USICON</b></span><span class="star">✦</span>
+    </div>
+  </div>
+</section>
+
+<!-- LIVING ATLAS CONSOLE -->
+<section class="section console-sec" id="expertise">
+  <div class="wrap console-head reveal">
+    <span class="eyebrow">The Living Atlas</span>
+    <h2>Four disciplines,<br/>read like an instrument.</h2>
+    <p class="lead">Most surgeons hand you a list. Explore Dr. Aggarwal's practice the way he sees it — a live anatomical console. Select a discipline, or let it play, and watch the system come alive.</p>
+  </div>
+
+  <div class="wrap reveal d2">
+    <div class="console">
+      <!-- top bar -->
+      <div class="console-top">
+        <span class="live"><i></i>Live</span>
+        <span class="ecg"><svg viewBox="0 0 600 26" preserveAspectRatio="none"><path class="sweep" d="M0 13 L210 13 L228 13 L238 3 L250 23 L262 1 L274 21 L284 13 L360 13 L378 13 L386 7 L394 13 L600 13"/></svg></span>
+        <span class="coord">LAT 0.00 · AP 12.4 · FULL TRACT</span>
+      </div>
+      <div class="console-prog"><i></i></div>
+
+      <!-- body -->
+      <div class="console-body">
+        <!-- rail -->
+        <div class="console-rail">
+          <div class="rail-item active" data-spec="urology"><span class="rbar"></span><span class="rnum">01</span><span class="rname">Urology</span></div>
+          <div class="rail-item" data-spec="andrology"><span class="rbar"></span><span class="rnum">02</span><span class="rname">Andrology</span></div>
+          <div class="rail-item" data-spec="onco"><span class="rbar"></span><span class="rnum">03</span><span class="rname">Uro-oncology</span></div>
+          <div class="rail-item" data-spec="transplant"><span class="rbar"></span><span class="rnum">04</span><span class="rname">Renal Transplant</span></div>
+        </div>
+
+        <!-- stage -->
+        <div class="console-stage">
+          <div class="stage-crosshair"></div>
+          <div class="stage-coords"><span class="tl">+ R0.1</span><span class="tr">+ R0.2</span><span class="bl">+ R0.3</span><span class="br">+ R0.4</span></div>
+
+          <!-- UROLOGY -->
+          <div class="stg active" data-spec="urology">
+            <svg class="dgm" viewBox="0 0 440 380">
+              <defs><radialGradient id="bl1" cx="50%" cy="42%" r="55%"><stop offset="0" stop-color="rgba(179,18,42,.10)"/><stop offset="1" stop-color="rgba(179,18,42,0)"/></radialGradient></defs>
+              <ellipse cx="220" cy="160" rx="180" ry="150" fill="url(#bl1)"/>
+              <g class="breathe">
+                <use href="#kidney" x="296" y="44" width="80" height="104"/>
+                <use href="#kidney" x="64" y="44" width="80" height="104" transform="translate(208,0) scale(-1,1)"/>
+              </g>
+              <path class="anat" d="M306 150 C292 196 270 232 240 268"/>
+              <path class="anat" d="M134 150 C148 196 170 232 200 268"/>
+              <path class="flow" d="M306 150 C292 196 270 232 240 268"/>
+              <path class="flow" d="M134 150 C148 196 170 232 200 268"/>
+              <path class="anat" d="M220 258 C260 258 286 282 286 312 C286 344 258 360 220 360 C182 360 154 344 154 312 C154 282 180 258 220 258 Z"/>
+              <path class="anat" d="M214 360 L214 378 M226 360 L226 378"/>
+              <line class="lead" x1="352" y1="78" x2="402" y2="62"/><circle class="dot" cx="352" cy="78" r="2.6"/><text class="lbl" x="406" y="65">Kidney</text>
+              <line class="lead" x1="262" y1="232" x2="306" y2="232"/><circle class="dot" cx="262" cy="232" r="2.6"/><text class="lbl" x="310" y="235">Ureter</text>
+              <circle class="dot" cx="220" cy="312" r="2.6"/><text class="lbl" x="220" y="338" text-anchor="middle">Bladder</text>
+            </svg>
+          </div>
+
+          <!-- ANDROLOGY -->
+          <div class="stg" data-spec="andrology">
+            <svg class="dgm" viewBox="0 0 440 380">
+              <defs><radialGradient id="bl3" cx="38%" cy="58%" r="54%"><stop offset="0" stop-color="rgba(179,18,42,.10)"/><stop offset="1" stop-color="rgba(179,18,42,0)"/></radialGradient></defs>
+              <ellipse cx="180" cy="232" rx="168" ry="138" fill="url(#bl3)"/>
+              <path class="anat" d="M150 44 C150 92 154 122 168 152"/>
+              <path class="anat thin" d="M166 44 C166 92 170 122 184 154"/>
+              <path class="anat thin" d="M134 48 C134 94 138 124 154 156"/>
+              <path class="flow" d="M150 44 C150 92 154 122 168 152"/>
+              <ellipse class="anat" cx="168" cy="214" rx="64" ry="78"/>
+              <path class="anat" d="M222 172 C242 188 244 222 228 254 C220 270 208 278 204 272"/>
+              <path class="anat thin" d="M168 214 C148 204 148 228 168 228 C192 228 194 196 168 194 C136 192 136 244 176 246"/>
+              <g class="breathe">
+                <circle cx="322" cy="146" r="15" fill="rgba(179,18,42,.08)" stroke="#b3122a" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                <path class="focal" d="M336 152 C358 164 352 192 374 202 C356 196 362 222 382 228"/>
+              </g>
+              <line class="lead" x1="150" y1="84" x2="98" y2="70"/><circle class="dot" cx="150" cy="84" r="2.6"/><text class="lbl" x="94" y="66" text-anchor="end">Spermatic cord</text>
+              <line class="lead" x1="118" y1="244" x2="66" y2="266"/><circle class="dot" cx="118" cy="244" r="2.6"/><text class="lbl" x="62" y="270" text-anchor="end">Testis</text>
+              <circle class="dot" cx="322" cy="146" r="2.6"/><text class="lbl" x="322" y="226" text-anchor="middle">Spermatozoon</text>
+            </svg>
+          </div>
+
+          <!-- URO-ONCOLOGY -->
+          <div class="stg" data-spec="onco">
+            <svg class="dgm" viewBox="0 0 440 380">
+              <defs><radialGradient id="bl4" cx="46%" cy="48%" r="52%"><stop offset="0" stop-color="rgba(179,18,42,.12)"/><stop offset="1" stop-color="rgba(179,18,42,0)"/></radialGradient></defs>
+              <ellipse cx="210" cy="190" rx="180" ry="150" fill="url(#bl4)"/>
+              <use href="#kidney" x="92" y="84" width="150" height="195"/>
+              <g class="breathe">
+                <circle cx="208" cy="182" r="22" fill="rgba(179,18,42,.10)" stroke="#b3122a" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                <circle cx="208" cy="182" r="9" fill="rgba(179,18,42,.34)"/>
+              </g>
+              <g class="spin"><circle cx="208" cy="182" r="42" fill="none" stroke="#b3122a" stroke-width="1.1" stroke-dasharray="6 11" opacity=".75" vector-effect="non-scaling-stroke"/></g>
+              <path class="lead" d="M208 124 L208 140 M208 224 L208 240 M150 182 L166 182 M250 182 L266 182"/>
+              <circle class="anat thin" cx="306" cy="256" r="14"/><circle class="anat thin" cx="334" cy="238" r="9"/><circle class="anat thin" cx="324" cy="276" r="7"/>
+              <line class="lead" x1="234" y1="164" x2="288" y2="126"/><circle class="dot" cx="234" cy="164" r="2.6"/><text class="lbl" x="292" y="122">Targeted lesion</text>
+              <line class="lead" x1="306" y1="256" x2="306" y2="306"/><circle class="dot" cx="306" cy="256" r="2.6"/><text class="lbl" x="306" y="320" text-anchor="middle">Cellular margins</text>
+            </svg>
+          </div>
+
+          <!-- RENAL TRANSPLANT -->
+          <div class="stg" data-spec="transplant">
+            <svg class="dgm" viewBox="0 0 440 380">
+              <defs><radialGradient id="bl2" cx="40%" cy="44%" r="58%"><stop offset="0" stop-color="rgba(179,18,42,.10)"/><stop offset="1" stop-color="rgba(179,18,42,0)"/></radialGradient></defs>
+              <ellipse cx="190" cy="180" rx="180" ry="150" fill="url(#bl2)"/>
+              <path class="anat" d="M348 36 C360 110 360 248 342 352"/>
+              <path class="anat thin" d="M368 40 C380 112 380 248 362 354"/>
+              <g class="breathe"><use href="#kidney" x="78" y="98" width="120" height="156" transform="translate(276,0) scale(-1,1)"/></g>
+              <path class="anat" d="M196 176 C248 168 298 174 340 196"/>
+              <path class="flow" d="M196 176 C248 168 298 174 340 196"/>
+              <circle class="ring" cx="340" cy="196" r="5"/>
+              <path class="anat" d="M200 200 C250 202 300 212 338 232"/>
+              <circle class="ring" cx="338" cy="232" r="4.5"/>
+              <path class="anat" d="M166 250 C172 292 192 318 210 336"/>
+              <path class="anat" d="M210 328 C232 328 248 342 248 358 C248 372 232 378 210 378"/>
+              <line class="lead" x1="120" y1="120" x2="68" y2="98"/><circle class="dot" cx="120" cy="120" r="2.6"/><text class="lbl" x="64" y="94" text-anchor="end">Donor kidney</text>
+              <line class="lead" x1="306" y1="186" x2="306" y2="150"/><circle class="dot" cx="306" cy="186" r="2.6"/><text class="lbl" x="306" y="144" text-anchor="middle">Anastomosis</text>
+              <line class="lead" x1="226" y1="352" x2="276" y2="358"/><circle class="dot" cx="226" cy="352" r="2.6"/><text class="lbl" x="280" y="361">Ureter → bladder</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- readout -->
+        <div class="console-readout">
+          <div class="ro active" data-spec="urology">
+            <div class="ro-tag">01 / Field</div>
+            <h3>Urology</h3>
+            <div class="ro-focus"><b>Focus</b> — Kidney · Ureter<br/>Bladder · Prostate</div>
+            <p class="ro-desc">Comprehensive care for the urinary tract, with a minimally-invasive bias wherever it serves the patient — from stone disease to obstruction.</p>
+            <div class="proc"><span>Kidney stones — PCNL &amp; RIRS</span><span>Enlarged prostate — HoLEP</span><span>Urinary obstruction</span><span>Recurrent UTIs</span><span>Haematuria</span></div>
+          </div>
+          <div class="ro" data-spec="andrology">
+            <div class="ro-tag">02 / Field</div>
+            <h3>Andrology</h3>
+            <div class="ro-focus"><b>Focus</b> — Testis · Spermatic cord<br/>Hormonal axis</div>
+            <p class="ro-desc">Certified in Andrology by the ASRM, with an observership at First IVF, Dubai — restoring fertility, hormonal balance and confidence through microsurgery.</p>
+            <div class="proc"><span>Male infertility</span><span>Varicocele microsurgery</span><span>Erectile dysfunction</span><span>Low testosterone</span><span>Vasectomy &amp; reversal</span></div>
+          </div>
+          <div class="ro" data-spec="onco">
+            <div class="ro-tag">03 / Field</div>
+            <h3>Uro-oncology</h3>
+            <div class="ro-focus"><b>Focus</b> — Tumour staging<br/>Margin control</div>
+            <p class="ro-desc">Organ-preserving, oncologically-sound surgery for tumours of the kidney, prostate, bladder and testis — staged precisely, resected with the narrowest safe margin.</p>
+            <div class="proc"><span>Kidney — partial nephrectomy</span><span>Prostate — robotic</span><span>Bladder — TURBT</span><span>Testicular tumours</span></div>
+          </div>
+          <div class="ro" data-spec="transplant">
+            <div class="ro-tag">04 / Field</div>
+            <h3>Renal Transplant</h3>
+            <div class="ro-focus"><b>Focus</b> — Graft · Anastomosis<br/>Iliac fossa</div>
+            <p class="ro-desc">End-to-end transplant care — from donor work-up and laparoscopic retrieval to the anastomosis and lifelong graft surveillance — giving patients their mornings back.</p>
+            <div class="proc"><span>Living-donor transplant</span><span>Deceased-donor transplant</span><span>Laparoscopic donor nephrectomy</span><span>Post-transplant care</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="section philo" id="philosophy">
+  <svg class="philo-glyph" viewBox="0 0 100 130"><use href="#kidney" width="100" height="130"/></svg>
+  <div class="wrap">
+    <div class="philo-q reveal">
+      <span class="eyebrow center">The Philosophy</span>
+      <blockquote>"A scan shows me the disease. A conversation shows me the <em>person</em>. I refuse to treat one without the other."</blockquote>
+      <cite>— Dr. Naman Aggarwal</cite>
+    </div>
+    <div class="philo-grid">
+      <div class="philo-card reveal d1"><div class="pc-n">01</div><h3>Listen deeply</h3><p>A compassionate listener who takes the time to understand every concern — simplifying complex medicine until patients and families feel genuinely informed and assured.</p></div>
+      <div class="philo-card reveal d2"><div class="pc-n">02</div><h3>Operate precisely</h3><p>At the forefront of robotic and minimally-invasive technique, always seeking the latest evidence-based advances to sharpen outcomes and shorten recovery.</p></div>
+      <div class="philo-card reveal d3"><div class="pc-n">03</div><h3>Care completely</h3><p>A multidisciplinary approach for complex cases and comorbidities, with an unwavering commitment to confidentiality and the highest standards of ethical practice.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY / TIMELINE -->
+<section class="section timeline-sec" id="journey">
+  <div class="wrap tl-head reveal">
+    <span class="eyebrow">The Making of a Surgeon</span>
+    <h2>Training that crosses<br/>borders &amp; disciplines.</h2>
+  </div>
+  <div class="wrap">
+    <div class="timeline">
+      <div class="spine"></div>
+      <div class="tl-row"><div class="tl-node"></div>
+        <div class="tl-card"><div class="tl-year">Certification · ASRM</div><h3>Andrology Certification</h3><p>Awarded by the American Society for Reproductive Medicine — formal credentialing in male fertility and reproductive surgery.</p></div>
+        <div class="tl-spacer"></div>
+      </div>
+      <div class="tl-row"><div class="tl-node"></div>
+        <div class="tl-spacer"></div>
+        <div class="tl-card"><div class="tl-year">Observership · Dubai</div><h3>First IVF, Dubai (UAE)</h3><p>International observership in advanced reproductive medicine, deepening expertise in andrology and assisted fertility.</p></div>
+      </div>
+      <div class="tl-row"><div class="tl-node"></div>
+        <div class="tl-card"><div class="tl-year">2022 · Fellowship</div><h3>Devon Traveling Fellowship</h3><p>A competitive traveling fellowship recognising surgical promise and a commitment to evolving urological practice.</p></div>
+        <div class="tl-spacer"></div>
+      </div>
+      <div class="tl-row"><div class="tl-node"></div>
+        <div class="tl-spacer"></div>
+        <div class="tl-card"><div class="tl-year">2022 · Symposium</div><h3>KUACON · Davangere PG Symposium</h3><p>Active contribution to the postgraduate urological community through regional academic symposia.</p></div>
+      </div>
+      <div class="tl-row"><div class="tl-node"></div>
+        <div class="tl-card"><div class="tl-year">Present · Medanta</div><h3>Consultant — Medanta, Gurugram</h3><p>Practising across urology, andrology, uro-oncology and renal transplantation at one of India's most respected institutions.</p></div>
+        <div class="tl-spacer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH & TALKS -->
+<section class="section research" id="research">
+  <div class="wrap">
+    <div class="research-top">
+      <div class="reveal"><span class="eyebrow">On the Podium</span><h2>Research &amp; talks</h2></div>
+      <p class="reveal d1">A regular voice at international and national urological forums — sharing technique, evidence and outcomes with the wider surgical community.</p>
+    </div>
+    <div class="research-list">
+      <div class="ri reveal"><span class="rn">01</span><span class="rt">Invited speaker — Société Internationale d'Urologie (SIU)</span><span class="rmeta">International</span></div>
+      <div class="ri reveal d1"><span class="rn">02</span><span class="rt">Speaker — Urological Association of Asia (UAA)</span><span class="rmeta">International</span></div>
+      <div class="ri reveal d2"><span class="rn">03</span><span class="rt">Speaker — USICON, Urological Society of India</span><span class="rmeta">National</span></div>
+      <div class="ri reveal d3"><span class="rn">04</span><span class="rt">Active participant — regional &amp; national conferences</span><span class="rmeta">Ongoing</span></div>
+    </div>
+    <div class="conf-marquee" aria-hidden="true">
+      <div class="track">
+        <span class="c"><b>SIU</b> · <b>UAA</b> · <b>USICON</b> · <b>KUACON</b> · </span>
+        <span class="c"><b>SIU</b> · <b>UAA</b> · <b>USICON</b> · <b>KUACON</b> · </span>
+        <span class="c"><b>SIU</b> · <b>UAA</b> · <b>USICON</b> · <b>KUACON</b> · </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testi" id="voices">
+  <div class="wrap">
+    <div class="testi-head reveal">
+      <span class="eyebrow center">In Their Words</span>
+      <h2>Voices of patients</h2>
+    </div>
+    <div class="testi-stage">
+      <div class="testi-item active">
+        <div class="testi-quote-mark">"</div>
+        <blockquote>He explained my kidney transplant so calmly that my fear simply dissolved. Months on, I wake up grateful every single morning.</blockquote>
+        <div class="who"><b>Transplant recipient</b><span>Patient testimonial · placeholder</span></div>
+      </div>
+      <div class="testi-item">
+        <div class="testi-quote-mark">"</div>
+        <blockquote>I had seen three specialists before Dr. Aggarwal. He was the first who actually listened — and the first whose treatment worked.</blockquote>
+        <div class="who"><b>Urology patient</b><span>Patient testimonial · placeholder</span></div>
+      </div>
+      <div class="testi-item">
+        <div class="testi-quote-mark">"</div>
+        <blockquote>After years of trying, we became parents. He treated our fertility journey with science, patience and remarkable kindness.</blockquote>
+        <div class="who"><b>Andrology patient</b><span>Patient testimonial · placeholder</span></div>
+      </div>
+    </div>
+    <div class="testi-dots">
+      <button class="active" aria-label="Testimonial 1"></button>
+      <button aria-label="Testimonial 2"></button>
+      <button aria-label="Testimonial 3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta-main reveal">
+      <span class="eyebrow">Consultations</span>
+      <h2>Begin the conversation.</h2>
+      <p>Whether you are a patient, a family weighing a transplant, or a physician seeking a referral — Dr. Aggarwal's clinic at Medanta is open to you.</p>
+      <div class="hero-cta" style="margin-top:36px"><a class="btn btn-light" href="#" data-magnetic="0.3">Request an appointment <span class="arr">→</span></a></div>
+    </div>
+    <div class="cta-side reveal d1">
+      <div class="row"><small>Hospital</small><span>Medanta — The Medicity, Gurugram</span></div>
+      <div class="row"><small>Institute</small><span>Kidney &amp; Urology Institute</span></div>
+      <div class="row"><small>Languages</small><span>English · Hindi · Kannada</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="fbrand">
+      <div class="mono">N</div>
+      <h4>Dr. Naman Aggarwal</h4>
+      <p>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon. Surgical precision, profoundly human care.</p>
+    </div>
+    <div class="fcol"><h5>Practice</h5><a href="#expertise">Urology</a><a href="#expertise">Andrology</a><a href="#expertise">Uro-oncology</a><a href="#expertise">Renal Transplant</a></div>
+    <div class="fcol"><h5>Explore</h5><a href="#philosophy">Philosophy</a><a href="#journey">Journey</a><a href="#research">Research</a><a href="#voices">Voices</a></div>
+    <div class="fcol"><h5>Clinic</h5><a href="#contact">Book a consultation</a><a href="#contact">Medanta, Gurugram</a><a href="#contact">Referrals</a></div>
+  </div>
+  <div class="fbot"><div class="wrap"><span>© 2026 Dr. Naman Aggarwal</span><span>Medanta — The Medicity · Gurugram, India</span></div></div>
+</footer>
+
+<!-- SECTION RAIL -->
+<nav class="srail" aria-label="Section navigation">
+  <a href="#top" class="active"><span class="lbl">Top</span><span class="pip"></span></a>
+  <a href="#expertise"><span class="lbl">Atlas</span><span class="pip"></span></a>
+  <a href="#philosophy"><span class="lbl">Philosophy</span><span class="pip"></span></a>
+  <a href="#journey"><span class="lbl">Journey</span><span class="pip"></span></a>
+  <a href="#research"><span class="lbl">Research</span><span class="pip"></span></a>
+  <a href="#voices"><span class="lbl">Voices</span><span class="pip"></span></a>
+  <a href="#contact"><span class="lbl">Contact</span><span class="pip"></span></a>
+</nav>
+
+<script src="image-slot.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+/* ============================================================
+   console.css — credentials marquee + "Living Atlas" console
+   ============================================================ */
+
+/* =================== CREDENTIALS MARQUEE =================== */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--soft);
+  overflow:hidden;position:relative;}
+.marquee::before,.marquee::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--soft),transparent);}
+.marquee::after{right:0;background:linear-gradient(-90deg,var(--soft),transparent);}
+.marquee .track{display:flex;align-items:center;gap:54px;white-space:nowrap;padding:22px 0;width:max-content;
+  animation:marq 32s linear infinite;}
+.marquee:hover .track{animation-play-state:paused;}
+@keyframes marq{to{transform:translateX(-50%);}}
+.marquee .item{display:inline-flex;align-items:center;gap:54px;}
+.marquee .m{font-family:var(--serif);font-size:19px;color:var(--ink);display:inline-flex;align-items:center;gap:14px;}
+.marquee .m b{color:var(--crimson);font-weight:500;}
+.marquee .star{color:var(--crimson);font-size:11px;}
+
+/* =================== CONSOLE SECTION =================== */
+.console-sec{background:var(--paper);}
+.console-head{max-width:780px;margin-bottom:60px;}
+.console-head h2{margin-top:22px;}
+.console-head p{margin-top:22px;}
+
+.console{position:relative;border:1px solid var(--line-2);border-radius:10px;background:
+  linear-gradient(180deg,#fff,var(--soft));box-shadow:0 50px 100px -60px rgba(24,18,20,.45),0 2px 0 #fff inset;
+  overflow:hidden;}
+/* technical grid bg */
+.console::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:38px 38px;mask:radial-gradient(120% 90% at 50% 35%,#000 35%,transparent 78%);}
+
+/* top bar */
+.console-top{position:relative;z-index:2;display:flex;align-items:center;gap:22px;padding:16px 26px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.6);}
+.console-top .live{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);}
+.console-top .live i{width:8px;height:8px;border-radius:50%;background:var(--crimson);box-shadow:0 0 0 0 rgba(179,18,42,.5);
+  animation:liveBlip 1.8s ease-out infinite;}
+@keyframes liveBlip{0%{box-shadow:0 0 0 0 rgba(179,18,42,.5);}70%{box-shadow:0 0 0 8px rgba(179,18,42,0);}100%{box-shadow:0 0 0 0 rgba(179,18,42,0);}}
+.console-top .ecg{flex:1;height:26px;overflow:hidden;}
+.console-top .ecg svg{height:26px;width:100%;}
+.console-top .ecg path{fill:none;stroke:var(--crimson);stroke-width:1.6;opacity:.8;}
+.console-top .ecg .sweep{stroke-dasharray:60 1200;animation:ecgSweep 3s linear infinite;}
+@keyframes ecgSweep{to{stroke-dashoffset:-1260;}}
+.console-top .coord{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
+
+/* progress line */
+.console-prog{position:relative;z-index:2;height:2px;background:var(--line);}
+.console-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--crimson),var(--crimson-bright));}
+.console-prog i.run{animation:progGrow var(--dwell,5.5s) linear forwards;}
+@keyframes progGrow{from{width:0;}to{width:100%;}}
+
+/* body grid */
+.console-body{position:relative;z-index:2;display:grid;grid-template-columns:300px 1fr 320px;min-height:520px;}
+.console-rail{border-right:1px solid var(--line);padding:14px;}
+.rail-item{position:relative;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+  padding:22px 20px;border-radius:6px;cursor:pointer;transition:background .35s var(--ease);}
+.rail-item:hover{background:var(--soft);}
+.rail-item .rnum{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);transition:color .35s;}
+.rail-item .rname{font-family:var(--serif);font-size:21px;color:var(--ink-soft);transition:color .35s;}
+.rail-item .rbar{position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--crimson);
+  transform:scaleY(0);transform-origin:center;transition:transform .4s var(--ease);}
+.rail-item.active{background:var(--blush);}
+.rail-item.active .rbar{transform:scaleY(1);}
+.rail-item.active .rnum{color:var(--crimson);}
+.rail-item.active .rname{color:var(--ink);}
+
+/* center stage */
+.console-stage{position:relative;display:grid;place-items:center;padding:30px;}
+.stage-coords{position:absolute;inset:18px;pointer-events:none;}
+.stage-coords span{position:absolute;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);}
+.stage-coords .tl{top:0;left:0;} .stage-coords .tr{top:0;right:0;} .stage-coords .bl{bottom:0;left:0;} .stage-coords .br{bottom:0;right:0;}
+.stage-crosshair{position:absolute;inset:0;pointer-events:none;opacity:.5;}
+.stage-crosshair::before,.stage-crosshair::after{content:'';position:absolute;background:var(--line-2);}
+.stage-crosshair::before{left:50%;top:8%;bottom:8%;width:1px;}
+.stage-crosshair::after{top:50%;left:8%;right:8%;height:1px;}
+.stg{position:absolute;inset:30px;display:grid;place-items:center;opacity:0;transform:scale(.94);
+  pointer-events:none;}
+.stg.active{opacity:1;transform:scale(1);animation:stgIn .8s var(--ease-out);animation-delay:.06s;}
+@keyframes stgIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.stg .dgm{width:100%;max-width:480px;height:auto;overflow:visible;}
+
+/* right readout */
+.console-readout{border-left:1px solid var(--line);padding:30px 28px;position:relative;background:rgba(255,255,255,.4);}
+.ro{display:none;}
+.ro.active{display:block;animation:revUp .7s var(--ease-out);animation-delay:.05s;}
+.ro .ro-tag{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--crimson);}
+.ro h3{margin:16px 0 0;}
+.ro .ro-focus{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-soft);margin:18px 0;
+  padding:12px 14px;background:var(--soft);border:1px solid var(--line);border-radius:5px;line-height:1.7;}
+.ro .ro-focus b{color:var(--crimson);}
+.ro .ro-desc{font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin:0 0 22px;}
+.ro .proc{display:flex;flex-wrap:wrap;gap:8px;}
+.ro .proc span{font-size:12.5px;font-weight:500;color:var(--ink);background:#fff;border:1px solid var(--line-2);
+  border-radius:2px;padding:7px 12px;transition:.3s var(--ease);}
+.ro .proc span:hover{background:var(--crimson);color:#fff;border-color:var(--crimson);transform:translateY(-2px);}
+
+/* ---------- diagram primitives ---------- */
+.anat{fill:none;stroke:#2a2024;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+.anat.thin{stroke-width:1.1;opacity:.4;}
+.focal{fill:none;stroke:var(--crimson);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+.breathe{transform-box:fill-box;transform-origin:center;animation:breathe 5.5s ease-in-out infinite;}
+.flow{fill:none;stroke:var(--crimson-bright);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:4 16;
+  animation:flowDash 6s linear infinite;vector-effect:non-scaling-stroke;}
+.lead{stroke:var(--crimson);stroke-width:1;fill:none;opacity:.85;vector-effect:non-scaling-stroke;}
+.dot{fill:var(--crimson);}
+.ring{fill:#fff;stroke:var(--crimson);stroke-width:1.4;vector-effect:non-scaling-stroke;}
+.dgm text.lbl{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;fill:var(--ink-soft);text-transform:uppercase;}
+.spin{transform-box:fill-box;transform-origin:center;animation:spin 16s linear infinite;}
+
+@media (max-width:1040px){
+  .console-body{grid-template-columns:1fr;}
+  .console-rail{display:flex;gap:8px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);}
+  .rail-item{flex:0 0 auto;}
+  .console-readout{border-left:0;border-top:1px solid var(--line);}
+  .stg{position:relative;inset:auto;}
+  .console-stage{min-height:380px;}
+}
