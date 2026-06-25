@@ -1,0 +1,62 @@
+.section { background: var(--paper); padding: 140px 0; }
+.head { max-width: 780px; margin-bottom: 60px; }
+.head h2 { margin-top: 22px; }
+.head p { margin-top: 22px; }
+.console { position: relative; border: 1px solid var(--line-2); border-radius: 10px; background: linear-gradient(180deg,#fff,var(--soft)); box-shadow: 0 50px 100px -60px rgba(24,18,20,.45), 0 2px 0 #fff inset; overflow: hidden; }
+.console::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .5; background-image: linear-gradient(var(--line) 1px,transparent 1px), linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size: 38px 38px; mask: radial-gradient(120% 90% at 50% 35%,#000 35%,transparent 78%); }
+.topBar { position: relative; z-index: 2; display: flex; align-items: center; gap: 22px; padding: 16px 26px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.6); }
+.live { display: inline-flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--crimson); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--crimson); box-shadow: 0 0 0 0 rgba(179,18,42,.5); animation: liveBlip 1.8s ease-out infinite; }
+.ecg { flex: 1; height: 26px; overflow: hidden; }
+.ecg svg { height: 26px; width: 100%; }
+.ecg path { fill: none; stroke: var(--crimson); stroke-width: 1.6; opacity: .8; }
+.sweep { stroke-dasharray: 60 1200; animation: ecgSweep 3s linear infinite; }
+.coord { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.prog { position: relative; z-index: 2; height: 2px; background: var(--line); }
+.prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,var(--crimson),var(--crimson-bright)); }
+.progRun { animation: progGrow var(--dwell,5.5s) linear forwards; }
+.body { position: relative; z-index: 2; display: grid; grid-template-columns: 300px 1fr 320px; min-height: 520px; }
+.rail { border-right: 1px solid var(--line); padding: 14px; }
+.railItem { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; padding: 22px 20px; border-radius: 6px; cursor: pointer; transition: background .35s var(--ease); }
+.railItem:hover { background: var(--soft); }
+.rnum { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--muted); transition: color .35s; }
+.rname { font-family: var(--serif); font-size: 21px; color: var(--ink-soft); transition: color .35s; }
+.rbar { position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 3px; background: var(--crimson); transform: scaleY(0); transform-origin: center; transition: transform .4s var(--ease); }
+.railActive { background: var(--blush); }
+.railActive .rbar { transform: scaleY(1); }
+.railActive .rnum { color: var(--crimson); }
+.railActive .rname { color: var(--ink); }
+.stage { position: relative; display: grid; place-items: center; padding: 30px; }
+.coords { position: absolute; inset: 18px; pointer-events: none; }
+.coords span { position: absolute; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: var(--muted); }
+.coords .tl { top: 0; left: 0; } .coords .tr { top: 0; right: 0; } .coords .bl { bottom: 0; left: 0; } .coords .br { bottom: 0; right: 0; }
+.crosshair { position: absolute; inset: 0; pointer-events: none; opacity: .5; }
+.crosshair::before, .crosshair::after { content: ''; position: absolute; background: var(--line-2); }
+.crosshair::before { left: 50%; top: 8%; bottom: 8%; width: 1px; }
+.crosshair::after { top: 50%; left: 8%; right: 8%; height: 1px; }
+.stg { position: absolute; inset: 30px; display: grid; place-items: center; }
+.dgm { width: 100%; max-width: 480px; height: auto; overflow: visible; }
+.readout { border-left: 1px solid var(--line); padding: 30px 28px; position: relative; background: rgba(255,255,255,.4); overflow: hidden; }
+.roTag { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--crimson); }
+.roTitle { margin: 16px 0 0; }
+.roFocus { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink-soft); margin: 18px 0; padding: 12px 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 5px; line-height: 1.7; }
+.roFocus b { color: var(--crimson); }
+.roDesc { font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 22px; }
+.proc { display: flex; flex-wrap: wrap; gap: 8px; }
+.proc span { font-size: 12.5px; font-weight: 500; color: var(--ink); background: #fff; border: 1px solid var(--line-2); border-radius: 2px; padding: 7px 12px; transition: .3s var(--ease); cursor: default; }
+.proc span:hover { background: var(--crimson); color: #fff; border-color: var(--crimson); transform: translateY(-2px); }
+
+/* SVG diagram primitives — global so they work inside SVG elements */
+:global(.anat) { fill: none; stroke: #2a2024; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+:global(.anat.thin) { stroke-width: 1.1; opacity: .4; }
+:global(.focal) { fill: none; stroke: var(--crimson); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+:global(.breathe) { transform-box: fill-box; transform-origin: center; animation: breathe 5.5s ease-in-out infinite; }
+:global(.flow) { fill: none; stroke: var(--crimson-bright); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 4 16; animation: flowDash 6s linear infinite; vector-effect: non-scaling-stroke; }
+:global(.lead) { stroke: var(--crimson); stroke-width: 1; fill: none; opacity: .85; vector-effect: non-scaling-stroke; }
+:global(.dot) { fill: var(--crimson); }
+:global(.ring) { fill: #fff; stroke: var(--crimson); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+:global(.dgm text.lbl) { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .14em; fill: var(--ink-soft); text-transform: uppercase; }
+:global(.spin) { transform-box: fill-box; transform-origin: center; animation: spin 16s linear infinite; }
+
+@media (max-width: 1040px) { .body { grid-template-columns: 1fr; } .rail { display: flex; gap: 8px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); } .railItem { flex: 0 0 auto; } .readout { border-left: 0; border-top: 1px solid var(--line); } .stg { position: relative; inset: auto; } .stage { min-height: 380px; } }
+@media (max-width: 640px) { .topBar .coord { display: none; } .rname { font-size: 16px; } }

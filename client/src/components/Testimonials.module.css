@@ -1,0 +1,14 @@
+.section { background: var(--soft); padding: 140px 0; }
+.head { text-align: center; max-width: 680px; margin: 0 auto 64px; }
+.head h2 { margin-top: 20px; }
+.stage { max-width: 880px; margin: 0 auto; position: relative; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+.item { position: absolute; inset: 0; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.quoteMark { font-family: var(--serif); font-size: 90px; line-height: .5; color: var(--crimson); opacity: .3; height: 46px; }
+.item blockquote { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(22px,2.6vw,34px); line-height: 1.3; color: var(--ink); max-width: 760px; }
+.who { margin-top: 30px; }
+.who b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); }
+.who span { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 6px; display: block; }
+.dots { display: flex; gap: 12px; justify-content: center; margin-top: 54px; }
+.dots button { width: 34px; height: 3px; border: 0; background: var(--line-2); cursor: pointer; padding: 0; border-radius: 3px; transition: background .35s; }
+.dotActive { background: var(--crimson) !important; }
+@media (max-width: 640px) { .stage { min-height: 380px; } .item blockquote { font-size: 20px; } }

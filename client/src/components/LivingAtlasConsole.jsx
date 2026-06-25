@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import styles from './LivingAtlasConsole.module.css'
 
 const SPECS = ['urology', 'andrology', 'onco', 'transplant']
 const AUTO_DELAY = 5000
@@ -126,88 +128,111 @@ export default function LivingAtlasConsole() {
     setActive(spec)
     clearInterval(timerRef.current)
     timerRef.current = setInterval(() => {
-      setActive(cur => {
-        const i = SPECS.indexOf(cur)
-        return SPECS[(i + 1) % SPECS.length]
-      })
+      setActive(cur => SPECS[(SPECS.indexOf(cur) + 1) % SPECS.length])
     }, AUTO_DELAY)
   }
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      setActive(cur => {
-        const i = SPECS.indexOf(cur)
-        return SPECS[(i + 1) % SPECS.length]
-      })
+      setActive(cur => SPECS[(SPECS.indexOf(cur) + 1) % SPECS.length])
     }, AUTO_DELAY)
     return () => clearInterval(timerRef.current)
   }, [])
 
   const ro = readouts[active]
-  const DiagramComp = diagrams[active]
 
   return (
-    <section className="section console-sec" id="expertise">
-      <div className="wrap console-head reveal">
+    <section className={styles.section} id="expertise">
+      <motion.div
+        className={`wrap ${styles.head}`}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <span className="eyebrow">The Living Atlas</span>
         <h2>Four disciplines,<br/>read like an instrument.</h2>
         <p className="lead">Most surgeons hand you a list. Explore Dr. Aggarwal's practice the way he sees it — a live anatomical console. Select a discipline, or let it play, and watch the system come alive.</p>
-      </div>
+      </motion.div>
 
-      <div className="wrap reveal d2">
-        <div className="console">
-          <div className="console-top">
-            <span className="live"><i></i>Live</span>
-            <span className="ecg">
+      <motion.div
+        className="wrap"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+      >
+        <div className={styles.console}>
+          <div className={styles.topBar}>
+            <span className={styles.live}><i/>Live</span>
+            <span className={styles.ecg}>
               <svg viewBox="0 0 600 26" preserveAspectRatio="none">
-                <path className="sweep" d="M0 13 L210 13 L228 13 L238 3 L250 23 L262 1 L274 21 L284 13 L360 13 L378 13 L386 7 L394 13 L600 13"/>
+                <path className={styles.sweep} d="M0 13 L210 13 L228 13 L238 3 L250 23 L262 1 L274 21 L284 13 L360 13 L378 13 L386 7 L394 13 L600 13"/>
               </svg>
             </span>
-            <span className="coord">LAT 0.00 · AP 12.4 · FULL TRACT</span>
+            <span className={styles.coord}>LAT 0.00 · AP 12.4 · FULL TRACT</span>
           </div>
-          <div className="console-prog">
-            <i key={active} className="run" style={{'--dwell': `${AUTO_DELAY / 1000}s`}}></i>
+          <div className={styles.prog}>
+            <i key={active} className={styles.progRun} style={{'--dwell': `${AUTO_DELAY/1000}s`}}/>
           </div>
 
-          <div className="console-body">
-            <div className="console-rail">
+          <div className={styles.body}>
+            <div className={styles.rail}>
               {[['urology','01','Urology'],['andrology','02','Andrology'],['onco','03','Uro-oncology'],['transplant','04','Renal Transplant']].map(([spec, num, name]) => (
-                <div key={spec} className={`rail-item${active===spec?' active':''}`} onClick={() => pick(spec)}>
-                  <span className="rbar"></span>
-                  <span className="rnum">{num}</span>
-                  <span className="rname">{name}</span>
+                <div
+                  key={spec}
+                  className={`${styles.railItem}${active === spec ? ' ' + styles.railActive : ''}`}
+                  onClick={() => pick(spec)}
+                >
+                  <span className={styles.rbar}/>
+                  <span className={styles.rnum}>{num}</span>
+                  <span className={styles.rname}>{name}</span>
                 </div>
               ))}
             </div>
 
-            <div className="console-stage">
-              <div className="stage-crosshair"></div>
-              <div className="stage-coords">
+            <div className={styles.stage}>
+              <div className={styles.crosshair}/>
+              <div className={styles.coords}>
                 <span className="tl">+ R0.1</span><span className="tr">+ R0.2</span>
                 <span className="bl">+ R0.3</span><span className="br">+ R0.4</span>
               </div>
-              {SPECS.map(spec => {
-                const D = diagrams[spec]
-                return (
-                  <div key={spec} className={`stg${active===spec?' active':''}`} data-spec={spec}>
-                    <D/>
-                  </div>
-                )
-              })}
+              <AnimatePresence mode="wait">
+                {SPECS.map(spec => spec === active && (
+                  <motion.div
+                    key={spec}
+                    className={styles.stg}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {(() => { const D = diagrams[spec]; return <D/> })()}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
-            <div className="console-readout">
-              <div className="ro active">
-                <div className="ro-tag">{ro.tag}</div>
-                <h3>{ro.title}</h3>
-                <div className="ro-focus"><b>Focus</b> — {ro.focus.split('\n').map((l,i) => <span key={i}>{l}{i<ro.focus.split('\n').length-1 && <br/>}</span>)}</div>
-                <p className="ro-desc">{ro.desc}</p>
-                <div className="proc">{ro.procs.map(p => <span key={p}>{p}</span>)}</div>
-              </div>
+            <div className={styles.readout}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, x: 14 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <div className={styles.roTag}>{ro.tag}</div>
+                  <h3 className={styles.roTitle}>{ro.title}</h3>
+                  <div className={styles.roFocus}><b>Focus</b> — {ro.focus.split('\n').map((l, i) => <span key={i}>{l}{i < ro.focus.split('\n').length - 1 && <br/>}</span>)}</div>
+                  <p className={styles.roDesc}>{ro.desc}</p>
+                  <div className={styles.proc}>{ro.procs.map(p => <span key={p}>{p}</span>)}</div>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

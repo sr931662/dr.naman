@@ -1,10 +1,14 @@
+import { motion } from 'framer-motion'
 import drNaman from '../assets/Dr__Naman.png'
+import styles from './Hero.module.css'
+
+const WORDS = ['Surgical', 'precision,', 'profoundly', 'human', 'care.']
 
 export default function Hero() {
   return (
-    <header className="hero" id="top">
-      <div className="hero-aura"></div>
-      <svg className="hero-ring" viewBox="0 0 520 520">
+    <header className={styles.hero} id="top">
+      <div className={styles.aura}/>
+      <svg className={styles.ring} viewBox="0 0 520 520">
         <circle cx="260" cy="260" r="258"/>
         <circle cx="260" cy="260" r="210"/>
         <line className="tick" x1="260" y1="2" x2="260" y2="20"/>
@@ -12,43 +16,82 @@ export default function Hero() {
         <line className="tick" x1="2" y1="260" x2="20" y2="260"/>
         <line className="tick" x1="500" y1="260" x2="518" y2="260"/>
       </svg>
-      <div className="hero-photo">
-        <img
+      <div className={styles.photo}>
+        <motion.img
           src={drNaman}
-          alt="Dr. Naman Aggarwal — Consultant Urologist &amp; Renal Transplant Surgeon at Medanta Gurugram"
-          className="hero-img"
+          alt="Dr. Naman Aggarwal — Consultant Urologist at Medanta Gurugram"
           loading="eager"
           fetchPriority="high"
-          decoding="async"
+          initial={{ scale: 1.08, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 2.0 }}
         />
       </div>
-      <div className="hero-fade"></div>
-      <div className="measure">
-        <div className="mt">
-          <span className="ml">EST · MEDANTA · GURUGRAM</span>
-          <span className="ml">N · A · 28.45°N 77.04°E</span>
+      <div className={styles.fade}/>
+      <div className={styles.measure}>
+        <div className={styles.measureTrack}>
+          <span className={styles.ml}>EST · MEDANTA · GURUGRAM</span>
+          <span className={styles.ml}>N · A · 28.45°N 77.04°E</span>
         </div>
       </div>
       <div className="wrap">
-        <div className="hero-copy">
-          <span className="eyebrow reveal"><span className="pulse"></span>Urology · Andrology · Uro-oncology · Renal Transplant</span>
-          <h1>
-            <span className="word">Surgical</span> <span className="word">precision,</span><br/>
-            <span className="word">profoundly</span> <span className="word"><em>human</em></span> <span className="word">care.</span>
-          </h1>
-          <p className="lead reveal d3">Consultant Urologist &amp; Renal Transplant Surgeon at Medanta, Gurugram — uniting robotic, minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.</p>
-          <div className="hero-cta reveal d4">
-            <a className="btn btn-primary" href="#contact" data-magnetic="0.3">Book a consultation</a>
-            <a className="btn btn-ghost" href="#expertise" data-magnetic="0.3">Enter the Atlas <span className="arr">→</span></a>
-          </div>
-          <div className="hero-stats reveal d5">
-            <div className="st"><b>04</b><span>Sub-specialties</span></div>
-            <div className="st"><b>ASRM</b><span>Andrology certified</span></div>
-            <div className="st"><b>2022</b><span>Devon Fellowship</span></div>
+        <div className={styles.content}>
+          <div className={styles.copy}>
+            <motion.span
+              className="eyebrow"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 2.1 }}
+            >
+              <span className={styles.pulse}/>
+              Urology · Andrology · Uro-oncology · Renal Transplant
+            </motion.span>
+            <h1 className={styles.h1}>
+              {WORDS.map((word, i) => (
+                <motion.span
+                  key={i}
+                  className={styles.word}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 2.15 + i * 0.09 }}
+                >
+                  {i === 3 ? <em>{word}</em> : word}{i < WORDS.length - 1 ? ' ' : ''}
+                </motion.span>
+              ))}
+            </h1>
+            <motion.p
+              className={`lead ${styles.lead}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.5 }}
+            >
+              Consultant Urologist &amp; Renal Transplant Surgeon at Medanta, Gurugram — uniting robotic, minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.
+            </motion.p>
+            <motion.div
+              className={styles.cta}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 2.65 }}
+            >
+              <a className="btn btn-primary" href="#contact">Book a consultation</a>
+              <a className="btn btn-ghost" href="#expertise">Enter the Atlas <span className="arr">→</span></a>
+            </motion.div>
+            <motion.div
+              className={styles.stats}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 2.8 }}
+            >
+              {[['04','Sub-specialties'],['ASRM','Andrology certified'],['2022','Devon Fellowship']].map(([val, label]) => (
+                <div key={label} className={styles.stat}>
+                  <b>{val}</b><span>{label}</span>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
-      <div className="scrollcue">Scroll<i></i></div>
+      <div className={styles.scrollcue}>Scroll<i/></div>
     </header>
   )
 }

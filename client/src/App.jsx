@@ -13,34 +13,29 @@ import Testimonials from './components/Testimonials'
 import CTA from './components/CTA'
 import Footer from './components/Footer'
 import SectionRail from './components/SectionRail'
-import { useScrollReveal } from './hooks/useScrollReveal'
 import { useScrollProgress } from './hooks/useScrollProgress'
-import { useSectionSpy } from './hooks/useSectionSpy'
 import { useCursor } from './hooks/useCursor'
 
 export default function App() {
-  useScrollReveal()
   useScrollProgress()
-  useSectionSpy()
   useCursor()
-
   return (
     <>
-      <KidneySymbol />
-      <Preloader />
-      <Cursor />
-      <VitalBar />
-      <Navbar />
-      <Hero />
-      <CredentialsMarquee />
-      <LivingAtlasConsole />
-      <Philosophy />
-      <Journey />
-      <Research />
-      <Testimonials />
-      <CTA />
-      <Footer />
-      <SectionRail />
+      <KidneySymbol/>
+      <Preloader/>
+      <Cursor/>
+      <VitalBar/>
+      <Navbar/>
+      <Hero/>
+      <CredentialsMarquee/>
+      <LivingAtlasConsole/>
+      <Philosophy/>
+      <Journey/>
+      <Research/>
+      <Testimonials/>
+      <CTA/>
+      <Footer/>
+      <SectionRail/>
     </>
   )
 }
