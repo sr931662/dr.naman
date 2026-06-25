@@ -14,3 +14,4 @@
 .row small { font-family: var(--mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.6); display: block; margin-bottom: 8px; }
 .row span { font-family: var(--serif); font-size: 20px; }
 @media (max-width: 980px) { .inner { grid-template-columns: 1fr; padding: 70px 28px; } .side { border-left: 0; border-top: 1px solid rgba(255,255,255,.25); padding-left: 0; padding-top: 30px; } }
+@media (max-width: 640px) { .inner { padding: 56px 20px; } .ctaRow { flex-direction: column; align-items: flex-start; } }

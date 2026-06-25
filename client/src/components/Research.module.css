@@ -14,4 +14,5 @@
 .confTrack { display: flex; gap: 46px; white-space: nowrap; width: max-content; padding: 26px 0; animation: marq 26s linear infinite; }
 .conf { font-family: var(--serif); font-size: 30px; color: rgba(255,255,255,.32); display: inline-flex; gap: 46px; align-items: center; }
 .conf b { color: #fff; font-weight: 400; }
-@media (max-width: 980px) { .top { grid-template-columns: 1fr; gap: 24px; } .item { grid-template-columns: 40px 1fr; } .rmeta { display: none; } }
+@media (max-width: 980px) { .section { padding: 90px 0; } .top { grid-template-columns: 1fr; gap: 24px; } .item { grid-template-columns: 40px 1fr; } .rmeta { display: none; } }
+@media (max-width: 640px) { .section { padding: 70px 0; } .item { gap: 16px; } .rt { font-size: 20px; } .confTrack { gap: 28px; } .conf { font-size: 22px; gap: 28px; } }
