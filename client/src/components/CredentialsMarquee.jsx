@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import styles from './CredentialsMarquee.module.css'
 
 const Items = () => (
@@ -13,17 +12,10 @@ const Items = () => (
 
 export default function CredentialsMarquee() {
   return (
-    <motion.section
-      className={styles.marquee}
-      aria-hidden="true"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
+    <section className={styles.marquee} aria-hidden="true">
       <div className={styles.track}>
         <Items/><Items/>
       </div>
-    </motion.section>
+    </section>
   )
 }

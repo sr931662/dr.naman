@@ -5,7 +5,7 @@ import styles from './SectionRail.module.css'
 
 const LINKS = [
   ['#top', 'Top'],
-  ['#gallery', 'Gallery'],
+  ['#treatments', 'Treatments'],
   ['#expertise', 'Atlas'],
   ['#advice', 'Guide'],
   ['#philosophy', 'Philosophy'],
