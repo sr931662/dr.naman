@@ -1,3 +1,5 @@
 temp/
 .DS_Store
 *.local
+.claude/worktrees/
+.claude/projects/
