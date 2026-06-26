@@ -8,6 +8,7 @@ import Journey from '../components/Journey'
 import Research from '../components/Research'
 import Reels from '../components/Reels'
 import Testimonials from '../components/Testimonials'
+import PhotoGallery from '../components/PhotoGallery'
 import BlogPreview from '../components/BlogPreview'
 import FAQ from '../components/FAQ'
 import CTA from '../components/CTA'
@@ -26,6 +27,7 @@ export default function Home() {
       <Research/>
       <Reels/>
       <Testimonials/>
+      <PhotoGallery/>
       <BlogPreview/>
       <FAQ/>
       <CTA/>

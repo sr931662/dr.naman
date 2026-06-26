@@ -12,6 +12,7 @@ const LINKS = [
   ['#journey', 'Journey'],
   ['#research', 'Research'],
   ['#voices', 'Voices'],
+  ['#gallery', 'Gallery'],
   ['#faq', 'FAQ'],
 ]
 

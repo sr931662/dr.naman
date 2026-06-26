@@ -150,14 +150,16 @@ export default function AboutPage() {
             </motion.div>
             <motion.div className={styles.medantaMap} {...fadeUp(0.15)}>
               <div className={styles.mapPlaceholder}>
-                <svg viewBox="0 0 80 80" fill="none" className={styles.mapPin} aria-hidden="true">
-                  <circle cx="40" cy="40" r="38" stroke="var(--crimson)" strokeWidth="1.5" opacity=".3"/>
-                  <circle cx="40" cy="40" r="26" stroke="var(--crimson)" strokeWidth="1" opacity=".2"/>
-                  <path d="M40 16 C32 16 26 22 26 30 C26 40 40 56 40 56 C40 56 54 40 54 30 C54 22 48 16 40 16z" fill="var(--crimson)" opacity=".9"/>
-                  <circle cx="40" cy="30" r="5" fill="#fff"/>
-                </svg>
-                <span className={styles.mapLabel}>Manipal Hospital, Dwarka</span>
-                <span className={styles.mapSub}>Sector 6, Dwarka, Delhi</span>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  title="Manipal Hospital Dwarka, Delhi"
+                />
               </div>
             </motion.div>
           </div>

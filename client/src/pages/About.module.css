@@ -42,18 +42,12 @@
 .mapPlaceholder {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: linear-gradient(155deg, #f3eeec, #ece6e5);
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  overflow: hidden;
   border: 1px solid var(--line);
+  line-height: 0;
 }
-.mapPin { width: 80px; height: 80px; }
-.mapLabel { font-family: var(--serif); font-size: 18px; color: var(--ink); }
-.mapSub { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mapPlaceholder iframe { display: block; width: 100%; height: 100%; border: 0; }
 
 /* Philosophy */
 .philoSection { padding: 120px 0; background: var(--paper); }

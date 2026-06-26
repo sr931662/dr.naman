@@ -18,19 +18,13 @@
 .directionsList { padding-left: 0; list-style: none; margin: 0; display: flex; flex-direction: column; gap: 8px; }
 .directionsList li { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; padding-left: 16px; position: relative; }
 .directionsList li::before { content: '–'; position: absolute; left: 0; color: var(--crimson); }
-.map {
-  background: var(--soft);
-  border: 1px solid var(--line);
+.mapWrap {
   border-radius: 8px;
-  padding: 32px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  line-height: 0;
 }
-.mapPin { width: 64px; height: 52px; flex-shrink: 0; }
-.mapInfo { display: flex; flex-direction: column; gap: 4px; }
-.mapTitle { font-family: var(--serif); font-size: 17px; color: var(--ink); }
-.mapAddr { font-size: 13.5px; color: var(--muted); }
+.mapFrame { display: block; width: 100%; height: 320px; border: 0; }
 .formWrap {
   background: var(--soft);
   border: 1px solid var(--line);

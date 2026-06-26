@@ -83,17 +83,19 @@ export default function ContactPage() {
                 </ul>
               </div>
 
-              {/* Map Placeholder */}
-              <motion.div className={styles.map} {...fadeUp(0.15)}>
-                <svg viewBox="0 0 100 80" fill="none" className={styles.mapPin} aria-hidden="true">
-                  <circle cx="50" cy="50" r="34" stroke="var(--crimson)" strokeWidth="1.2" opacity=".25"/>
-                  <path d="M50 22 C43 22 38 27 38 34 C38 43 50 58 50 58 C50 58 62 43 62 34 C62 27 57 22 50 22z" fill="var(--crimson)" opacity=".85"/>
-                  <circle cx="50" cy="34" r="5" fill="#fff"/>
-                </svg>
-                <div className={styles.mapInfo}>
-                  <span className={styles.mapTitle}>Manipal Hospital, Dwarka</span>
-                  <span className={styles.mapAddr}>Sector 6, Dwarka, Delhi</span>
-                </div>
+              {/* Google Maps */}
+              <motion.div className={styles.mapWrap} {...fadeUp(0.15)}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin"
+                  width="100%"
+                  height="320"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  title="Manipal Hospital Dwarka, Delhi"
+                  className={styles.mapFrame}
+                />
               </motion.div>
             </motion.div>
 
