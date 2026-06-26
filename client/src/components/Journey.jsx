@@ -7,7 +7,7 @@ const ITEMS = [
   { side: 'right', year: 'Observership · Dubai', title: 'First IVF, Dubai (UAE)', desc: 'International observership in advanced reproductive medicine, deepening expertise in andrology and assisted fertility.' },
   { side: 'left', year: '2022 · Fellowship', title: 'Devon Traveling Fellowship', desc: 'A competitive traveling fellowship recognising surgical promise and a commitment to evolving urological practice.' },
   { side: 'right', year: '2022 · Symposium', title: 'KUACON · Davangere PG Symposium', desc: 'Active contribution to the postgraduate urological community through regional academic symposia.' },
-  { side: 'left', year: 'Present · Medanta', title: 'Consultant — Medanta, Gurugram', desc: "Practising across urology, andrology, uro-oncology and renal transplantation at one of India's most respected institutions." },
+  { side: 'left', year: 'Present · Delhi', title: 'Consultant — Manipal Hospital, Dwarka', desc: "Practising urology, andrology, laparoscopic and minimally-invasive urological surgery at Manipal Hospital, Dwarka, Delhi." },
 ]
 
 function TimelineRow({ item }) {

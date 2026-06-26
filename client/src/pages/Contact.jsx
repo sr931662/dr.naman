@@ -28,7 +28,7 @@ export default function ContactPage() {
           <motion.div className={styles.heroContent} {...fadeUp(0.1)}>
             <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Reach Out</span>
             <h1 className={styles.heroH1}>Book a <em>consultation</em></h1>
-            <p className={styles.heroSub}>Medanta Gurugram · Teleconsultation available · Response within 24 hours</p>
+            <p className={styles.heroSub}>Manipal Hospital, Dwarka, Delhi · Teleconsultation available · Response within 24 hours</p>
           </motion.div>
         </div>
       </section>
@@ -39,24 +39,30 @@ export default function ContactPage() {
             {/* Left: contact info */}
             <motion.div className={styles.info} {...fadeUp()}>
               <div className={styles.infoBlock}>
-                <span className={styles.infoLabel}>Hospital</span>
-                <h3>Medanta — The Medicity</h3>
-                <p>CH Baktawar Singh Road<br/>Sector 38, Gurugram<br/>Haryana 122001, India</p>
+                <span className={styles.infoLabel}>Primary Hospital</span>
+                <h3>Manipal Hospital, Dwarka</h3>
+                <p>Palam Vihar Colony, Sector 6<br/>Dwarka, Delhi<br/>Near MTNL Office</p>
               </div>
 
               <div className={styles.infoBlock}>
                 <span className={styles.infoLabel}>OPD Schedule</span>
-                <p>Monday – Saturday<br/>Urology &amp; Transplant OPD<br/>By prior appointment only</p>
+                <p><b>Tue &amp; Sat:</b> 9:00 AM – 3:00 PM<br/><b>Wed – Thu:</b> 11:00 AM – 3:00 PM<br/>Consultation fee: ₹1500</p>
+              </div>
+
+              <div className={styles.infoBlock}>
+                <span className={styles.infoLabel}>Also available at</span>
+                <p><b>Maharaja Agarsain Hospital</b><br/>D Block, Ashok Vihar Phase 1, Delhi<br/><em>On-call basis</em></p>
+                <p style={{ marginTop: 10 }}><b>Veena Nursing Home</b><br/>Pocket A-1, Sector 8, Near Deepali Chowk, Delhi<br/>Mon–Sat: 6:30–8:30 AM &amp; 7:00–9:00 PM · ₹1000</p>
               </div>
 
               <div className={styles.infoBlock}>
                 <span className={styles.infoLabel}>Contact</span>
                 <div className={styles.contactLinks}>
-                  <a href="tel:+911244141414" className={styles.contactLink}>
+                  <a href="tel:+911142888888" className={styles.contactLink}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path d="M3 2h3l1 3-1.5 1.5C6.5 9 7 9.5 9.5 11.5L11 10l3 1v3c0 1-4 3-9-2S1 4 2 3l1-1z" stroke="currentColor" strokeWidth="1.3" fill="none"/>
                     </svg>
-                    +91-124-414-1414 (Medanta)
+                    Manipal Hospital Dwarka
                   </a>
                   <a href="mailto:info@drnamanaggarwal.com" className={styles.contactLink}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -69,11 +75,11 @@ export default function ContactPage() {
               </div>
 
               <div className={styles.infoBlock}>
-                <span className={styles.infoLabel}>How to reach Medanta</span>
+                <span className={styles.infoLabel}>How to reach Manipal Hospital, Dwarka</span>
                 <ul className={styles.directionsList}>
-                  <li><b>By Metro:</b> HUDA City Centre (Yellow Line) → 10 min cab</li>
-                  <li><b>By Road:</b> NH-48 Delhi–Jaipur Highway, Sector 38 exit</li>
-                  <li><b>From Airport:</b> IGI Terminal 3 → 25 min via NH-48</li>
+                  <li><b>By Metro:</b> Dwarka Sector 10 (Blue Line) → 5 min cab</li>
+                  <li><b>By Road:</b> Dwarka Expressway / Palam Road, Sector 6</li>
+                  <li><b>From Airport:</b> IGI Terminal 3 → 15 min via NH-48 / Palam Road</li>
                 </ul>
               </div>
 
@@ -85,8 +91,8 @@ export default function ContactPage() {
                   <circle cx="50" cy="34" r="5" fill="#fff"/>
                 </svg>
                 <div className={styles.mapInfo}>
-                  <span className={styles.mapTitle}>Medanta Hospital</span>
-                  <span className={styles.mapAddr}>Sector 38, Gurugram</span>
+                  <span className={styles.mapTitle}>Manipal Hospital, Dwarka</span>
+                  <span className={styles.mapAddr}>Sector 6, Dwarka, Delhi</span>
                 </div>
               </motion.div>
             </motion.div>

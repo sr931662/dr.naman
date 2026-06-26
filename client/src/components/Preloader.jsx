@@ -22,7 +22,7 @@ export default function Preloader() {
         <svg className="pl-ecg" viewBox="0 0 240 60">
           <path d="M0 30 L70 30 L86 30 L96 12 L108 48 L120 6 L132 44 L142 30 L160 30 L172 30 L180 22 L188 30 L240 30"/>
         </svg>
-        <div className="pl-name">Dr. Naman Aggarwal · Medanta</div>
+        <div className="pl-name">Dr. Naman Aggarwal · Manipal Hospital</div>
       </div>
     </div>
   )

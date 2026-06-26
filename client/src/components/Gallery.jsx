@@ -3,7 +3,7 @@ import styles from './Gallery.module.css'
 
 const ITEMS = [
   {
-    label: 'Consultation Suite · Medanta',
+    label: 'Consultation Suite · Manipal Hospital',
     sublabel: 'Private · First Floor',
     gradient: 'linear-gradient(135deg, #1a0a0e 0%, #3d1020 50%, #5c1a30 100%)',
     tall: true,
@@ -21,8 +21,8 @@ const ITEMS = [
     tall: false,
   },
   {
-    label: 'Medanta Campus',
-    sublabel: 'Sector 38, Gurugram',
+    label: 'Manipal Hospital Campus',
+    sublabel: 'Dwarka Sector 6, Delhi',
     gradient: 'linear-gradient(160deg, #1a1410 0%, #2e2218 50%, #3d2f20 100%)',
     tall: false,
     wide: true,
@@ -72,7 +72,7 @@ export default function Gallery() {
         >
           <span className="eyebrow">The Practice</span>
           <h2>Where care <em>happens</em></h2>
-          <p className="lead">World-class facilities at Medanta — one of India&#39;s most advanced multi-specialty hospitals.</p>
+          <p className="lead">World-class facilities at Manipal Hospital, Dwarka — a leading multi-specialty centre in Delhi.</p>
         </motion.div>
 
         <div className={styles.grid}>

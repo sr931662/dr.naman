@@ -3,7 +3,7 @@ import styles from './CredentialsMarquee.module.css'
 
 const Items = () => (
   <div className={styles.item}>
-    <span className={styles.m}><b>Medanta</b> — The Medicity</span><span className={styles.star}>✦</span>
+    <span className={styles.m}><b>Manipal Hospital</b> · Dwarka, Delhi</span><span className={styles.star}>✦</span>
     <span className={styles.m}>American Society for <b>Reproductive Medicine</b></span><span className={styles.star}>✦</span>
     <span className={styles.m}><b>First IVF</b>, Dubai · Observership</span><span className={styles.star}>✦</span>
     <span className={styles.m}><b>Devon</b> Traveling Fellowship</span><span className={styles.star}>✦</span>

@@ -31,7 +31,7 @@
 .tRight h4 { font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--ink); margin: 0 0 5px; }
 .tRight p { font-size: 13.5px; color: var(--muted); margin: 0; }
 
-/* Medanta */
+/* Hospital section */
 .medantaSection { padding: 120px 0; background: var(--soft); }
 .medantaGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 .medantaMeta { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }

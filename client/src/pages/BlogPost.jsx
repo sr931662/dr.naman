@@ -43,7 +43,7 @@ const ARTICLE_BODY = {
 }
 
 const FALLBACK_BODY = [
-  "Dr. Naman Aggarwal is a Consultant Urologist, Andrologist, and Renal Transplant Surgeon at Medanta Gurugram, one of India's most advanced multi-specialty hospitals. He completed his MCh Urology from PGIMER Chandigarh and holds the Devon Fellowship from the United Kingdom in advanced laparoscopic and robotic urological surgery.",
+  "Dr. Naman Aggarwal is a Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi. He holds MBBS, MS General Surgery, and MCh Urology/Genito-Urinary Surgery with 11 years of overall experience. He is ASRM-certified in andrology and holds the Devon Traveling Fellowship (UK) in advanced laparoscopic and robotic urological surgery.",
   "His clinical practice spans the full spectrum of urological conditions, with particular expertise in minimally invasive techniques including Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches for uro-oncological surgery.",
   "If you have questions about your urological health or wish to book a consultation, please use the contact form on this website. Dr. Aggarwal's team will respond within 24 hours.",
 ]
@@ -97,7 +97,7 @@ export default function BlogPostPage() {
               <div className={styles.authorAvatar}>N</div>
               <div className={styles.authorInfo}>
                 <span className={styles.authorName}>Dr. Naman Aggarwal</span>
-                <span className={styles.authorTitle}>Consultant Urologist · Medanta Gurugram</span>
+                <span className={styles.authorTitle}>Consultant Urologist · Manipal Hospital, Dwarka, Delhi</span>
               </div>
             </div>
           </motion.div>
@@ -123,7 +123,7 @@ export default function BlogPostPage() {
                   <div className={styles.authorCardAvatar}>N</div>
                   <div>
                     <span className={styles.authorCardName}>Dr. Naman Aggarwal</span>
-                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Medanta, Gurugram</span>
+                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Manipal Hospital, Dwarka, Delhi</span>
                     <span className={styles.authorCardCreds}>MCh Urology (PGIMER) · Devon Fellow · ASRM Certified</span>
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export default function BlogPostPage() {
                   </svg>
                 </div>
                 <h3>Book a consultation</h3>
-                <p>Discuss this condition with Dr. Aggarwal at Medanta, Gurugram. Teleconsultation available.</p>
+                <p>Discuss this condition with Dr. Aggarwal at Manipal Hospital, Dwarka, Delhi. Teleconsultation available.</p>
                 <Link to="/contact" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
                   Book now <span className="arr">→</span>
                 </Link>

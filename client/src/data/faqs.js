@@ -24,8 +24,8 @@ export const FAQS = [
     a: 'Transplant evaluation is initiated when chronic kidney disease reaches stage 4–5 (GFR < 30 ml/min) or when dialysis becomes necessary. Dr. Aggarwal manages the full continuum — living-donor work-up, laparoscopic donor nephrectomy, the transplant itself, and lifelong graft surveillance.'
   },
   {
-    q: 'How do I book an appointment at Medanta, Gurugram?',
-    a: 'You can book through the Medanta website, by calling the hospital helpline, or by using the appointment button on this website. Teleconsultation slots are also available for patients travelling from outside Delhi-NCR. Please have your ID and referral letter (if any) ready at registration.'
+    q: 'How do I book an appointment at Manipal Hospital, Dwarka?',
+    a: 'You can book through the Manipal Hospitals website, by calling the hospital helpline, or by using the appointment button on this website. Dr. Aggarwal is available at Manipal Hospital Dwarka (Tue/Sat 9 AM–3 PM, Wed–Thu 11 AM–3 PM) and also at Veena Nursing Home, Dwarka (Mon–Sat, early morning and evening slots). Teleconsultation is also available.'
   },
   {
     q: 'Is a second opinion appropriate before urological surgery?',

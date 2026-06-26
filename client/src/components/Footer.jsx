@@ -45,7 +45,7 @@ export default function Footer() {
         <motion.div className={styles.brand} variants={fadeUp}>
           <div className={styles.brandLogo}>N</div>
           <h4>Dr. Naman Aggarwal</h4>
-          <p>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon. Surgical precision, profoundly human care.</p>
+          <p>Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon · Manipal Hospital, Dwarka, Delhi. 11 years experience.</p>
           <div className={styles.socialSection}>
             <p className={styles.socialLabel}>Follow &amp; Connect</p>
             <div className={styles.socialRow}>
@@ -67,7 +67,7 @@ export default function Footer() {
         {[
           ['Practice', [['#expertise','Urology'],['#expertise','Andrology'],['#expertise','Uro-oncology'],['#expertise','Renal Transplant']]],
           ['Explore', [['/about','About Dr. Aggarwal'],['/blog','Blog & Insights'],['#journey','Journey'],['#research','Research']]],
-          ['Clinic', [['#contact','Book a consultation'],['#contact','Medanta, Gurugram'],['#contact','Referrals'],['#contact','Teleconsultation']]],
+          ['Clinic', [['#contact','Book a consultation'],['#contact','Manipal Hospital, Dwarka'],['#contact','Referrals'],['#contact','Teleconsultation']]],
         ].map(([heading, links]) => (
           <motion.div key={heading} className={styles.col} variants={fadeUp}>
             <h5>{heading}</h5>
@@ -84,7 +84,7 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
           <span>© 2026 Dr. Naman Aggarwal</span>
-          <span>Medanta — The Medicity · Sector 38, Gurugram, India</span>
+          <span>Manipal Hospital · Dwarka Sector 6, Delhi, India</span>
         </div>
       </div>
     </footer>

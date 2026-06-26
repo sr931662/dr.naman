@@ -19,7 +19,7 @@ export default function Hero() {
       <div className={styles.photo}>
         <motion.img
           src={drNaman}
-          alt="Dr. Naman Aggarwal — Consultant Urologist at Medanta Gurugram"
+          alt="Dr. Naman Aggarwal — Consultant Urologist at Manipal Hospital Dwarka Delhi"
           loading="eager"
           fetchPriority="high"
           initial={{ scale: 1.08, opacity: 0 }}
@@ -30,8 +30,8 @@ export default function Hero() {
       <div className={styles.fade}/>
       <div className={styles.measure}>
         <div className={styles.measureTrack}>
-          <span className={styles.ml}>EST · MEDANTA · GURUGRAM</span>
-          <span className={styles.ml}>N · A · 28.45°N 77.04°E</span>
+          <span className={styles.ml}>EST · MANIPAL · DELHI</span>
+          <span className={styles.ml}>N · A · 28.59°N 77.05°E</span>
         </div>
       </div>
       <div className="wrap">
@@ -65,7 +65,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 2.5 }}
             >
-              Consultant Urologist &amp; Renal Transplant Surgeon at Medanta, Gurugram — uniting robotic, minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.
+              Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.
             </motion.p>
             <motion.div
               className={styles.cta}
@@ -82,7 +82,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 2.8 }}
             >
-              {[['04','Sub-specialties'],['ASRM','Andrology certified'],['2022','Devon Fellowship']].map(([val, label]) => (
+              {[['11 yrs','Experience'],['ASRM','Andrology certified'],['MCh','Urology · Delhi']].map(([val, label]) => (
                 <div key={label} className={styles.stat}>
                   <b>{val}</b><span>{label}</span>
                 </div>
