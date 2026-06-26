@@ -1,13 +1,27 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useLocation } from 'react-router-dom'
 import styles from './SectionRail.module.css'
 
-const LINKS = [['#top','Top'],['#expertise','Atlas'],['#philosophy','Philosophy'],['#journey','Journey'],['#research','Research'],['#voices','Voices'],['#contact','Contact']]
+const LINKS = [
+  ['#top', 'Top'],
+  ['#gallery', 'Gallery'],
+  ['#expertise', 'Atlas'],
+  ['#advice', 'Guide'],
+  ['#philosophy', 'Philosophy'],
+  ['#journey', 'Journey'],
+  ['#research', 'Research'],
+  ['#voices', 'Voices'],
+  ['#faq', 'FAQ'],
+]
 
 export default function SectionRail() {
   const [active, setActive] = useState('#top')
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
 
   useEffect(() => {
+    if (!isHome) return
     const sections = document.querySelectorAll('section[id], header[id]')
     const io = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setActive('#' + e.target.id) }),
@@ -15,7 +29,9 @@ export default function SectionRail() {
     )
     sections.forEach(s => io.observe(s))
     return () => io.disconnect()
-  }, [])
+  }, [isHome])
+
+  if (!isHome) return null
 
   return (
     <motion.nav

@@ -1,22 +1,26 @@
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useScrollProgress } from './hooks/useScrollProgress'
+import { useCursor } from './hooks/useCursor'
 import KidneySymbol from './components/KidneySymbol'
 import Preloader from './components/Preloader'
 import Cursor from './components/Cursor'
 import VitalBar from './components/VitalBar'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import CredentialsMarquee from './components/CredentialsMarquee'
-import LivingAtlasConsole from './components/LivingAtlasConsole'
-import Philosophy from './components/Philosophy'
-import Journey from './components/Journey'
-import Research from './components/Research'
-import Testimonials from './components/Testimonials'
-import CTA from './components/CTA'
 import Footer from './components/Footer'
-import SectionRail from './components/SectionRail'
-import { useScrollProgress } from './hooks/useScrollProgress'
-import { useCursor } from './hooks/useCursor'
+import Home from './pages/Home'
+import AboutPage from './pages/About'
+import ContactPage from './pages/Contact'
+import BlogPage from './pages/Blog'
+import BlogPostPage from './pages/BlogPost'
 
-export default function App() {
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
+
+function Shell() {
   useScrollProgress()
   useCursor()
   return (
@@ -26,16 +30,23 @@ export default function App() {
       <Cursor/>
       <VitalBar/>
       <Navbar/>
-      <Hero/>
-      <CredentialsMarquee/>
-      <LivingAtlasConsole/>
-      <Philosophy/>
-      <Journey/>
-      <Research/>
-      <Testimonials/>
-      <CTA/>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/about" element={<AboutPage/>}/>
+        <Route path="/contact" element={<ContactPage/>}/>
+        <Route path="/blog" element={<BlogPage/>}/>
+        <Route path="/blog/:slug" element={<BlogPostPage/>}/>
+      </Routes>
       <Footer/>
-      <SectionRail/>
     </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop/>
+      <Shell/>
+    </BrowserRouter>
   )
 }

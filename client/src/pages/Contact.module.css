@@ -1,0 +1,83 @@
+.page { padding-top: 80px; }
+.hero { position: relative; padding: 100px 0 72px; overflow: hidden; }
+.heroBg { position: absolute; inset: 0; background: linear-gradient(155deg,#1a0a0e,#2e1018); }
+.heroContent { position: relative; z-index: 1; }
+.heroH1 { color: #fff; margin: 18px 0 16px; }
+.heroH1 em { color: var(--crimson-bright); }
+.heroSub { font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.45); margin: 0; }
+.mainSection { padding: 80px 0 120px; background: var(--paper); }
+.grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; align-items: start; }
+.info { display: flex; flex-direction: column; gap: 36px; }
+.infoBlock { }
+.infoLabel { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; }
+.infoBlock h3 { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); margin: 0 0 8px; }
+.infoBlock p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.65; margin: 0; }
+.contactLinks { display: flex; flex-direction: column; gap: 10px; }
+.contactLink { display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--ink-soft); text-decoration: none; transition: color .3s; }
+.contactLink:hover { color: var(--crimson); }
+.directionsList { padding-left: 0; list-style: none; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.directionsList li { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; padding-left: 16px; position: relative; }
+.directionsList li::before { content: '–'; position: absolute; left: 0; color: var(--crimson); }
+.map {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.mapPin { width: 64px; height: 52px; flex-shrink: 0; }
+.mapInfo { display: flex; flex-direction: column; gap: 4px; }
+.mapTitle { font-family: var(--serif); font-size: 17px; color: var(--ink); }
+.mapAddr { font-size: 13.5px; color: var(--muted); }
+.formWrap {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 44px;
+  position: sticky;
+  top: 110px;
+}
+.formHead { margin-bottom: 32px; }
+.formHead h2 { margin: 0 0 10px; font-size: 28px; }
+.formHead p { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+.form { display: flex; flex-direction: column; gap: 22px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label { font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: .01em; }
+.req { color: var(--crimson); }
+.field input, .field select, .field textarea {
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper);
+  transition: border-color .3s, box-shadow .3s;
+  outline: none;
+  resize: vertical;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(179,18,42,.1);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+.formFooter { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 4px; }
+.guarantee { font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 7px; margin: 0; max-width: 320px; line-height: 1.5; }
+.successMsg { text-align: center; padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.successIcon { width: 64px; height: 64px; border-radius: 50%; background: var(--blush); display: grid; place-items: center; }
+.successMsg h3 { font-family: var(--serif); font-size: 26px; margin: 0; }
+.successMsg p { font-size: 15px; color: var(--ink-soft); line-height: 1.65; max-width: 360px; margin: 0; }
+@media (max-width: 980px) {
+  .grid { grid-template-columns: 1fr; gap: 40px; }
+  .formWrap { position: static; padding: 28px; }
+  .mainSection { padding: 60px 0 80px; }
+}
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; }
+  .formWrap { padding: 20px; }
+  .formFooter { flex-direction: column; align-items: flex-start; }
+  .hero { padding: 80px 0 56px; }
+}
