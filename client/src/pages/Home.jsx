@@ -25,9 +25,9 @@ export default function Home() {
       <Philosophy/>
       <Journey/>
       <Research/>
+      <PhotoGallery/>
       <Reels/>
       <Testimonials/>
-      <PhotoGallery/>
       <BlogPreview/>
       <FAQ/>
       <CTA/>

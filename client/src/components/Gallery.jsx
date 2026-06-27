@@ -1,5 +1,8 @@
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import styles from './Gallery.module.css'
+
+const CHUNK = 4
 
 const TREATMENTS = [
   {
@@ -160,22 +163,63 @@ const TREATMENTS = [
 ]
 
 export default function Gallery() {
+  const trackRef = useRef(null)
+  const [activeDot, setActiveDot] = useState(0)
+  const totalDots = Math.ceil(TREATMENTS.length / CHUNK)
+
+  const scrollTo = (dir) => {
+    const el = trackRef.current
+    if (!el) return
+    el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' })
+  }
+
+  const onScroll = () => {
+    const el = trackRef.current
+    if (!el) return
+    const card = el.firstElementChild
+    if (!card) return
+    const cardW = card.clientWidth + 16
+    const idx = Math.round(el.scrollLeft / cardW)
+    setActiveDot(Math.floor(idx / CHUNK))
+  }
+
+  const jumpToPage = (i) => {
+    const el = trackRef.current
+    if (!el) return
+    const card = el.firstElementChild
+    if (!card) return
+    el.scrollTo({ left: i * CHUNK * (card.clientWidth + 16), behavior: 'smooth' })
+  }
+
   return (
     <section className={styles.section} id="treatments">
       <div className="wrap">
-        <motion.div
-          className={styles.head}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="eyebrow">12 Treatments</span>
-          <h2>Conditions Dr. Aggarwal <em>treats</em></h2>
-          <p className="lead">From kidney stones to male infertility — a focused, evidence-based urological practice covering the full spectrum of adult urology and andrology.</p>
-        </motion.div>
+        <div className={styles.header}>
+          <motion.div
+            className={styles.head}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="eyebrow">12 Treatments</span>
+            <h2>Conditions Dr. Aggarwal <em>treats</em></h2>
+          </motion.div>
+          <div className={styles.controls}>
+            <button className={styles.arrow} onClick={() => scrollTo(-1)} aria-label="Previous">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M12 5L7 10l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button className={styles.arrow} onClick={() => scrollTo(1)} aria-label="Next">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M8 5l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-        <div className={styles.grid}>
+        <div className={styles.carousel} ref={trackRef} onScroll={onScroll}>
           {TREATMENTS.map((t, i) => (
             <motion.div
               key={i}
@@ -183,7 +227,7 @@ export default function Gallery() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.03 }}
               whileHover={{ y: -4 }}
             >
               <div className={styles.iconWrap}>{t.icon}</div>
@@ -193,6 +237,17 @@ export default function Gallery() {
               </div>
               <span className={styles.tag}>{t.tag}</span>
             </motion.div>
+          ))}
+        </div>
+
+        <div className={styles.dots}>
+          {Array.from({ length: totalDots }).map((_, i) => (
+            <button
+              key={i}
+              className={`${styles.dot}${activeDot === i ? ' ' + styles.dotActive : ''}`}
+              onClick={() => jumpToPage(i)}
+              aria-label={`Page ${i + 1}`}
+            />
           ))}
         </div>
       </div>

@@ -82,7 +82,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 2.8 }}
             >
-              {[['11 yrs','Experience'],['ASRM','Andrology certified'],['MCh','Urology · Delhi']].map(([val, label]) => (
+              {[['11 yrs','Experience'],['ASRM','Andrology certified'],['MCh','Urology · Delhi'],['🇦🇪 UAE','Dubai · Fellowship']].map(([val, label]) => (
                 <div key={label} className={styles.stat}>
                   <b>{val}</b><span>{label}</span>
                 </div>

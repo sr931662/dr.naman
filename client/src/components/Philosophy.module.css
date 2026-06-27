@@ -4,11 +4,29 @@
 .quote { max-width: 980px; margin: 0 auto; text-align: center; }
 .quote blockquote { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(28px,3.6vw,50px); line-height: 1.18; letter-spacing: -.015em; color: var(--ink); }
 .quote cite { display: block; margin-top: 34px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--crimson); font-style: normal; }
-.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin-top: 90px; border-top: 1px solid var(--line-2); }
-.card { padding: 48px 38px 10px 0; border-right: 1px solid var(--line-2); }
-.card:last-child { border-right: 0; padding-right: 0; }
-.cardNum { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: var(--crimson); }
-.card h3 { margin: 18px 0 14px; }
-.card p { font-size: 15.5px; line-height: 1.62; color: var(--ink-soft); margin: 0; }
-@media (max-width: 980px) { .section { padding: 90px 0; } .grid { grid-template-columns: 1fr; } .card { border-right: 0; border-bottom: 1px solid var(--line-2); padding: 34px 0; } .card:last-child { border-bottom: 0; } .glyph { display: none; } }
-@media (max-width: 640px) { .section { padding: 70px 0; } }
+
+.accordion { margin-top: 80px; border-top: 1px solid var(--line-2); max-width: 860px; }
+.item { border-bottom: 1px solid var(--line-2); }
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.cardNum { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: var(--crimson); flex-shrink: 0; min-width: 28px; }
+.triggerTitle { font-family: var(--serif); font-size: clamp(18px,1.8vw,24px); font-weight: 400; color: var(--ink); margin: 0; flex: 1; transition: color .25s; }
+.trigger:hover .triggerTitle { color: var(--crimson); }
+.itemOpen .triggerTitle { color: var(--crimson); }
+.chevron { color: var(--muted); flex-shrink: 0; transition: transform .35s var(--ease), color .25s; }
+.chevronOpen { transform: rotate(180deg); color: var(--crimson); }
+
+.body { overflow: hidden; }
+.bodyText { padding: 0 0 28px 48px; font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); margin: 0; }
+
+@media (max-width: 980px) { .section { padding: 90px 0; } .glyph { display: none; } .bodyText { padding-left: 28px; } }
+@media (max-width: 640px) { .section { padding: 70px 0; } .bodyText { padding-left: 0; font-size: 15px; } .trigger { gap: 14px; } }
