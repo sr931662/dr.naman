@@ -90,8 +90,7 @@ export default function Hero() {
               ))}
               <div className={styles.stat}>
                 <b className={styles.statFlag}>
-                  <img src={uaeFlag} alt="UAE flag" className={styles.flagImg}/>
-                  UAE
+                  <img src={uaeFlag} alt="UAE" className={styles.flagImg}/>
                 </b>
                 <span>Dubai · Fellowship</span>
               </div>
