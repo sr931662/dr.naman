@@ -36,7 +36,7 @@ export default function Hero() {
           <span className={styles.ml}>N · A · 28.59°N 77.05°E</span>
         </div>
       </div>
-      <div className="wrap">
+      <div className={`wrap ${styles.heroWrap}`}>
         <div className={styles.content}>
           <div className={styles.copy}>
             <motion.span
@@ -88,10 +88,10 @@ export default function Hero() {
                 <b>1,000+</b><span>Patients treated</span>
               </div>
               <div className={styles.stat}>
-                <b className={styles.statAsrm}>
-                  <img src={usaFlag} alt="USA" className={styles.flagImg}/>ASRM
+                <b className={styles.statFlag}>
+                  <img src={usaFlag} alt="USA" className={styles.flagImg}/>
                 </b>
-                <span>US Andrology Society</span>
+                <span>ASRM · Andrology</span>
               </div>
               {[['MCh','Urology · Delhi']].map(([val, label]) => (
                 <div key={label} className={styles.stat}>
