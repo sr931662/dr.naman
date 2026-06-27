@@ -19,13 +19,13 @@ export default function Home() {
     <>
       <Hero/>
       <CredentialsMarquee/>
+      <PhotoGallery/>
       <Gallery/>
       <LivingAtlasConsole/>
       <DoctorAdvice/>
       <Philosophy/>
       <Journey/>
       <Research/>
-      <PhotoGallery/>
       <Reels/>
       <Testimonials/>
       <BlogPreview/>
