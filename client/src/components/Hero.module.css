@@ -21,6 +21,8 @@
 .stat:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
 .stat b { font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--crimson); display: block; line-height: 1; }
 .heroWrap { margin-left: 0; }
+.btnWa { background: #25d366; color: #fff; border-color: #25d366; display: flex; align-items: center; gap: 8px; }
+.btnWa:hover { background: #1fbd5a; border-color: #1fbd5a; color: #fff; }
 .statFlag { display: block; line-height: 1; }
 .flagImg { width: 52px; height: 26px; border-radius: 3px; object-fit: cover; display: block; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
 .stat span { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; display: block; }
