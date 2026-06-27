@@ -12,7 +12,8 @@
 .content { position: relative; z-index: 4; width: 100%; }
 .copy { max-width: 840px; }
 .h1 { margin: 22px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(40px,4.4vw,66px); line-height: 1.0; letter-spacing: -.018em; color: var(--ink); }
-.word { display: inline-block; }
+.word { display: inline-block; margin-right: 0.22em; }
+.word:last-child { margin-right: 0; }
 .lead { margin: 26px 0 0; max-width: 480px; }
 .cta { display: flex; align-items: center; gap: 16px; margin-top: 34px; flex-wrap: wrap; }
 .stats { display: flex; gap: 0; margin-top: 42px; padding-top: 0; border-top: 1px solid var(--line); max-width: 720px; flex-wrap: wrap; }
