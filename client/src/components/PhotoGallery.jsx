@@ -52,15 +52,6 @@ export default function PhotoGallery() {
           ))}
         </div>
 
-        <motion.div className={styles.foot} {...fadeUp(0.4)}>
-          <span className={styles.footNote}>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <circle cx="7" cy="7" r="5.5" stroke="var(--crimson)" strokeWidth="1.1"/>
-              <path d="M7 5v3M7 9.2v.3" stroke="var(--crimson)" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-            More clinic photos coming soon. Contact us to schedule a visit.
-          </span>
-        </motion.div>
       </div>
     </section>
   )

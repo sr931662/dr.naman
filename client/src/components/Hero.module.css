@@ -21,13 +21,29 @@
 .stat:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
 .stat b { font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--crimson); display: block; line-height: 1; }
 .heroWrap { margin-left: 0; }
-.btnWa { background: #25d366; color: #fff; border-color: #25d366; display: flex; align-items: center; gap: 8px; }
-.btnWa:hover { background: #1fbd5a; border-color: #1fbd5a; color: #fff; }
 .statFlag { display: block; line-height: 1; }
 .flagImg { width: 52px; height: 26px; border-radius: 3px; object-fit: cover; display: block; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
 .stat span { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; display: block; }
 .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--crimson); animation: pulseDot 2.4s ease-in-out infinite; display: inline-block; }
 .scrollcue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 4; font-family: var(--mono); font-size: 10px; letter-spacing: .24em; color: var(--muted); text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .scrollcue i { width: 1px; height: 40px; background: linear-gradient(var(--crimson),transparent); animation: drift 2.4s ease-in-out infinite; }
-@media (max-width: 980px) { .photo { left: 26%; opacity: .45; } .fade { background: linear-gradient(180deg,#fff 0%,rgba(255,255,255,.55) 55%,#fff 100%); } .measure { display: none; } .stats { flex-direction: row; } }
-@media (max-width: 640px) { .photo { display: none; } .stat { border-right: 0; padding-right: 0; margin-right: 0; width: 50%; } }
+@media (max-width: 980px) {
+  .photo { left: 26%; opacity: .45; }
+  .fade { background: linear-gradient(180deg,#fff 0%,rgba(255,255,255,.55) 55%,#fff 100%); }
+  .measure { display: none; }
+}
+@media (max-width: 640px) {
+  .photo { display: none; }
+  .stats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    max-width: 100%;
+    padding-bottom: 4px;
+  }
+  .stats::-webkit-scrollbar { display: none; }
+  .stat { flex: 0 0 auto; width: auto; border-right: 1px solid var(--line); padding-right: 20px; margin-right: 20px; }
+  .stat:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
+  .stat b { font-size: 22px; }
+}
