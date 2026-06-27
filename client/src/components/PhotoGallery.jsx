@@ -9,11 +9,27 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }
 })
 
-const PLACEHOLDERS = [
-  { label: 'OPD Consultation', sub: 'Manipal Hospital · Dwarka' },
-  { label: 'Surgical Suite', sub: 'Minimally invasive · Laparoscopic' },
-  { label: 'Endoscopy Unit', sub: 'RIRS · Ureteroscopy · PCNL' },
-  { label: 'Patient Care', sub: 'Post-operative follow-up' },
+const CLINIC_PHOTOS = [
+  {
+    src: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80',
+    label: 'OPD Consultation',
+    sub: 'Manipal Hospital · Dwarka',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1758206523711-f20bb01033a5?auto=format&fit=crop&w=800&q=80',
+    label: 'Surgical Suite',
+    sub: 'Minimally invasive · Laparoscopic',
+  },
+  {
+    src: 'https://plus.unsplash.com/premium_photo-1661627109539-69d7096ea354?auto=format&fit=crop&w=800&q=80',
+    label: 'Endoscopy Unit',
+    sub: 'RIRS · Ureteroscopy · PCNL',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1758691462878-6edc3d3da1be?auto=format&fit=crop&w=800&q=80',
+    label: 'Patient Care',
+    sub: 'Post-operative follow-up',
+  },
 ]
 
 export default function PhotoGallery() {
@@ -36,17 +52,13 @@ export default function PhotoGallery() {
             </div>
           </motion.div>
 
-          {/* Placeholder clinic photos */}
-          {PLACEHOLDERS.map((p, i) => (
-            <motion.div key={i} className={`${styles.cell} ${styles.placeholder}`} {...fadeUp(0.12 + i * 0.06)}>
-              <div className={styles.placeholderInner}>
-                <svg viewBox="0 0 48 48" fill="none" className={styles.phIcon} aria-hidden="true">
-                  <rect x="4" y="10" width="40" height="30" rx="3" stroke="var(--crimson)" strokeWidth="1.2" opacity=".35"/>
-                  <circle cx="14" cy="20" r="4" stroke="var(--crimson)" strokeWidth="1.2" opacity=".35"/>
-                  <path d="M4 30 l10-8 8 6 8-10 14 12" stroke="var(--crimson)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity=".35"/>
-                </svg>
-                <span className={styles.phLabel}>{p.label}</span>
-                <span className={styles.phSub}>{p.sub}</span>
+          {/* Clinic photos */}
+          {CLINIC_PHOTOS.map((p, i) => (
+            <motion.div key={i} className={`${styles.cell} ${styles.clinicPhoto}`} {...fadeUp(0.12 + i * 0.06)}>
+              <img src={p.src} alt={p.label} className={styles.clinicImg} loading="lazy"/>
+              <div className={styles.clinicCaption}>
+                <span className={styles.captionName}>{p.label}</span>
+                <span className={styles.captionSub}>{p.sub}</span>
               </div>
             </motion.div>
           ))}

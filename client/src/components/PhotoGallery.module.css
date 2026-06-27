@@ -57,61 +57,36 @@
   color: rgba(255,255,255,.55);
 }
 
-/* Placeholder cards */
-.placeholder {
+/* Clinic photo cards — same style as portrait */
+.clinicPhoto {
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--line);
-  background: linear-gradient(145deg, #f8f3f1, #f0e9e7);
+  background: var(--soft);
   min-height: 220px;
 }
 
-.placeholderInner {
+.clinicImg {
+  display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
   min-height: 220px;
+  transition: transform .6s var(--ease);
+}
+
+.clinicPhoto:hover .clinicImg { transform: scale(1.04); }
+
+.clinicCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 20px 16px;
+  background: linear-gradient(to top, rgba(18,6,8,.78) 0%, transparent 100%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 32px;
-}
-
-.phIcon { width: 48px; height: 48px; }
-
-.phLabel {
-  font-family: var(--serif);
-  font-size: 16px;
-  color: var(--ink);
-  font-weight: 400;
-  text-align: center;
-}
-
-.phSub {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: center;
-}
-
-.foot {
-  margin-top: 28px;
-  display: flex;
-  justify-content: center;
-}
-
-.footNote {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--muted);
+  gap: 3px;
 }
 
 @media (max-width: 980px) {
@@ -126,6 +101,6 @@
   .grid { grid-template-columns: 1fr; }
   .portrait { grid-row: span 1; }
   .portraitImg { min-height: 380px; }
-  .placeholder { min-height: 160px; }
-  .placeholderInner { min-height: 160px; padding: 24px; }
+  .clinicPhoto { min-height: 200px; }
+  .clinicImg { min-height: 200px; }
 }
