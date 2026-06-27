@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import drNaman from '../assets/Dr__Naman.png'
 import uaeFlag from '../assets/UAE.svg'
+import usaFlag from '../assets/USA.png'
 import styles from './Hero.module.css'
 
 const WORDS = ['Surgical', 'precision,', 'profoundly', 'human', 'care.']
@@ -88,7 +89,7 @@ export default function Hero() {
               </div>
               <div className={styles.stat}>
                 <b className={styles.statAsrm}>
-                  <span className={styles.usFlag}>🇺🇸</span>ASRM
+                  <img src={usaFlag} alt="USA" className={styles.flagImg}/>ASRM
                 </b>
                 <span>US Andrology Society</span>
               </div>

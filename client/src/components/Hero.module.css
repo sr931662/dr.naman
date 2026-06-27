@@ -22,8 +22,7 @@
 .stat b { font-family: var(--serif); font-size: 26px; font-weight: 400; color: var(--crimson); display: block; line-height: 1; }
 .statFlag { display: block; line-height: 1; }
 .flagImg { width: 52px; height: 26px; border-radius: 3px; object-fit: cover; display: block; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
-.statAsrm { display: flex; align-items: center; gap: 6px; }
-.usFlag { font-size: 20px; line-height: 1; }
+.statAsrm { display: flex; align-items: center; gap: 8px; }
 .stat span { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; display: block; }
 .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--crimson); animation: pulseDot 2.4s ease-in-out infinite; display: inline-block; }
 .scrollcue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 4; font-family: var(--mono); font-size: 10px; letter-spacing: .24em; color: var(--muted); text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 10px; }
