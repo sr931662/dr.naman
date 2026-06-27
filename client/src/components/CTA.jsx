@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import styles from './CTA.module.css'
 
 const stagger = { show: { transition: { staggerChildren: 0.13 } } }
@@ -19,9 +20,9 @@ export default function CTA() {
             Whether you are a patient seeking relief, a family weighing surgery, or a physician seeking a referral — Dr. Aggarwal's clinic at Manipal Hospital, Dwarka is open to you.
           </motion.p>
           <motion.div className={styles.ctaRow} variants={fadeUp}>
-            <a className="btn btn-light" href="#" data-magnetic="0.3">
+            <Link className="btn btn-light" to="/contact" data-magnetic="0.3">
               Request an appointment <span className="arr">→</span>
-            </a>
+            </Link>
           </motion.div>
         </div>
         <motion.div className={styles.side} variants={fadeUp}>
