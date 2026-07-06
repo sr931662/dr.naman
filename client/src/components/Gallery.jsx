@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import styles from './Gallery.module.css'
 
 const CHUNK = 4
 
-const TREATMENTS = [
+export const TREATMENTS = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -15,6 +16,7 @@ const TREATMENTS = [
         <circle cx="24" cy="19" r="3" fill="var(--blush)" stroke="var(--crimson)" strokeWidth="1"/>
       </svg>
     ),
+    slug: 'kidney-stones',
     title: 'Kidney Stones',
     sub: 'RIRS · PCNL · Ureteroscopy',
     tag: 'High volume',
@@ -27,6 +29,7 @@ const TREATMENTS = [
         <path d="M24 22v4M24 34v2" stroke="var(--crimson)" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     ),
+    slug: 'prostate-bph',
     title: 'Prostate (BPH)',
     sub: 'HoLEP · TURP · Medical',
     tag: 'Gold standard HoLEP',
@@ -40,6 +43,7 @@ const TREATMENTS = [
         <path d="M24 30 m-3 0 a3 3 0 0 1 6 0" fill="rgba(179,18,42,.15)"/>
       </svg>
     ),
+    slug: 'male-infertility',
     title: 'Male Infertility',
     sub: 'Varicocele · Microsurgery · ASRM',
     tag: 'ASRM certified',
@@ -52,6 +56,7 @@ const TREATMENTS = [
         <circle cx="24" cy="32" r="2.5" fill="var(--crimson)" opacity=".7"/>
       </svg>
     ),
+    slug: 'blood-in-urine',
     title: 'Blood in Urine',
     sub: 'Haematuria · Cystoscopy',
     tag: 'Urgent evaluation',
@@ -65,6 +70,7 @@ const TREATMENTS = [
         <circle cx="24" cy="22" r="4" fill="var(--blush)" stroke="var(--crimson)" strokeWidth="1"/>
       </svg>
     ),
+    slug: 'urinary-tract-infection',
     title: 'Urinary Tract Infection',
     sub: 'UTI · Recurrent UTI',
     tag: 'Diagnosis & treatment',
@@ -78,6 +84,7 @@ const TREATMENTS = [
         <circle cx="20" cy="20" r="3" fill="rgba(179,18,42,.2)"/>
       </svg>
     ),
+    slug: 'uro-oncology',
     title: 'Uro-oncology',
     sub: 'Kidney · Prostate · Bladder',
     tag: 'Organ-preserving surgery',
@@ -91,6 +98,7 @@ const TREATMENTS = [
         <path d="M20 16 C20 10 28 10 28 16" stroke="var(--crimson)" strokeWidth="1" strokeLinecap="round" opacity=".5"/>
       </svg>
     ),
+    slug: 'urinary-obstruction',
     title: 'Urinary Obstruction',
     sub: 'UPJ · Stricture · Bladder outlet',
     tag: 'Minimally invasive',
@@ -104,6 +112,7 @@ const TREATMENTS = [
         <circle cx="24" cy="26" r="1.5" fill="var(--crimson)"/>
       </svg>
     ),
+    slug: 'urinary-incontinence',
     title: 'Urinary Incontinence',
     sub: 'Stress · Urge · Mixed',
     tag: 'Diagnostic & surgical',
@@ -119,6 +128,7 @@ const TREATMENTS = [
         <circle cx="29" cy="16" r="2.5" fill="var(--blush)" stroke="var(--crimson)" strokeWidth="1"/>
       </svg>
     ),
+    slug: 'testicular-conditions',
     title: 'Testicular Conditions',
     sub: 'Torsion · Mass · Pain',
     tag: 'Urgent & elective',
@@ -132,6 +142,7 @@ const TREATMENTS = [
         <circle cx="24" cy="24" r="5" stroke="var(--crimson)" strokeWidth="1.5"/>
       </svg>
     ),
+    slug: 'renal-transplant',
     title: 'Renal Transplant',
     sub: 'Living donor · Deceased donor',
     tag: 'End-to-end care',
@@ -143,6 +154,7 @@ const TREATMENTS = [
         <path d="M20 22 C20 20 22 18 24 18 C26 18 28 20 28 22 C28 26 24 30 24 30 C24 30 20 26 20 22Z" fill="rgba(179,18,42,.15)" stroke="var(--crimson)" strokeWidth="1"/>
       </svg>
     ),
+    slug: 'erectile-dysfunction',
     title: 'Erectile Dysfunction',
     sub: 'ED · Andrological evaluation',
     tag: 'Confidential care',
@@ -156,6 +168,7 @@ const TREATMENTS = [
         <path d="M32 35 h6 M35 32 v6" stroke="var(--crimson)" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     ),
+    slug: 'urology-consultation',
     title: 'Urology Consultation',
     sub: 'OPD · Second opinion · Reports',
     tag: '₹1500 · Manipal Hospital',
@@ -235,7 +248,12 @@ export default function Gallery() {
                 <h3 className={styles.cardTitle}>{t.title}</h3>
                 <p className={styles.cardSub}>{t.sub}</p>
               </div>
-              <span className={styles.tag}>{t.tag}</span>
+              <div className={styles.cardFooter}>
+                <span className={styles.tag}>{t.tag}</span>
+                <Link to={`/treatments/${t.slug}`} className={styles.readMore}>
+                  Read more <span className="arr">→</span>
+                </Link>
+              </div>
             </motion.div>
           ))}
         </div>

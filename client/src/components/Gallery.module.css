@@ -81,6 +81,27 @@
   align-self: flex-start;
 }
 
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .25s;
+}
+.readMore:hover { color: var(--crimson); }
+
 .dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
 .dot {
   width: 28px; height: 4px;

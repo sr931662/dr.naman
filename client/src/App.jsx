@@ -13,6 +13,7 @@ import AboutPage from './pages/About'
 import ContactPage from './pages/Contact'
 import BlogPage from './pages/Blog'
 import BlogPostPage from './pages/BlogPost'
+import TreatmentDetailPage from './pages/TreatmentDetail'
 import waStyles from './components/WhatsAppFloat.module.css'
 
 const WA_NUMBER = '919999999999' // TODO: replace with Dr. Naman's WhatsApp number
@@ -41,6 +42,7 @@ function Shell() {
         <Route path="/contact" element={<ContactPage/>}/>
         <Route path="/blog" element={<BlogPage/>}/>
         <Route path="/blog/:slug" element={<BlogPostPage/>}/>
+        <Route path="/treatments/:slug" element={<TreatmentDetailPage/>}/>
       </Routes>
       <Footer/>
       <a
