@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
 import { BLOGS } from '../data/blogs'
+import Seo from '../components/Seo'
+import { SITE_URL, DOCTOR } from '../config/seo'
 import styles from './BlogPost.module.css'
 
 const ARTICLE_BODY = {
@@ -63,6 +65,7 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <main className={styles.page}>
+        <Seo title="Article not found" description="This article could not be found." path={`/blog/${slug}`} noindex/>
         <div className="wrap" style={{ paddingTop: 180, paddingBottom: 120 }}>
           <h1>Article not found</h1>
           <Link to="/blog" className="btn btn-ghost" style={{ marginTop: 24 }}>← Back to blog</Link>
@@ -71,8 +74,19 @@ export default function BlogPostPage() {
     )
   }
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    headline: post.title,
+    description: post.excerpt,
+    author: { '@type': 'Person', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
+    url: `${SITE_URL}/blog/${post.slug}`,
+    datePublished: post.date,
+  }
+
   return (
     <main className={styles.page}>
+      <Seo title={post.title} description={post.excerpt} path={`/blog/${post.slug}`} jsonLd={articleJsonLd}/>
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroBg}/>

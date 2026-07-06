@@ -47,7 +47,9 @@
   position: relative;
   overflow: hidden;
   transition: border-color .35s var(--ease), box-shadow .35s var(--ease);
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 .card::before {
   content: '';

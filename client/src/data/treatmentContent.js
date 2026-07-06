@@ -41,6 +41,11 @@ export const TREATMENT_CONTENT = {
       'Visible blood in the urine',
     ],
     keyStat: 'About 1 in 10 people will develop a kidney stone in their lifetime (Cleveland Clinic / Urology Care Foundation).',
+    faqs: [
+      { q: 'How much water should I drink to prevent stones?', a: 'Aim for enough fluids to produce about 2–2.5 litres of urine a day — for most people that means roughly 8–10 glasses of water, spread through the day rather than all at once.' },
+      { q: 'Will my stone need surgery?', a: 'Not necessarily. About 80% of small stones (under 5mm) pass on their own with hydration and pain relief. Larger or stuck stones usually need a minimally invasive procedure like RIRS, ureteroscopy, or PCNL.' },
+      { q: 'Do kidney stones come back?', a: 'Recurrence is common without prevention. A simple metabolic work-up and dietary changes — less salt, moderate animal protein, adequate fluids — meaningfully lower the chance of a repeat stone.' },
+    ],
   },
 
   'prostate-bph': {
@@ -82,6 +87,11 @@ export const TREATMENT_CONTENT = {
       'Urinary symptoms significantly affecting daily life or sleep',
     ],
     keyStat: 'By age 60, about 50% of men have BPH; by age 85, about 90% do (NIDDK).',
+    faqs: [
+      { q: 'Is BPH the same as prostate cancer?', a: 'No. BPH is a benign (non-cancerous) enlargement and does not turn into cancer, though the two can occur together — which is why a PSA test and exam are part of the standard work-up.' },
+      { q: 'Can BPH be managed without surgery?', a: 'Yes, for mild-to-moderate symptoms. Alpha-blockers and 5-alpha reductase inhibitors control symptoms for many men for years before any procedure is needed.' },
+      { q: 'What makes HoLEP different from TURP?', a: 'HoLEP removes the entire obstructing tissue with a laser regardless of prostate size, with less bleeding and a retreatment rate under 2% at 10 years, versus 10–15% for TURP.' },
+    ],
   },
 
   'male-infertility': {
@@ -123,6 +133,11 @@ export const TREATMENT_CONTENT = {
       'History of testicular injury, surgery, or an undescended testicle',
     ],
     keyStat: 'Male factors are involved in about half of all infertility cases among couples (NIH/NICHD).',
+    faqs: [
+      { q: 'Does a normal semen analysis rule out infertility?', a: 'No. A normal semen analysis doesn’t exclude a male factor, and an abnormal one doesn’t confirm the cause on its own — a full clinical evaluation is what actually guides treatment.' },
+      { q: 'Is varicocele surgery effective?', a: 'Microsurgical varicocelectomy is the most effective repair for varicocele-related infertility, with natural conception rates of roughly 40–60% within 12 months in properly selected patients.' },
+      { q: 'When should we see a specialist?', a: 'After 1 year of regular unprotected intercourse without conceiving (or 6 months if the female partner is over 35). Don’t wait longer than that to get evaluated.' },
+    ],
   },
 
   'blood-in-urine': {
@@ -163,6 +178,11 @@ export const TREATMENT_CONTENT = {
       'Microscopic blood found incidentally on a routine urine test',
     ],
     keyStat: 'A urologic cancer is found in about 1 in 5 people with visible blood in the urine, making evaluation essential even after a single episode (NIH/Cleveland Clinic).',
+    faqs: [
+      { q: 'Is painless blood in urine serious?', a: 'It can be, and that’s exactly why it should never be dismissed. Painless visible blood is the presentation that most often turns out to be linked to a urologic cancer, so it always warrants prompt evaluation.' },
+      { q: 'What tests will I need?', a: 'Typically a urinalysis and urine cytology, plus a cystoscopy to look directly inside the bladder, and imaging such as a CT urogram or ultrasound to check the kidneys.' },
+      { q: 'Can exercise cause blood in urine?', a: 'Yes — vigorous exercise can cause temporary, harmless blood in the urine. But this should only ever be assumed after other causes have been ruled out by a doctor, not self-diagnosed.' },
+    ],
   },
 
   'urinary-tract-infection': {
@@ -204,6 +224,11 @@ export const TREATMENT_CONTENT = {
       '3 or more UTIs in a year — warrants evaluation for recurrent UTI',
     ],
     keyStat: '6 in 10 women will experience a UTI at least once in their lifetime (Urology Care Foundation).',
+    faqs: [
+      { q: 'How long does a UTI take to clear?', a: 'Most simple UTIs clear within 2–3 days of starting the right antibiotic. If symptoms haven’t improved by then, it needs to be reassessed rather than waited out.' },
+      { q: 'Are cranberry products effective?', a: 'Evidence is mixed and cranberry products are not a substitute for antibiotics in an active infection — they’re, at best, a minor preventive habit alongside proven measures like adequate hydration.' },
+      { q: 'When is a UTI considered "recurrent"?', a: 'Three or more infections in a year, or two or more in six months, is classed as recurrent UTI and warrants a proper evaluation for an underlying cause.' },
+    ],
   },
 
   'uro-oncology': {
@@ -246,6 +271,11 @@ export const TREATMENT_CONTENT = {
       'Urinary difficulty or new lower urinary tract symptoms after age 50',
     ],
     keyStat: '1 in 8 men will be diagnosed with prostate cancer in his lifetime (American Cancer Society).',
+    faqs: [
+      { q: 'Does blood in urine always mean cancer?', a: 'No — most cases of blood in urine have a benign cause like infection or stones. But because a urologic cancer is found in a meaningful share of cases, every episode still needs evaluation.' },
+      { q: 'What is organ-preserving surgery?', a: 'Approaches like partial nephrectomy or bladder-preserving TURBT plus chemo-radiation remove the tumour while keeping the healthy organ intact, avoiding full organ removal where possible.' },
+      { q: 'Is prostate cancer screening necessary for all men?', a: 'Screening decisions (PSA testing) are individualised based on age, family history, and risk factors — this is best discussed directly with a urologist rather than followed as a blanket rule.' },
+    ],
   },
 
   'urinary-obstruction': {
@@ -288,6 +318,11 @@ export const TREATMENT_CONTENT = {
       'A progressively weaker urine stream or repeated UTIs',
     ],
     keyStat: 'Pyeloplasty for UPJ obstruction relieves the blockage in over 90% of cases (Urology Care Foundation).',
+    faqs: [
+      { q: 'What happens if obstruction is left untreated?', a: 'Ongoing blockage can cause the kidney to swell (hydronephrosis), lead to repeated infections, and gradually damage kidney function — which is why persistent symptoms shouldn’t be ignored.' },
+      { q: 'Is surgery always needed?', a: 'Not always. Mild BPH-related obstruction often responds to medication or self-catheterization first; structural blockages like UPJ obstruction or strictures usually do need a corrective procedure.' },
+      { q: 'How successful is pyeloplasty?', a: 'Very — long-term success rates for relieving a UPJ obstruction are generally above 90%, and it’s now most often done through small, minimally invasive incisions.' },
+    ],
   },
 
   'urinary-incontinence': {
@@ -330,6 +365,11 @@ export const TREATMENT_CONTENT = {
       'Sudden-onset incontinence, especially with other neurological symptoms',
     ],
     keyStat: 'Over 60% of adult women experience some degree of urinary incontinence, yet effective treatment exists for nearly all types (NIH).',
+    faqs: [
+      { q: 'Is incontinence a normal part of aging?', a: 'It’s common with age, but it is not something you simply have to live with — it’s a medical condition with effective, well-studied treatments at every stage of severity.' },
+      { q: 'Do Kegel exercises really work?', a: 'Yes, particularly for stress incontinence. Pelvic floor exercises are the recommended first-line treatment and many people see meaningful improvement within a few months of consistent practice.' },
+      { q: 'When is surgery considered?', a: 'Usually only after pelvic floor therapy, bladder training, and medication haven’t given enough relief. Sling surgery is the most common and well-established surgical option for stress incontinence.' },
+    ],
   },
 
   'testicular-conditions': {
@@ -372,6 +412,11 @@ export const TREATMENT_CONTENT = {
       'Pain, fever, or discharge lasting more than a few hours to a day',
     ],
     keyStat: 'Nearly 3 in 4 patients lose the testicle if torsion surgery is delayed beyond 12 hours from symptom onset (Urology Care Foundation).',
+    faqs: [
+      { q: 'How urgent is testicular pain?', a: 'Sudden, severe pain is a genuine emergency — go to the ER immediately. Testicular torsion cuts off blood supply, and every hour of delay lowers the chance of saving the testicle.' },
+      { q: 'Are testicular lumps usually cancerous?', a: 'Most scrotal masses are actually benign, like cysts or hydroceles. Still, any new lump needs a scrotal ultrasound to check, since testicular cancer is highly curable when caught early.' },
+      { q: 'Can torsion happen more than once?', a: 'The affected side is fixed surgically to prevent recurrence, and the other testicle is typically stitched in place during the same operation as a precaution, since the anatomical predisposition is often on both sides.' },
+    ],
   },
 
   'renal-transplant': {
@@ -413,6 +458,11 @@ export const TREATMENT_CONTENT = {
       'A family history of kidney disease — worth asking about screening',
     ],
     keyStat: 'More than 1 in 7 US adults (35.5 million people) have chronic kidney disease, and 90,000+ are currently waiting for a kidney transplant (NIDDK).',
+    faqs: [
+      { q: 'How long does a donor kidney last?', a: 'Living-donor kidneys last a median of 12–15 years, and deceased-donor kidneys about 10–12 years — many function well for 15–20+ years with good care and medication adherence.' },
+      { q: 'Can a family member always donate?', a: 'Only after an independent medical evaluation confirms they’re a safe match and healthy enough to donate. Blood type and tissue compatibility are checked first; paired exchange programmes help when a match isn’t direct.' },
+      { q: 'Is dialysis needed after a transplant?', a: 'Usually not — a well-functioning transplanted kidney takes over filtering duties. Occasionally a new kidney needs 1–2 weeks to "wake up" (delayed graft function), during which short-term dialysis may bridge the gap.' },
+    ],
   },
 
   'erectile-dysfunction': {
@@ -453,6 +503,11 @@ export const TREATMENT_CONTENT = {
       'Erection problems affecting confidence, mood, or relationships',
     ],
     keyStat: 'An estimated 30 million American men are affected by erectile dysfunction (NIH).',
+    faqs: [
+      { q: 'Is ED just a natural part of aging?', a: 'It becomes more common with age, but it’s not something to just accept — most cases have an identifiable, treatable cause, and first-line medication helps the large majority of men.' },
+      { q: 'Can ED signal heart disease?', a: 'Yes, especially when it appears suddenly in a younger man. ED and heart disease share the same underlying blood-vessel risk factors, so new or worsening ED is a reasonable prompt to check cardiovascular health.' },
+      { q: 'Do ED medications work for everyone?', a: 'Oral PDE5 inhibitors work well for most men, but not all. For those who don’t respond, options like injections, vacuum devices, or a penile implant are effective alternatives.' },
+    ],
   },
 
   'urology-consultation': {
@@ -495,5 +550,10 @@ export const TREATMENT_CONTENT = {
       'Any new testicular lump; scrotal pain lasting over an hour needs the ER, not a routine OPD visit',
     ],
     keyStat: 'A comprehensive first urology visit often combines history, exam, and same-day testing into one appointment — a thorough diagnostic model designed to avoid repeat trips.',
+    faqs: [
+      { q: 'What should I bring to my first visit?', a: 'Prior test results, scan or pathology reports, a current medication list, and a clear note of your symptoms and when they started. This alone often saves a repeat round of testing.' },
+      { q: 'Will I need a full bladder for tests?', a: 'Often, yes — a comfortably full bladder is usually needed for a urine sample or bladder ultrasound, so it helps to avoid emptying it right before your appointment unless told otherwise.' },
+      { q: 'Is a second opinion okay before surgery?', a: 'Absolutely — it’s a routine, accepted part of urologic care, especially before major surgery or a cancer diagnosis. Bringing your existing reports avoids having to repeat tests.' },
+    ],
   },
 }

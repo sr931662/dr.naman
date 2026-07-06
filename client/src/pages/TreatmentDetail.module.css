@@ -12,7 +12,8 @@
 .heroH1 { color: #fff; margin: 0 0 14px; font-size: clamp(28px,3.5vw,46px); line-height: 1.1; }
 .heroSub { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); margin: 0 0 22px; }
 .heroKeyStat { display: flex; align-items: flex-start; gap: 12px; max-width: 640px; padding: 16px 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 8px; }
-.heroKeyStatIcon { flex-shrink: 0; font-size: 18px; line-height: 1; margin-top: 1px; }
+.heroKeyStatIcon { flex-shrink: 0; width: 18px; height: 18px; color: var(--crimson-bright, #fff); margin-top: 2px; }
+.heroKeyStatIcon svg { width: 100%; height: 100%; }
 .heroKeyStatText { font-size: 14.5px; color: rgba(255,255,255,.85); line-height: 1.55; margin: 0; }
 
 .articleSection { padding: 72px 0 100px; background: var(--paper); }
@@ -34,6 +35,16 @@
 .listItemUrgent::before { background: var(--crimson-bright, var(--crimson)); box-shadow: 0 0 0 3px var(--blush); }
 
 .divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+
+.faqList { display: flex; flex-direction: column; gap: 10px; }
+.faqItem { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow: hidden; transition: border-color .3s; }
+.faqItemOpen { border-color: var(--crimson-bright, var(--crimson)); }
+.faqQuestion { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: none; border: none; cursor: pointer; padding: 16px 18px; text-align: left; }
+.faqQText { font-family: var(--serif); font-size: 15.5px; color: var(--ink); line-height: 1.4; }
+.faqChevron { flex-shrink: 0; display: grid; place-items: center; color: var(--muted); transition: transform .3s; }
+.faqChevronOpen { color: var(--crimson); transform: rotate(180deg); }
+.faqAnswer { overflow: hidden; }
+.faqAnswer p { margin: 0; padding: 0 18px 18px; font-size: 14.5px; line-height: 1.65; color: var(--ink-soft); }
 
 .redFlagBox { background: var(--blush); border: 1px solid var(--blush-2); border-radius: 8px; padding: 22px 24px; margin: 0 0 40px; }
 .redFlagLabel { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--crimson); margin: 0 0 12px; display: block; }

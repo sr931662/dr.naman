@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Seo from '../components/Seo'
 import styles from './Contact.module.css'
 
 const fadeUp = (delay = 0) => ({
@@ -21,6 +22,11 @@ export default function ContactPage() {
 
   return (
     <main className={styles.page}>
+      <Seo
+        title="Book a Consultation"
+        description="Book a consultation with Dr. Naman Aggarwal, Consultant Urologist at Manipal Hospital, Dwarka, Delhi. In-person and teleconsultation appointments available."
+        path="/contact"
+      />
       {/* Hero banner */}
       <section className={styles.hero}>
         <div className={styles.heroBg}/>

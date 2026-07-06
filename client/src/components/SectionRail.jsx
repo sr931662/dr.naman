@@ -6,13 +6,13 @@ import styles from './SectionRail.module.css'
 const LINKS = [
   ['#top', 'Top'],
   ['#treatments', 'Treatments'],
-  ['#expertise', 'Atlas'],
   ['#advice', 'Guide'],
+  ['#expertise', 'Atlas'],
+  ['#gallery', 'Gallery'],
   ['#philosophy', 'Philosophy'],
   ['#journey', 'Journey'],
   ['#research', 'Research'],
   ['#voices', 'Voices'],
-  ['#gallery', 'Gallery'],
   ['#faq', 'FAQ'],
 ]
 

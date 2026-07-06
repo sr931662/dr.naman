@@ -5,26 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dr. Naman Aggarwal — Urology · Andrology · Laparoscopic Surgery · Delhi</title>
 
-    <!-- SEO -->
+    <!-- SEO (base defaults; per-route title/description/canonical are overridden at runtime via react-helmet-async) -->
     <meta name="description" content="Dr. Naman Aggarwal — Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi. MBBS, MS General Surgery, MCh Urology. 11 years experience. Surgical precision, profoundly human care."/>
     <meta name="keywords" content="urologist delhi, urologist dwarka, andrologist delhi, laparoscopic urologist, Dr Naman Aggarwal, Manipal Hospital Dwarka, ureteroscopy PCNL HoLEP delhi"/>
     <meta name="robots" content="index, follow"/>
     <meta name="author" content="Dr. Naman Aggarwal"/>
     <meta name="theme-color" content="#b3122a"/>
+    <!-- TODO: update to the real production domain once finalized (see src/config/seo.js) -->
+    <link rel="canonical" href="https://drnamanaggarwal.com/"/>
 
-    <!-- Open Graph -->
+    <!-- Open Graph (crawlers for link previews — e.g. WhatsApp/Facebook — don't execute JS, so these
+         static defaults are what gets shown when any page on this site is shared, not the per-route ones) -->
     <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="Dr. Naman Aggarwal — Urology, Andrology & Laparoscopic Surgery"/>
     <meta property="og:title" content="Dr. Naman Aggarwal — Urologist, Andrologist · Manipal Hospital Delhi"/>
     <meta property="og:description" content="Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi — surgical precision, profoundly human care."/>
+    <meta property="og:url" content="https://drnamanaggarwal.com/"/>
+    <meta property="og:image" content="https://drnamanaggarwal.com/social-card.png"/>
     <meta property="og:locale" content="en_IN"/>
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:title" content="Dr. Naman Aggarwal — Manipal Hospital Dwarka Delhi"/>
     <meta name="twitter:description" content="Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon. 11 years experience. Surgical precision, profoundly human care."/>
+    <meta name="twitter:image" content="https://drnamanaggarwal.com/social-card.png"/>
 
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23b3122a'/%3E%3Ctext x='16' y='24' text-anchor='middle' font-family='Georgia%2Cserif' font-size='22' fill='white'%3EN%3C/text%3E%3C/svg%3E"/>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Physician",
+      "name": "Dr. Naman Aggarwal",
+      "jobTitle": "Consultant Urologist, Andrologist & Laparoscopic Surgeon",
+      "medicalSpecialty": ["Urology", "Andrology", "Laparoscopic Surgery"],
+      "url": "https://drnamanaggarwal.com/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dwarka, Delhi",
+        "addressRegion": "Delhi",
+        "addressCountry": "IN"
+      },
+      "worksFor": { "@type": "Hospital", "name": "Manipal Hospital, Dwarka" }
+    }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>

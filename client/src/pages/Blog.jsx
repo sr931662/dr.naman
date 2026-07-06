@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { BLOGS } from '../data/blogs'
+import Seo from '../components/Seo'
 import styles from './Blog.module.css'
 
 const CATS = ['All', 'Patient Education', 'Surgical Advances', 'Andrology', 'Urology', 'Transplant']
@@ -21,6 +22,11 @@ export default function BlogPage() {
 
   return (
     <main className={styles.page}>
+      <Seo
+        title="Patient Education Blog"
+        description="Insights on kidney stones, HoLEP, male fertility, renal transplant and minimally invasive urology, from Dr. Naman Aggarwal, Consultant Urologist at Manipal Hospital, Dwarka, Delhi."
+        path="/blog"
+      />
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroBg}/>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styles from './Gallery.module.css'
 
 const CHUNK = 4
+const MotionLink = motion.create(Link)
 
 export const TREATMENTS = [
   {
@@ -234,8 +235,9 @@ export default function Gallery() {
 
         <div className={styles.carousel} ref={trackRef} onScroll={onScroll}>
           {TREATMENTS.map((t, i) => (
-            <motion.div
+            <MotionLink
               key={i}
+              to={`/treatments/${t.slug}`}
               className={styles.card}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -250,11 +252,11 @@ export default function Gallery() {
               </div>
               <div className={styles.cardFooter}>
                 <span className={styles.tag}>{t.tag}</span>
-                <Link to={`/treatments/${t.slug}`} className={styles.readMore}>
+                <span className={styles.readMore}>
                   Read more <span className="arr">→</span>
-                </Link>
+                </span>
               </div>
-            </motion.div>
+            </MotionLink>
           ))}
         </div>
 

@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import Seo from '../components/Seo'
 import styles from './About.module.css'
 
 const TIMELINE = [
-  { year: '2010–2015', title: 'MBBS — Maulana Azad Medical College', sub: 'University of Delhi · Top 5% of graduating class', icon: '🎓' },
-  { year: '2015–2019', title: 'MS General Surgery — AIIMS New Delhi', sub: 'All India Institute of Medical Sciences · Distinction', icon: '🔬' },
-  { year: '2019–2022', title: 'MCh Urology / Genito-Urinary Surgery', sub: 'Masters of Chirurgiae — Urology & Genito-Urinary Surgery', icon: '⚕' },
-  { year: '2022', title: 'Devon Fellowship — United Kingdom', sub: 'Advanced laparoscopic & robotic urological surgery', icon: '🌍' },
-  { year: '2023', title: 'ASRM Andrology Certification', sub: 'American Society for Reproductive Medicine', icon: '🏆' },
-  { year: '2023', title: 'Observership — First IVF, Dubai', sub: 'Advanced male fertility & microsurgical techniques', icon: '✦' },
-  { year: 'Present', title: 'Consultant — Manipal Hospital, Dwarka, Delhi', sub: 'Urology · Andrology · Laparoscopic Surgery · 11 yrs experience', icon: '♥' },
+  { year: '2010–2015', title: 'MBBS — Maulana Azad Medical College', sub: 'University of Delhi · Top 5% of graduating class' },
+  { year: '2015–2019', title: 'MS General Surgery — AIIMS New Delhi', sub: 'All India Institute of Medical Sciences · Distinction' },
+  { year: '2019–2022', title: 'MCh Urology / Genito-Urinary Surgery', sub: 'Masters of Chirurgiae — Urology & Genito-Urinary Surgery' },
+  { year: '2022', title: 'Devon Fellowship — United Kingdom', sub: 'Advanced laparoscopic & robotic urological surgery' },
+  { year: '2023', title: 'ASRM Andrology Certification', sub: 'American Society for Reproductive Medicine' },
+  { year: '2023', title: 'Observership — First IVF, Dubai', sub: 'Advanced male fertility & microsurgical techniques' },
+  { year: 'Present', title: 'Consultant — Manipal Hospital, Dwarka, Delhi', sub: 'Urology · Andrology · Laparoscopic Surgery · 11 yrs experience' },
 ]
 
 const PILLARS = [
@@ -57,6 +58,11 @@ const fadeUp = (delay = 0) => ({
 export default function AboutPage() {
   return (
     <main className={styles.page}>
+      <Seo
+        title="About Dr. Naman Aggarwal"
+        description="MBBS, MS General Surgery, MCh Urology (PGIMER) · Devon Fellow (UK) · ASRM Certified. 11 years of experience in urology, andrology & laparoscopic surgery at Manipal Hospital, Dwarka, Delhi."
+        path="/about"
+      />
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroBg}/>

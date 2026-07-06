@@ -1,18 +1,25 @@
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
 import { TREATMENTS } from '../components/Gallery'
 import { TREATMENT_CONTENT } from '../data/treatmentContent'
+import Seo from '../components/Seo'
+import { SITE_URL, DOCTOR } from '../config/seo'
 import styles from './TreatmentDetail.module.css'
 
 export default function TreatmentDetailPage() {
   const { slug } = useParams()
+  const [openFaq, setOpenFaq] = useState(null)
   const treatment = TREATMENTS.find(t => t.slug === slug)
   const content = TREATMENT_CONTENT[slug]
+
+  useEffect(() => { setOpenFaq(null) }, [slug])
   const related = TREATMENTS.filter(t => t.slug !== slug).slice(0, 3)
 
   if (!treatment || !content) {
     return (
       <main className={styles.page}>
+        <Seo title="Condition not found" description="This condition page could not be found." path={`/treatments/${slug}`} noindex/>
         <div className="wrap" style={{ paddingTop: 180, paddingBottom: 120 }}>
           <h1>Condition not found</h1>
           <Link to="/#treatments" className="btn btn-ghost" style={{ marginTop: 24 }}>← Back to treatments</Link>
@@ -21,8 +28,44 @@ export default function TreatmentDetailPage() {
     )
   }
 
+  const pageUrl = `${SITE_URL}/treatments/${treatment.slug}`
+  const medicalJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    name: treatment.title,
+    description: content.overview,
+    url: pageUrl,
+    lastReviewed: new Date().toISOString().slice(0, 10),
+    reviewedBy: { '@type': 'Person', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
+    about: { '@type': 'MedicalCondition', name: treatment.title },
+  }
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Treatments', item: `${SITE_URL}/#treatments` },
+      { '@type': 'ListItem', position: 3, name: treatment.title, item: pageUrl },
+    ],
+  }
+  const faqJsonLd = content.faqs && content.faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: content.faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  } : null
+
   return (
     <main className={styles.page}>
+      <Seo
+        title={treatment.title}
+        description={content.overview}
+        path={`/treatments/${treatment.slug}`}
+        jsonLd={[medicalJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])]}
+      />
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroBg}/>
@@ -42,7 +85,11 @@ export default function TreatmentDetailPage() {
             <p className={styles.heroSub}>{treatment.sub}</p>
             {content.keyStat && (
               <div className={styles.heroKeyStat}>
-                <span className={styles.heroKeyStatIcon}>📊</span>
+                <span className={styles.heroKeyStatIcon} aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 19V10M12 19V5M19 19v-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
                 <p className={styles.heroKeyStatText}>{content.keyStat}</p>
               </div>
             )}
@@ -111,6 +158,43 @@ export default function TreatmentDetailPage() {
                   {content.seeDoctor.map((s, i) => <li key={i} className={styles.listItem}>{s}</li>)}
                 </ul>
               </div>
+
+              {content.faqs && content.faqs.length > 0 && (
+                <div className={styles.section}>
+                  <h2 className={styles.sectionTitle}>Quick FAQs</h2>
+                  <div className={styles.faqList}>
+                    {content.faqs.map((faq, i) => (
+                      <div key={i} className={`${styles.faqItem}${openFaq === i ? ' ' + styles.faqItemOpen : ''}`}>
+                        <button
+                          className={styles.faqQuestion}
+                          onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                          aria-expanded={openFaq === i}
+                        >
+                          <span className={styles.faqQText}>{faq.q}</span>
+                          <span className={`${styles.faqChevron}${openFaq === i ? ' ' + styles.faqChevronOpen : ''}`}>
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                              <path d="M3 6l5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </span>
+                        </button>
+                        <AnimatePresence>
+                          {openFaq === i && (
+                            <motion.div
+                              className={styles.faqAnswer}
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                              <p>{faq.a}</p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className={styles.articleFooter}>
                 <div className={styles.authorCard}>
