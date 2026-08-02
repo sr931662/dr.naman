@@ -2,13 +2,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 /**
- * In development the Vite dev server proxies everything the backend owns, so
- * one origin (http://localhost:5173) serves the site, the CMS and the API —
- * matching how production behaves, where Express serves the built site itself.
+ * The frontend owns the public site AND the CMS (served from public/admin), so
+ * only genuinely backend-owned paths are proxied: the API, uploaded media, and
+ * the generated SEO files.
+ *
+ * Proxying rather than calling the backend directly keeps the CMS same-origin
+ * with the API, which is what makes its httpOnly login cookie a first-party
+ * cookie — the same reason production proxies /api through Vercel.
  */
 const BACKEND = process.env.VITE_BACKEND_URL || 'http://localhost:5000'
 
-const proxyPaths = ['/api', '/admin', '/uploads', '/sitemap.xml', '/robots.txt']
+const proxyPaths = ['/api', '/uploads', '/sitemap.xml', '/robots.txt']
 
 export default defineConfig({
   plugins: [react()],

@@ -2,13 +2,20 @@
 
 Two services, both from GitHub, no Docker anywhere:
 
-| What | Where | URL |
-| --- | --- | --- |
-| Public website | Vercel | `drnamanaggarwal.com` |
-| API + CMS | Google Cloud Run | `https://<service>.run.app` |
+| What | Where | Built from | URL |
+| --- | --- | --- | --- |
+| Website **+ CMS** | Vercel | `client/` | `drnamanaggarwal.com` and `/admin` |
+| API | Google Cloud Run | `server/` | `https://<service>.run.app` |
 
-Cloud Run also serves a copy of the website, which is handy for verifying a
-deploy before pointing anything at it.
+Everything a browser loads is the frontend: the public React site *and* the CMS
+(`client/public/admin`). The backend is a pure JSON API — it serves no HTML.
+
+`client/` and `server/` are independent npm packages with their own lockfiles,
+so each platform builds only the folder it needs.
+
+Vercel proxies `/api` through to Cloud Run. That keeps the CMS on the same
+origin as the API, which matters: the login refresh token is an httpOnly
+cookie, and same-origin makes it a first-party cookie that no browser blocks.
 
 ---
 
@@ -40,20 +47,20 @@ Choose **"Continuously deploy from a repository (source or function)"** →
 | --- | --- |
 | Branch | `^main$` |
 | Build Type | **Google Cloud buildpacks** (not Dockerfile) |
-| Build context directory | `/` |
+| Build context directory | `/server` |
 | Entrypoint | *leave blank* |
 | Function target | *leave blank* |
 
-The context must be `/`, not `/server` — the build needs `client/` too, because
-`npm run build` compiles the React site that Express serves.
-
-Buildpacks then run, from the repository root:
+Buildpacks then run, inside `server/` only:
 
 ```
-npm ci          → installs both workspaces
-npm run build   → builds client/dist
-npm start       → node server/src/index.js
+npm ci        → installs the backend's dependencies
+npm start     → node src/index.js
 ```
+
+The React app is never built here — Vercel does that. With no `client/dist`
+present the server logs a notice, serves the API and CMS as normal, and
+redirects `/` to `/admin`.
 
 ### Configure
 
@@ -122,51 +129,39 @@ Then check:
 | URL | Expect |
 | --- | --- |
 | `/api/health` | `db: "connected"` |
-| `/admin` | CMS login screen |
 | `/api/public/home` | JSON with 12 treatments |
-| `/` | The website |
-
-**The CMS is now live at `https://<your-service>.run.app/admin`.**
-Sign in, then change the password immediately under *My Account*.
+| `/` | A small JSON service descriptor |
+| `/admin` | **404 — correct.** The CMS is part of the frontend |
 
 ---
 
-## Step 4 — point the website at the API
+## Step 4 — connect the frontend to the API
 
-In **Vercel → Project → Settings → Environment Variables**:
-
-```
-VITE_API_URL = https://<your-service>.run.app/api
-```
-
-Redeploy — Vite bakes this in at build time, so a redeploy is required, not
-just a restart.
-
-Then back in **Cloud Run → Edit & Deploy New Revision → Variables**, add:
+Copy your Cloud Run URL into `client/vercel.json`, replacing both occurrences
+of the placeholder:
 
 ```
-PUBLIC_URL = https://<your-service>.run.app
+YOUR-CLOUD-RUN-URL.run.app   →   your-service-abc123.run.app
 ```
 
-That one is only knowable after the first deploy; it is used to build absolute
-URLs for uploaded media.
+Those two rewrites forward `/api` and `/uploads` to the backend. Commit and
+push; Vercel redeploys automatically.
 
----
+Then in **Cloud Run → Edit & Deploy New Revision → Variables**, add:
 
-## Optional — CMS on your own domain
-
-To reach the CMS at `drnamanaggarwal.com/admin` instead of the `run.app` URL,
-add these to `client/vercel.json` **above** the existing SPA rewrite, replacing
-the host with your real service URL:
-
-```json
-{ "source": "/admin",        "destination": "https://<service>.run.app/admin" },
-{ "source": "/admin/:path*", "destination": "https://<service>.run.app/admin/:path*" },
-{ "source": "/uploads/:path*","destination": "https://<service>.run.app/uploads/:path*" }
+```
+PUBLIC_URL = https://drnamanaggarwal.com
 ```
 
-Not required — the `run.app` URL works fine and is a reasonable place to
-bookmark an internal tool.
+Only knowable after the first deploy; it builds absolute URLs for uploaded
+media.
+
+**The CMS is then live at `https://drnamanaggarwal.com/admin`.** Sign in and
+change the password immediately under *My Account*.
+
+> You do **not** need `VITE_API_URL` on Vercel. The site and the CMS both call
+> a relative `/api`, which the proxy forwards — that is what keeps the login
+> cookie first-party.
 
 ---
 
@@ -191,5 +186,5 @@ to `store()` and `destroy()`.
 | Revision fails, logs say *"Insecure production config"* | JWT secrets not set in Step 1 |
 | `/api/health` shows `db: "disconnected"` | Atlas Network Access (Step 2) |
 | Every request returns 403 | Authentication was not set to *Allow public access* |
-| Build fails at `npm run build` | Push not done, or build context is `/server` instead of `/` |
+| Build fails at `npm ci` | Push not done, or build context is not `/server` |
 | Site loads, API calls fail with CORS | `CORS_ORIGINS` missing the Vercel domain |

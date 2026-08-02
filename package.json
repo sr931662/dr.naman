@@ -6,18 +6,16 @@
   "engines": {
     "node": ">=20"
   },
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
-    "build": "npm run build --workspace client",
-    "start": "node server/src/index.js",
-    "dev": "npm run dev --workspace server",
-    "dev:client": "npm run dev --workspace client",
-    "seed": "npm run seed --workspace server",
-    "seed:reset": "npm run seed:reset --workspace server",
-    "create:admin": "npm run create:admin --workspace server",
-    "test": "npm test --workspace server"
+    "//": "Convenience wrappers for local development. client/ and server/ are independent packages so each can be deployed on its own — Vercel builds client/, Cloud Run builds server/.",
+    "dev": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "seed": "npm --prefix server run seed",
+    "seed:reset": "npm --prefix server run seed:reset",
+    "create:admin": "npm --prefix server run create:admin",
+    "test": "npm --prefix server test",
+    "install:all": "npm --prefix client install && npm --prefix server install"
   }
 }

@@ -6,6 +6,17 @@
  * durable session. On boot, and whenever a call 401s, we silently refresh.
  */
 
+/**
+ * Where the API lives. Set by the inline script in index.html.
+ *
+ * Default "/api" keeps the CMS same-origin with the API, which is strongly
+ * preferred: the refresh token is an httpOnly cookie, and same-origin means it
+ * is a first-party cookie no browser will block. Pointing this at another
+ * origin also requires SameSite=None on the server and working third-party
+ * cookies in the visitor's browser.
+ */
+const API_BASE = (window.__CMS_API__ || '/api').replace(/\/$/, '')
+
 let accessToken = null
 let refreshing = null
 
@@ -39,7 +50,7 @@ async function raw(path, { method = 'GET', body, headers = {}, isForm = false } 
     }
   }
 
-  const res = await fetch(`/api${path}`, opts)
+  const res = await fetch(`${API_BASE}${path}`, opts)
 
   if (res.status === 204) return null
 

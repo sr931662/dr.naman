@@ -7,6 +7,15 @@
   <title>CMS — Dr. Naman Aggarwal</title>
   <link rel="stylesheet" href="/admin/css/admin.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🩺</text></svg>">
+  <script>
+    // Where the API lives.
+    //
+    // "/api" (the default) means same-origin — Vercel proxies /api to the
+    // backend, so the CMS login cookie is first-party and always works.
+    // Only change this to an absolute URL if you are not proxying, and then
+    // also set COOKIE_SAMESITE=none on the backend.
+    window.__CMS_API__ = '/api'
+  </script>
 </head>
 <body>
   <div id="app" class="booting">

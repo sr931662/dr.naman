@@ -1,5 +1,3 @@
-import path from 'node:path'
-import { existsSync } from 'node:fs'
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -7,7 +5,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
-import { env, ROOT_DIR } from './config/env.js'
+import { env } from './config/env.js'
 import { logger } from './config/logger.js'
 import routes from './routes/index.js'
 import seoRoutes from './routes/seo.routes.js'
@@ -73,52 +71,27 @@ export function createApp() {
     fallthrough: true,
   }))
 
-  // The CMS admin UI — a no-build single page app.
-  app.use('/admin', express.static(path.join(ROOT_DIR, 'public/admin')))
-  app.get('/admin/*', (_req, res) => res.sendFile(path.join(ROOT_DIR, 'public/admin/index.html')))
-
   app.use('/api', apiLimiter, routes)
 
   // Also mount the SEO router at the root, so crawlers find /sitemap.xml and
   // /robots.txt at their conventional paths without a redirect.
   app.use('/', seoRoutes)
 
-  // ── The public React site, on this same origin ───────────────────────────
-  //
-  // Serving `client/dist` from here means the site, the CMS and the API all
-  // share one domain: no CORS, no cross-site cookie rules, and one thing to
-  // deploy. Everything above this point has already claimed its paths, so the
-  // catch-all below only ever sees genuine front-end routes.
-  const clientDist = path.resolve(ROOT_DIR, '..', 'client', 'dist')
-  const hasClientBuild = existsSync(path.join(clientDist, 'index.html'))
-
-  if (hasClientBuild) {
-    // Hashed filenames, so assets can be cached hard; index.html must not be.
-    app.use(express.static(clientDist, {
-      index: false,
-      maxAge: '30d',
-      setHeaders: (res, filePath) => {
-        if (filePath.endsWith('index.html')) res.setHeader('Cache-Control', 'no-cache')
-      },
-    }))
-
-    app.get('*', (req, res, next) => {
-      // Reserved prefixes must 404 as JSON, not silently return the SPA shell —
-      // a mistyped API path returning HTML is a miserable thing to debug.
-      if (RESERVED.some(prefix => req.path.startsWith(prefix))) return next()
-      res.sendFile(path.join(clientDist, 'index.html'))
-    })
-  } else {
-    logger.warn(`No client build found at ${clientDist} — run "npm run build" in client/`)
-    logger.warn('Until then the public site is only served by the Vite dev server.')
-    app.get('/', (_req, res) => res.redirect('/admin'))
-  }
+  // This service is an API only — the public site and the CMS are both part of
+  // the frontend and are deployed separately. Root returns a short service
+  // descriptor so hitting the bare URL is informative rather than a 404.
+  app.get('/', (_req, res) => res.json({
+    service: 'Dr. Naman Aggarwal — API',
+    status: 'ok',
+    docs: {
+      health: '/api/health',
+      publicContent: '/api/public/home',
+      cms: '/api/cms/schema',
+    },
+  }))
 
   app.use(notFound)
   app.use(errorHandler)
 
   return app
 }
-
-/** Paths owned by the backend, which the SPA catch-all must never swallow. */
-const RESERVED = ['/api', '/admin', '/uploads', '/sitemap.xml', '/robots.txt', '/jsonld']

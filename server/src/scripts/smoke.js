@@ -303,39 +303,24 @@ async function main() {
     const loggedOut = await call('/api/auth/logout', { method: 'POST' })
     check('POST /api/auth/logout succeeds', loggedOut.status === 200)
 
-    section('Admin UI assets')
-    const adminPage = await fetch(`${BASE}/admin/`)
-    check('GET /admin/ serves the CMS shell', adminPage.status === 200)
-    const adminJs = await fetch(`${BASE}/admin/js/app.js`)
-    check('GET /admin/js/app.js serves the bundle entry', adminJs.status === 200)
-    const adminCss = await fetch(`${BASE}/admin/css/admin.css`)
-    check('GET /admin/css/admin.css serves the stylesheet', adminCss.status === 200)
+    section('API-only surface')
+    // The CMS and the website are both part of the frontend now, so this
+    // service must not be serving any HTML UI of its own.
+    const adminOnApi = await fetch(`${BASE}/admin`)
+    check('GET /admin is NOT served by the API', adminOnApi.status === 404, `got ${adminOnApi.status}`)
+    const rootDoc = await call('/', { auth: false })
+    check('GET / returns a service descriptor', rootDoc.body?.service?.includes('API'), JSON.stringify(rootDoc.body))
+    check('  · and points at the health endpoint', rootDoc.body?.docs?.health === '/api/health')
 
-    section('Single-origin hosting')
-    const { existsSync } = await import('node:fs')
-    const path = await import('node:path')
-    const { ROOT_DIR } = await import('../config/env.js')
-    const hasBuild = existsSync(path.resolve(ROOT_DIR, '..', 'client', 'dist', 'index.html'))
-
-    if (hasBuild) {
-      const root = await fetch(`${BASE}/`)
-      check('GET / serves the public React site', root.status === 200)
-      const deep = await fetch(`${BASE}/treatments/kidney-stones`)
-      check('  · SPA deep links fall back to index.html', deep.status === 200)
-      const deepHtml = await deep.text()
-      check('  · and return the app shell, not JSON', deepHtml.includes('<div id="root"'))
-    } else {
-      console.log('  · skipped (no client build — run `npm run build` in client/)')
-    }
-
-    // This must hold whether or not the site is built: reserved prefixes are
-    // never swallowed by the SPA catch-all.
+    section('Routing hygiene')
     const apiMiss = await call('/api/definitely-not-a-route', { auth: false })
-    check('unknown /api path 404s as JSON, not the SPA shell',
+    check('unknown /api path 404s as JSON',
       apiMiss.status === 404 && apiMiss.body?.success === false,
       `got ${apiMiss.status}`)
     const uploadMiss = await fetch(`${BASE}/uploads/nope.png`)
-    check('missing /uploads file 404s rather than serving the SPA', uploadMiss.status === 404, `got ${uploadMiss.status}`)
+    check('missing /uploads file 404s', uploadMiss.status === 404, `got ${uploadMiss.status}`)
+    const frontendRoute = await call('/treatments/kidney-stones', { auth: false })
+    check('front-end routes are not handled here', frontendRoute.status === 404, `got ${frontendRoute.status}`)
 
     section('Error handling')
     const missing = await call('/api/public/treatments/does-not-exist', { auth: false })

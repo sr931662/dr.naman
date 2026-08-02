@@ -5,7 +5,23 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/:path*",
+      "destination": "https://YOUR-CLOUD-RUN-URL.run.app/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://YOUR-CLOUD-RUN-URL.run.app/uploads/:path*"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/:path((?!.*\\.).*)",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/((?!api/|admin|uploads/).*)",
       "destination": "/index.html"
     }
   ],
@@ -17,9 +33,10 @@
       ]
     },
     {
-      "source": "/",
+      "source": "/admin/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
     },
     {
