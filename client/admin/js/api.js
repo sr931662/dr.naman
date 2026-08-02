@@ -7,15 +7,13 @@
  */
 
 /**
- * Where the API lives. Set by the inline script in index.html.
+ * Where the API lives — the same VITE_API_URL the public site uses.
  *
- * Default "/api" keeps the CMS same-origin with the API, which is strongly
- * preferred: the refresh token is an httpOnly cookie, and same-origin means it
- * is a first-party cookie no browser will block. Pointing this at another
- * origin also requires SameSite=None on the server and working third-party
- * cookies in the visitor's browser.
+ * This file is compiled by Vite (it lives in client/admin, not client/public),
+ * so the variable is inlined at build time. Falls back to a relative "/api",
+ * which is correct whenever the API is same-origin.
  */
-const API_BASE = (window.__CMS_API__ || '/api').replace(/\/$/, '')
+const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '')
 
 let accessToken = null
 let refreshing = null

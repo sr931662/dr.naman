@@ -1,5 +1,9 @@
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+
+const root = dirname(fileURLToPath(import.meta.url))
 
 /**
  * The frontend owns the public site AND the CMS (served from public/admin), so
@@ -32,6 +36,18 @@ export default defineConfig({
     target: 'es2015',
     cssMinify: true,
     rollupOptions: {
+      /**
+       * Two entry points: the public React site, and the CMS.
+       *
+       * The CMS lives here rather than in public/ specifically so Vite
+       * compiles it — that is what makes `import.meta.env.VITE_API_URL`
+       * resolve inside the CMS exactly as it does in the React app. Files in
+       * public/ are copied byte-for-byte and never see environment variables.
+       */
+      input: {
+        main: resolve(root, 'index.html'),
+        admin: resolve(root, 'admin/index.html'),
+      },
       output: {
         manualChunks: (id) => id.includes('node_modules') ? 'vendor' : undefined,
         assetFileNames: 'assets/[name]-[hash][extname]',
