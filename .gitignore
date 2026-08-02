@@ -3,3 +3,7 @@ temp/
 *.local
 .claude/worktrees/
 .claude/projects/
+node_modules/
+.env
+server/uploads/
+server/uploads-smoke/

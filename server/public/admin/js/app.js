@@ -1,0 +1,263 @@
+import { api, setToken } from './api.js'
+import { el, clear, toast, initials } from './ui.js'
+import { renderLogin } from './views/login.js'
+import { renderDashboard } from './views/dashboard.js'
+import { renderCollection } from './views/collection.js'
+import { renderEditor } from './views/editor.js'
+import { renderMedia } from './views/media.js'
+import { renderAppointments } from './views/appointments.js'
+import { renderSubscribers } from './views/subscribers.js'
+import { renderAnalytics } from './views/analytics.js'
+import { renderActivity } from './views/activity.js'
+import { renderUsers } from './views/users.js'
+import { renderAccount } from './views/account.js'
+
+/** Shared application state, readable from any view. */
+export const state = {
+  user: null,
+  permissions: [],
+  schema: null,       // { groups: [{ name, types: [...] }], types: [...] }
+  counts: {},
+}
+
+export const can = permission =>
+  state.permissions.includes('*') || state.permissions.includes(permission)
+
+export const typeByName = name => state.schema?.types.find(t => t.name === name)
+
+// ─── Routing ─────────────────────────────────────────────────────────────────
+
+const ROUTES = [
+  [/^\/?$/, () => renderDashboard()],
+  [/^\/c\/([\w-]+)\/new$/, type => renderEditor(type, null)],
+  [/^\/c\/([\w-]+)\/([\w-]+)$/, (type, id) => renderEditor(type, id)],
+  [/^\/c\/([\w-]+)$/, type => {
+    const def = typeByName(type)
+    if (!def) return notFoundView(type)
+    return def.kind === 'single' ? renderEditor(type, 'single') : renderCollection(type)
+  }],
+  [/^\/media$/, () => renderMedia()],
+  [/^\/appointments$/, () => renderAppointments()],
+  [/^\/subscribers$/, () => renderSubscribers()],
+  [/^\/analytics$/, () => renderAnalytics()],
+  [/^\/activity$/, () => renderActivity()],
+  [/^\/users$/, () => renderUsers()],
+  [/^\/account$/, () => renderAccount()],
+]
+
+export function navigate(path) {
+  window.location.hash = `#${path}`
+}
+
+export function currentPath() {
+  return window.location.hash.replace(/^#/, '') || '/'
+}
+
+async function route() {
+  const path = currentPath()
+  const outlet = document.getElementById('view-outlet')
+  if (!outlet) return
+
+  for (const [pattern, handler] of ROUTES) {
+    const match = pattern.exec(path)
+    if (!match) continue
+
+    clear(outlet)
+    outlet.append(el('div', { style: { padding: '40px', textAlign: 'center' } },
+      el('span', { class: 'spinner' })))
+
+    try {
+      const view = await handler(...match.slice(1))
+      clear(outlet)
+      outlet.append(view)
+      renderNav()
+      window.scrollTo(0, 0)
+    } catch (err) {
+      clear(outlet)
+      outlet.append(errorView(err))
+    }
+    return
+  }
+
+  clear(outlet)
+  outlet.append(notFoundView(path))
+}
+
+function errorView(err) {
+  console.error(err)
+  return el('div', { class: 'empty' },
+    el('div', { class: 'big' }, '⚠️'),
+    el('h3', {}, 'Could not load this page'),
+    el('p', {}, err.message || 'Unknown error'),
+    el('button', { class: 'btn', onclick: () => route() }, 'Try again'),
+  )
+}
+
+function notFoundView(what) {
+  return el('div', { class: 'empty' },
+    el('div', { class: 'big' }, '🔍'),
+    el('h3', {}, 'Nothing here'),
+    el('p', {}, `No such page: ${what}`),
+    el('a', { class: 'btn', href: '#/' }, 'Back to dashboard'),
+  )
+}
+
+// ─── Shell ───────────────────────────────────────────────────────────────────
+
+const SYSTEM_NAV = [
+  { group: 'Enquiries', items: [
+    { path: '/appointments', icon: '📥', label: 'Consultation Requests', permission: 'appointments.read' },
+    { path: '/subscribers', icon: '📧', label: 'Subscribers', permission: 'appointments.read' },
+  ] },
+  { group: 'Library', items: [
+    { path: '/media', icon: '🖼', label: 'Media', permission: 'media.read' },
+  ] },
+  { group: 'Insight', items: [
+    { path: '/analytics', icon: '📈', label: 'Analytics', permission: 'analytics.read' },
+    { path: '/activity', icon: '🕘', label: 'Activity Log', permission: 'audit.read' },
+  ] },
+  { group: 'Administration', items: [
+    { path: '/users', icon: '👥', label: 'Team', permission: '*' },
+    { path: '/account', icon: '⚙️', label: 'My Account' },
+  ] },
+]
+
+function renderNav() {
+  const nav = document.getElementById('nav')
+  if (!nav) return
+  clear(nav)
+
+  const path = currentPath()
+  const isActive = href => path === href || path.startsWith(`${href}/`)
+
+  const link = ({ path: href, icon, label, count }) => el('a', {
+    href: `#${href}`,
+    class: isActive(href) ? 'active' : '',
+  },
+    el('span', { class: 'ico' }, icon),
+    el('span', {}, label),
+    count !== undefined && count !== null && el('span', { class: 'count' }, count),
+  )
+
+  nav.append(el('div', { class: 'nav-group' }, link({ path: '/', icon: '🏠', label: 'Dashboard' })))
+
+  for (const group of state.schema?.groups || []) {
+    const visible = group.types.filter(() => can('content.read'))
+    if (!visible.length) continue
+    nav.append(el('div', { class: 'nav-group' },
+      el('h4', {}, group.name),
+      visible.map(type => link({
+        path: `/c/${type.name}`,
+        icon: type.icon,
+        label: type.label,
+        count: type.kind === 'single' ? undefined : state.counts[type.name]?.total,
+      })),
+    ))
+  }
+
+  for (const section of SYSTEM_NAV) {
+    const visible = section.items.filter(i => !i.permission || (i.permission === '*' ? state.user?.role === 'admin' : can(i.permission)))
+    if (!visible.length) continue
+    nav.append(el('div', { class: 'nav-group' },
+      el('h4', {}, section.group),
+      visible.map(link),
+    ))
+  }
+}
+
+function renderShell() {
+  const app = document.getElementById('app')
+  app.className = ''
+  clear(app)
+
+  app.append(el('div', { class: 'shell' },
+    el('aside', { class: 'sidebar' },
+      el('div', { class: 'sidebar-head' },
+        el('div', { class: 'sidebar-mark' }, 'N'),
+        el('div', {},
+          el('strong', {}, 'Dr. Naman Aggarwal'),
+          el('span', {}, 'Content Management'),
+        ),
+      ),
+      el('nav', { class: 'nav', id: 'nav' }),
+      el('div', { class: 'sidebar-foot' },
+        el('div', { class: 'avatar' }, initials(state.user?.name)),
+        el('div', { class: 'who' },
+          el('b', {}, state.user?.name || ''),
+          el('span', {}, state.user?.role || ''),
+        ),
+        el('button', {
+          class: 'btn btn-sm',
+          title: 'Sign out',
+          onclick: async () => {
+            await api.logout()
+            setToken(null)
+            state.user = null
+            boot()
+          },
+        }, '⏻'),
+      ),
+    ),
+    el('main', { class: 'main' },
+      el('div', { id: 'view-outlet' }),
+    ),
+  ))
+
+  renderNav()
+}
+
+/** Views use this to render their own sticky header. */
+export function pageHeader({ title, description, actions = [] }) {
+  return el('div', { class: 'topbar' },
+    el('div', {},
+      el('h1', {}, title),
+      description && el('p', { class: 'desc' }, description),
+    ),
+    el('div', { class: 'spacer' }),
+    ...actions.filter(Boolean),
+  )
+}
+
+export function page(header, ...body) {
+  return el('div', {}, header, el('div', { class: 'content' }, ...body))
+}
+
+export async function refreshCounts() {
+  try {
+    const res = await api.get('/cms/dashboard')
+    state.counts = res.data.counts || {}
+    renderNav()
+    return res.data
+  } catch {
+    return null
+  }
+}
+
+// ─── Boot ────────────────────────────────────────────────────────────────────
+
+async function boot() {
+  try {
+    // A valid refresh cookie means we can restore the session without a login.
+    await api.refresh()
+    const me = await api.get('/auth/me')
+    state.user = me.data.user
+    state.permissions = me.data.permissions
+
+    const schema = await api.get('/cms/schema')
+    state.schema = schema.data
+
+    renderShell()
+    await refreshCounts()
+    await route()
+  } catch {
+    renderLogin(async () => { await boot() })
+  }
+}
+
+window.addEventListener('hashchange', route)
+window.addEventListener('unhandledrejection', e => {
+  if (e.reason?.status === 401) return
+  toast(e.reason?.message || 'Something went wrong', 'error')
+})
+
+boot()
