@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear, toast, modal, confirmDialog, formatDate, relativeTime, debounce, excerpt } from '../ui.js'
+import { el, clear, toast, modal, confirmDialog, formatDate, relativeTime, debounce, excerpt, dataTable } from '../ui.js'
 import { page, pageHeader, can } from '../app.js'
 
 const STATUS_LABELS = {
@@ -44,7 +44,7 @@ export async function renderAppointments() {
       return
     }
 
-    tableWrap.append(el('table', {},
+    tableWrap.append(dataTable(el('table', {},
       el('thead', {}, el('tr', {},
         el('th', {}, 'Patient'),
         el('th', {}, 'Contact'),
@@ -68,7 +68,7 @@ export async function renderAppointments() {
         el('td', {}, el('span', { class: `pill pill-${item.status}` }, STATUS_LABELS[item.status] || item.status)),
         el('td', { class: 'hint' }, relativeTime(item.createdAt)),
       ))),
-    ))
+    )))
 
     if (res.meta.pages > 1) {
       pager.append(
@@ -149,7 +149,7 @@ function details(item, onChange) {
       ),
 
       can('appointments.write') && el('div', {},
-        el('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' } },
+        el('div', { class: 'grid-2' },
           el('div', { class: 'field' }, el('label', {}, 'Status'), statusSelect),
           el('div', { class: 'field' }, el('label', {}, 'Scheduled for'), scheduled),
         ),

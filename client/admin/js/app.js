@@ -71,6 +71,7 @@ async function route() {
       clear(outlet)
       outlet.append(view)
       renderNav()
+      setSidebar(false)
       window.scrollTo(0, 0)
     } catch (err) {
       clear(outlet)
@@ -165,12 +166,32 @@ function renderNav() {
   }
 }
 
+/**
+ * Opens or closes the mobile navigation drawer. Above the breakpoint the
+ * sidebar is always visible and the class is simply inert.
+ */
+export function setSidebar(open) {
+  const shell = document.querySelector('.shell')
+  if (!shell) return
+  shell.classList.toggle('nav-open', open)
+  document.body.classList.toggle('nav-locked', open)
+  for (const toggle of document.querySelectorAll('.nav-toggle')) {
+    toggle.setAttribute('aria-expanded', String(open))
+  }
+}
+
 function renderShell() {
   const app = document.getElementById('app')
   app.className = ''
   clear(app)
 
+  const nav = el('nav', { class: 'nav', id: 'nav' })
+  // Re-selecting the page you are already on leaves the hash alone, so close
+  // the drawer here rather than relying on the router.
+  nav.addEventListener('click', e => { if (e.target.closest('a')) setSidebar(false) })
+
   app.append(el('div', { class: 'shell' },
+    el('div', { class: 'nav-scrim', onclick: () => setSidebar(false) }),
     el('aside', { class: 'sidebar' },
       el('div', { class: 'sidebar-head' },
         el('div', { class: 'sidebar-mark' }, 'N'),
@@ -178,8 +199,13 @@ function renderShell() {
           el('strong', {}, 'Dr. Naman Aggarwal'),
           el('span', {}, 'Content Management'),
         ),
+        el('button', {
+          class: 'btn btn-sm nav-close',
+          'aria-label': 'Close navigation',
+          onclick: () => setSidebar(false),
+        }, '✕'),
       ),
-      el('nav', { class: 'nav', id: 'nav' }),
+      nav,
       el('div', { class: 'sidebar-foot' },
         el('div', { class: 'avatar' }, initials(state.user?.name)),
         el('div', { class: 'who' },
@@ -208,13 +234,22 @@ function renderShell() {
 
 /** Views use this to render their own sticky header. */
 export function pageHeader({ title, description, actions = [] }) {
+  const visible = actions.filter(Boolean)
+
   return el('div', { class: 'topbar' },
-    el('div', {},
+    el('button', {
+      class: 'btn btn-icon nav-toggle',
+      title: 'Menu',
+      'aria-label': 'Open navigation',
+      'aria-expanded': 'false',
+      onclick: () => setSidebar(true),
+    }, '☰'),
+    el('div', { class: 'topbar-title' },
       el('h1', {}, title),
       description && el('p', { class: 'desc' }, description),
     ),
     el('div', { class: 'spacer' }),
-    ...actions.filter(Boolean),
+    visible.length ? el('div', { class: 'topbar-actions' }, ...visible) : null,
   )
 }
 
@@ -255,6 +290,10 @@ async function boot() {
 }
 
 window.addEventListener('hashchange', route)
+window.addEventListener('keydown', e => {
+  // Only the drawer answers to Escape here; dialogs bind their own handler.
+  if (e.key === 'Escape' && !document.querySelector('.modal-backdrop')) setSidebar(false)
+})
 window.addEventListener('unhandledrejection', e => {
   if (e.reason?.status === 401) return
   toast(e.reason?.message || 'Something went wrong', 'error')

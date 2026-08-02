@@ -177,7 +177,7 @@ function mediaBrowser({ selectable, onSelect }) {
 
     const dialog = modal({
       title: item.originalName,
-      body: el('div', { style: { display: 'grid', gridTemplateColumns: '200px 1fr', gap: '20px' } },
+      body: el('div', { class: 'media-detail' },
         el('div', {},
           item.mimeType?.startsWith('image/')
             ? el('img', { src: item.url, style: { width: '100%', borderRadius: '6px', border: '1px solid var(--line)' } })

@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear, toast, confirmDialog, statusPill, formatDate, excerpt, debounce } from '../ui.js'
+import { el, clear, toast, confirmDialog, statusPill, formatDate, excerpt, debounce, dataTable } from '../ui.js'
 import { page, pageHeader, typeByName, can, refreshCounts } from '../app.js'
 
 /** The list view for any collection content type. */
@@ -54,7 +54,7 @@ export async function renderCollection(typeName) {
 
     const tbody = el('tbody')
 
-    tableWrap.append(el('table', {},
+    tableWrap.append(dataTable(el('table', {},
       el('thead', {}, el('tr', {},
         type.orderable && el('th', { style: { width: '30px' } }, ''),
         columns.map(c => el('th', {}, labelFor(type, c))),
@@ -62,7 +62,7 @@ export async function renderCollection(typeName) {
         el('th', { style: { width: '150px' } }, ''),
       )),
       tbody,
-    ))
+    )))
 
     items.forEach((item, index) => {
       const row = el('tr', {

@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear, toast, confirmDialog, formatDate } from '../ui.js'
+import { el, clear, toast, confirmDialog, formatDate, dataTable } from '../ui.js'
 import { page, pageHeader, can } from '../app.js'
 
 export async function renderSubscribers() {
@@ -24,7 +24,7 @@ export async function renderSubscribers() {
       return
     }
 
-    tableWrap.append(el('table', {},
+    tableWrap.append(dataTable(el('table', {},
       el('thead', {}, el('tr', {},
         el('th', {}, 'Email'),
         el('th', {}, 'Name'),
@@ -54,7 +54,7 @@ export async function renderSubscribers() {
           }, '🗑'),
         ),
       ))),
-    ))
+    )))
 
     if (res.meta.pages > 1) {
       pager.append(

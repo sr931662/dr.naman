@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, relativeTime } from '../ui.js'
+import { el, relativeTime, dataTable } from '../ui.js'
 import { page, pageHeader, state, refreshCounts, can } from '../app.js'
 
 export async function renderDashboard() {
@@ -31,13 +31,13 @@ export async function renderDashboard() {
       stat('Content types', state.schema?.types.length || 0, 'managed here'),
     ),
 
-    el('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0,1.3fr) minmax(0,1fr)', gap: '20px', alignItems: 'start' } },
+    el('div', { class: 'split-grid' },
 
       // Recent consultation requests
       el('div', { class: 'card' },
         cardHead('Latest consultation requests', appointments && el('a', { class: 'btn btn-sm', href: '#/appointments' }, 'View all')),
         appointments?.data?.length
-          ? el('table', {},
+          ? dataTable(el('table', {},
               el('tbody', {}, appointments.data.map(a => el('tr', {
                 style: { cursor: 'pointer' },
                 onclick: () => { window.location.hash = '#/appointments' },
@@ -47,9 +47,9 @@ export async function renderDashboard() {
                   el('div', { class: 'hint' }, a.phone),
                 ),
                 el('td', {}, el('span', { class: `pill pill-${a.status}` }, a.status)),
-                el('td', { style: { textAlign: 'right' }, class: 'hint' }, relativeTime(a.createdAt)),
+                el('td', { class: 'hint align-end' }, relativeTime(a.createdAt)),
               ))),
-            )
+            ))
           : el('div', { class: 'empty', style: { padding: '34px' } },
               el('div', { class: 'big' }, '📭'),
               el('p', {}, can('appointments.read') ? 'No requests yet.' : 'You do not have access to enquiries.'),
@@ -72,7 +72,7 @@ export async function renderDashboard() {
     // Per-type content overview
     el('h3', { style: { margin: '30px 0 12px', fontSize: '15px' } }, 'Content overview'),
     el('div', { class: 'card' },
-      el('table', {},
+      dataTable(el('table', {},
         el('thead', {}, el('tr', {},
           el('th', {}, 'Type'),
           el('th', {}, 'Published'),
@@ -90,7 +90,7 @@ export async function renderDashboard() {
             el('td', { class: 'actions' }, el('a', { class: 'btn btn-sm', href: `#/c/${type.name}` }, 'Manage')),
           )
         })),
-      ),
+      )),
     ),
   )
 }

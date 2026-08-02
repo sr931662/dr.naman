@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear, formatDate, modal } from '../ui.js'
+import { el, clear, formatDate, modal, dataTable } from '../ui.js'
 import { page, pageHeader } from '../app.js'
 
 export async function renderActivity() {
@@ -23,7 +23,7 @@ export async function renderActivity() {
       return
     }
 
-    tableWrap.append(el('table', {},
+    tableWrap.append(dataTable(el('table', {},
       el('thead', {}, el('tr', {},
         el('th', {}, 'When'),
         el('th', {}, 'Who'),
@@ -46,7 +46,7 @@ export async function renderActivity() {
           }, 'View changes'),
         ),
       ))),
-    ))
+    )))
 
     if (res.meta.pages > 1) {
       pager.append(
@@ -82,14 +82,14 @@ export async function renderActivity() {
 function showChanges(entry) {
   modal({
     title: `Changes — ${entry.label || entry.resource}`,
-    body: el('table', {},
+    body: dataTable(el('table', {},
       el('thead', {}, el('tr', {}, el('th', {}, 'Field'), el('th', {}, 'Before'), el('th', {}, 'After'))),
       el('tbody', {}, Object.entries(entry.changes).map(([field, change]) => el('tr', {},
         el('td', { class: 'row-title' }, field),
         el('td', { class: 'mono', style: { maxWidth: '260px', wordBreak: 'break-word' } }, format(change.from)),
         el('td', { class: 'mono', style: { maxWidth: '260px', wordBreak: 'break-word' } }, format(change.to)),
       ))),
-    ),
+    )),
   })
 }
 

@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear } from '../ui.js'
+import { el, clear, dataTable } from '../ui.js'
 import { page, pageHeader } from '../app.js'
 
 export async function renderAnalytics() {
@@ -34,19 +34,19 @@ export async function renderAnalytics() {
           : el('p', { class: 'hint' }, 'No traffic recorded yet. Traffic appears once the site posts to /api/analytics/track.'),
       ),
 
-      el('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0,2fr) minmax(0,1fr)', gap: '20px', alignItems: 'start' } },
+      el('div', { class: 'split-grid wide' },
         el('div', { class: 'card' },
           el('div', { style: { padding: '14px 18px', borderBottom: '1px solid var(--line)' } },
             el('b', { style: { fontSize: '13.5px' } }, 'Most-visited pages')),
           data.topPages.length
-            ? el('table', {},
+            ? dataTable(el('table', {},
                 el('thead', {}, el('tr', {}, el('th', {}, 'Path'), el('th', {}, 'Views'), el('th', {}, 'Visitors'))),
                 el('tbody', {}, data.topPages.map(p => el('tr', {},
                   el('td', { class: 'mono' }, p.path),
                   el('td', {}, String(p.views)),
                   el('td', {}, String(p.visitors)),
                 ))),
-              )
+              ))
             : el('div', { class: 'empty', style: { padding: '30px' } }, el('p', {}, 'No page views yet.')),
         ),
         el('div', { class: 'card card-pad' },

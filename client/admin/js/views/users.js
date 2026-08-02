@@ -1,5 +1,5 @@
 import { api } from '../api.js'
-import { el, clear, toast, modal, confirmDialog, formatDate, relativeTime, initials } from '../ui.js'
+import { el, clear, toast, modal, confirmDialog, formatDate, relativeTime, initials, dataTable } from '../ui.js'
 import { page, pageHeader, state } from '../app.js'
 
 const ROLE_HELP = {
@@ -19,7 +19,7 @@ export async function renderUsers() {
     const res = await api.get('/auth/users')
     clear(tableWrap)
 
-    tableWrap.append(el('table', {},
+    tableWrap.append(dataTable(el('table', {},
       el('thead', {}, el('tr', {},
         el('th', {}, 'Name'),
         el('th', {}, 'Role'),
@@ -63,7 +63,7 @@ export async function renderUsers() {
           }, '🗑'),
         ),
       ))),
-    ))
+    )))
   }
 
   await load()

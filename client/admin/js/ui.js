@@ -38,6 +38,28 @@ export function clear(node) {
   return node
 }
 
+/**
+ * Wraps a table so it scrolls sideways on tablets and collapses into stacked
+ * cards on phones. Each cell is labelled from its column header; list views
+ * fill their tbody after the table exists, so new rows are labelled as they
+ * arrive rather than only once up front.
+ */
+export function dataTable(table) {
+  const relabel = () => {
+    const heads = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim())
+    for (const row of table.querySelectorAll('tbody tr')) {
+      Array.from(row.children).forEach((cell, i) => {
+        if (heads[i]) cell.setAttribute('data-label', heads[i])
+        else cell.removeAttribute('data-label')
+      })
+    }
+  }
+
+  relabel()
+  new MutationObserver(relabel).observe(table, { childList: true, subtree: true })
+  return el('div', { class: 'table-wrap' }, table)
+}
+
 export function toast(message, kind = '') {
   const host = document.getElementById('toasts')
   const node = el('div', { class: `toast ${kind}` }, message)

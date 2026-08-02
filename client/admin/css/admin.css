@@ -110,6 +110,10 @@ a:hover { text-decoration: underline; }
 .sidebar-foot .who b { display: block; font-size: 12.5px; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sidebar-foot .who span { font-size: 11px; color: #8b8397; text-transform: capitalize; }
 
+/* Drawer scrim — only ever visible at the mobile breakpoint. */
+.nav-scrim { display: none; }
+.nav-toggle, .nav-close { display: none; }
+
 .main { min-width: 0; display: flex; flex-direction: column; }
 
 .topbar {
@@ -118,9 +122,11 @@ a:hover { text-decoration: underline; }
   border-bottom: 1px solid var(--line);
   padding: 14px 26px; display: flex; align-items: center; gap: 14px;
 }
-.topbar h1 { font-size: 19px; margin: 0; letter-spacing: -.015em; }
+.topbar h1 { font-size: 19px; margin: 0; letter-spacing: -.015em; overflow-wrap: anywhere; }
 .topbar .desc { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
 .topbar .spacer { flex: 1; }
+.topbar-title { min-width: 0; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
 .content { padding: 24px 26px 60px; }
 
@@ -151,6 +157,19 @@ a:hover { text-decoration: underline; }
 .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .toolbar .grow { flex: 1; min-width: 180px; }
 
+/* Two-column layouts. Declared here rather than inline so the breakpoints
+   below can collapse them — an inline style would always win. */
+.split-grid {
+  display: grid; gap: 20px; align-items: start;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+}
+.split-grid.wide { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.grid-2 { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.media-detail { display: grid; gap: 20px; grid-template-columns: 200px minmax(0, 1fr); }
+
+/* Tables scroll sideways before they collapse into stacked cards. */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
 table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 thead th {
   text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600;
@@ -162,6 +181,7 @@ tbody td { padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertic
 tbody tr:last-child td { border-bottom: 0; }
 tbody tr:hover { background: #fdfcfc; }
 td.actions { text-align: right; white-space: nowrap; }
+td.align-end { text-align: right; }
 td .row-title { font-weight: 500; }
 .drag-handle { cursor: grab; color: var(--muted); user-select: none; padding: 0 4px; }
 tr.dragging { opacity: .4; }
@@ -334,12 +354,126 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
 .modal-body { padding: 20px 22px; }
 .modal-foot { padding: 14px 22px; border-top: 1px solid var(--line); display: flex; gap: 9px; justify-content: flex-end; }
 
-@media (max-width: 1000px) {
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 1080px) {
   .editor-grid { grid-template-columns: 1fr; }
   .editor-side { position: static; }
+  .content, .topbar { padding-left: 20px; padding-right: 20px; }
 }
-@media (max-width: 780px) {
-  .shell { grid-template-columns: 1fr; }
-  .sidebar { position: static; height: auto; }
+
+@media (max-width: 900px) {
+  .split-grid, .split-grid.wide { grid-template-columns: minmax(0, 1fr); }
+
+  /* The sidebar becomes an off-canvas drawer. */
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 60;
+    width: min(280px, 84vw); height: 100%;
+    transform: translateX(-100%); transition: transform .22s ease;
+  }
+  .shell.nav-open .sidebar { transform: none; box-shadow: 0 0 44px rgba(0, 0, 0, .38); }
+
+  .nav-scrim {
+    display: block; position: fixed; inset: 0; z-index: 50;
+    background: rgba(22, 20, 26, .45);
+    opacity: 0; pointer-events: none; transition: opacity .22s ease;
+  }
+  .shell.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
+
+  .nav-toggle, .nav-close { display: inline-flex; }
+  .nav-close { margin-left: auto; background: transparent; border-color: rgba(255,255,255,.16); color: #cfc9d6; }
+  .nav-close:hover { background: var(--sidebar-soft); }
+
+  body.nav-locked { overflow: hidden; }
+}
+
+@media (max-width: 760px) {
   .content, .topbar { padding-left: 16px; padding-right: 16px; }
+  .content { padding-top: 18px; padding-bottom: 48px; }
+  .media-detail { grid-template-columns: minmax(0, 1fr); }
+  .media-detail img { max-width: 220px; }
+
+  /* Rows become stacked cards, each cell labelled from its column header. */
+  .table-wrap { overflow-x: visible; }
+  .table-wrap thead { display: none; }
+  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; width: auto; }
+  .table-wrap tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .table-wrap tbody tr:last-child { border-bottom: 0; }
+  .table-wrap td { padding: 3px 0; border: 0; }
+  .table-wrap td[data-label] { display: flex; gap: 12px; align-items: baseline; }
+  .table-wrap td[data-label]::before {
+    content: attr(data-label); flex: 0 0 34%; min-width: 0;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--muted);
+  }
+  .table-wrap td.actions {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    text-align: left; margin-top: 8px;
+  }
+  .table-wrap td.actions::before { content: none; }
+  .table-wrap td.drag-handle { display: none; }
+  .table-wrap td.align-end { text-align: left; }
+  .table-wrap td:empty { display: none; }
+
+  .tabs { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { white-space: nowrap; }
+
+  .toasts { left: 12px; right: 12px; bottom: 12px; }
+  .toast { max-width: none; }
+
+  .modal-backdrop { padding: 12px; }
+  .modal { max-height: 92dvh; border-radius: 12px; }
+  .modal-head, .modal-foot { padding-left: 16px; padding-right: 16px; }
+  .modal-body { padding: 16px; }
+  .modal-foot { flex-wrap: wrap; }
+
+  .field-group { padding: 12px; }
+  .media-grid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+  .dropzone { padding: 22px 14px; }
+  .login-card { padding: 28px 22px; }
+
+  /* Anything under 16px triggers an auto-zoom on iOS when focused. */
+  input[type=text], input[type=email], input[type=password], input[type=url],
+  input[type=tel], input[type=number], input[type=date], input[type=search],
+  select, textarea { font-size: 16px; }
+}
+
+@media (max-width: 640px) {
+  .grid-2 { grid-template-columns: minmax(0, 1fr); }
+
+  .topbar { flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px; gap: 10px; }
+  .topbar h1 { font-size: 17px; }
+  .topbar .spacer { display: none; }
+  .topbar-title { flex: 1 1 auto; }
+  .topbar-actions { flex: 1 0 100%; }
+  .topbar-actions > * { flex: 1 1 auto; justify-content: center; }
+
+  .pager { flex-wrap: wrap; }
+  .stat-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .bars { height: 84px; }
+}
+
+@media (max-width: 460px) {
+  .img-field { flex-direction: column; }
+  .img-preview { width: 100%; height: 128px; }
+  .array-simple { flex-wrap: wrap; }
+  .array-simple > :first-child { flex: 1 0 100%; }
+  .table-wrap td[data-label] { flex-direction: column; align-items: stretch; gap: 2px; }
+  .table-wrap td[data-label]::before { flex: none; }
+}
+
+/* Comfortable hit targets once there is no mouse. */
+@media (pointer: coarse) {
+  .btn { padding: 10px 15px; }
+  .btn-sm { padding: 7px 11px; }
+  .btn-icon { padding: 7px 10px; }
+  .nav a { padding: 10px 9px; }
+  .media-tile .cap { padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar, .nav-scrim, .btn { transition: none; }
+  .toast { animation: none; }
 }

@@ -13,7 +13,7 @@ export async function renderAccount() {
   return page(
     pageHeader({ title: 'My Account' }),
 
-    el('div', { style: { display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '20px', alignItems: 'start', maxWidth: '900px' } },
+    el('div', { class: 'grid-2', style: { maxWidth: '900px' } },
 
       el('div', { class: 'card card-pad' },
         el('div', { class: 'group-title' }, 'Profile'),
