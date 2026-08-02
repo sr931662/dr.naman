@@ -18,6 +18,29 @@ const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '')
 let accessToken = null
 let refreshing = null
 
+/**
+ * The refresh token is normally an httpOnly cookie. When the CMS and the API
+ * are on different origins that cookie is third-party — Safari blocks it
+ * outright and mobile browsers usually do too, which logs the user out on
+ * every reload.
+ *
+ * So we also keep the server's copy here. The cookie is still sent when it
+ * works; this is the fallback that makes sign-in reliable everywhere.
+ */
+const REFRESH_KEY = 'drn_cms_refresh'
+
+const readRefresh = () => {
+  try { return localStorage.getItem(REFRESH_KEY) } catch { return null }
+}
+const writeRefresh = token => {
+  try {
+    if (token) localStorage.setItem(REFRESH_KEY, token)
+    else localStorage.removeItem(REFRESH_KEY)
+  } catch {
+    // Private browsing can deny storage; the cookie path still applies.
+  }
+}
+
 export const setToken = t => { accessToken = t }
 export const getToken = () => accessToken
 
@@ -67,8 +90,25 @@ async function raw(path, { method = 'GET', body, headers = {}, isForm = false } 
 /** Refreshes at most once even when several calls 401 simultaneously. */
 async function refreshOnce() {
   if (!refreshing) {
-    refreshing = raw('/auth/refresh', { method: 'POST' })
-      .then(r => { accessToken = r.data.accessToken; return r.data })
+    // Send the stored token explicitly; the server falls back to the cookie
+    // when this is absent, so both deployment shapes work.
+    const stored = readRefresh()
+    refreshing = raw('/auth/refresh', {
+      method: 'POST',
+      body: stored ? { refreshToken: stored } : {},
+    })
+      .then(r => {
+        accessToken = r.data.accessToken
+        // Rotation means the old token is now dead — always store the new one.
+        if (r.data.refreshToken) writeRefresh(r.data.refreshToken)
+        return r.data
+      })
+      .catch(err => {
+        // A dead session must not leave a stale token behind, or every future
+        // refresh would look like token reuse.
+        if (err.status === 401) writeRefresh(null)
+        throw err
+      })
       .finally(() => { refreshing = null })
   }
   return refreshing
@@ -96,9 +136,21 @@ export const api = {
   upload: (p, formData) => request(p, { method: 'POST', body: formData, isForm: true }),
 
   // Auth
-  login: (email, password) => raw('/auth/login', { method: 'POST', body: { email, password } }),
+  login: async (email, password) => {
+    const res = await raw('/auth/login', { method: 'POST', body: { email, password } })
+    if (res.data?.refreshToken) writeRefresh(res.data.refreshToken)
+    return res
+  },
   refresh: refreshOnce,
-  logout: () => raw('/auth/logout', { method: 'POST' }).catch(() => {}),
+  logout: async () => {
+    const stored = readRefresh()
+    writeRefresh(null)
+    accessToken = null
+    await raw('/auth/logout', {
+      method: 'POST',
+      body: stored ? { refreshToken: stored } : {},
+    }).catch(() => {})
+  },
 }
 
 function qs(params) {

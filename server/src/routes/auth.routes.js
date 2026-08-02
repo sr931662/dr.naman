@@ -21,14 +21,33 @@ router.post('/login', authLimiter, asyncHandler(async (req, res) => {
   auth.setRefreshCookie(res, result.refreshToken)
   audit(req, { action: 'login', resource: 'auth', resourceId: result.user.id, label: result.user.email })
 
-  return ok(res, { user: result.user, accessToken: result.accessToken })
+  // The refresh token is also returned in the body, not only as a cookie.
+  //
+  // The CMS and this API are on different origins, which makes the cookie a
+  // third-party cookie — blocked outright by Safari and by most mobile
+  // browsers. Without this the user can sign in but is thrown back to the
+  // login screen on every reload. The client stores this value and sends it
+  // explicitly; the cookie is still set and preferred when same-origin.
+  return ok(res, {
+    user: result.user,
+    accessToken: result.accessToken,
+    refreshToken: result.refreshToken,
+  })
 }))
 
 router.post('/refresh', asyncHandler(async (req, res) => {
   const token = req.cookies?.[env.cookie.name] || req.body?.refreshToken
   const result = await auth.rotate(token, meta(req))
   auth.setRefreshCookie(res, result.refreshToken)
-  return ok(res, { user: result.user, accessToken: result.accessToken })
+
+  // Rotation issues a new token every time, so the client must be told what it
+  // is — otherwise its stored copy is stale and the next refresh looks like
+  // token reuse, which deliberately revokes every session.
+  return ok(res, {
+    user: result.user,
+    accessToken: result.accessToken,
+    refreshToken: result.refreshToken,
+  })
 }))
 
 router.post('/logout', asyncHandler(async (req, res) => {

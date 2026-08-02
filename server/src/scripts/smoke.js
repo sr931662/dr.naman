@@ -293,6 +293,52 @@ async function main() {
     check('  · captured the login', activity.body?.data?.some(a => a.action === 'login'))
     check('  · captured a publish', activity.body?.data?.some(a => a.action === 'publish'))
 
+    section('Cookieless session (cross-origin / mobile / Safari)')
+    // Simulates a browser that drops third-party cookies entirely: no Cookie
+    // header is ever sent, and the refresh token travels in the body instead.
+    const savedCookie = cookie
+    cookie = null
+
+    const coLogin = await call('/api/auth/login', {
+      method: 'POST', auth: false,
+      body: { email: 'smoke@example.com', password: 'SmokeTest1234' },
+    })
+    check('login returns a refresh token in the body', Boolean(coLogin.body?.data?.refreshToken))
+    let bodyRefresh = coLogin.body?.data?.refreshToken
+    cookie = null // discard anything the server tried to set
+
+    const coRefresh = await call('/api/auth/refresh', {
+      method: 'POST', auth: false, body: { refreshToken: bodyRefresh },
+    })
+    check('refresh works with no cookie at all', coRefresh.status === 200, `got ${coRefresh.status}`)
+    check('  · and returns a rotated refresh token', Boolean(coRefresh.body?.data?.refreshToken))
+    check('  · which differs from the previous one', coRefresh.body?.data?.refreshToken !== bodyRefresh)
+
+    const rotated = coRefresh.body?.data?.refreshToken
+    cookie = null
+    const coRefresh2 = await call('/api/auth/refresh', {
+      method: 'POST', auth: false, body: { refreshToken: rotated },
+    })
+    check('  · the rotated token works on the next cycle', coRefresh2.status === 200, `got ${coRefresh2.status}`)
+
+    // Re-using a spent token must still trip theft detection.
+    cookie = null
+    const reuse = await call('/api/auth/refresh', {
+      method: 'POST', auth: false, body: { refreshToken: bodyRefresh },
+    })
+    check('  · replaying a spent token is rejected', reuse.status === 401, `got ${reuse.status}`)
+
+    // Replaying a spent token deliberately revokes every session for that user,
+    // including the one the tests below use — so sign in again from scratch.
+    void savedCookie
+    cookie = null
+    const reLogin = await call('/api/auth/login', {
+      method: 'POST', auth: false,
+      body: { email: 'smoke@example.com', password: 'SmokeTest1234' },
+    })
+    check('  · reuse revoked every session, re-login succeeds', reLogin.status === 200, `got ${reLogin.status}`)
+    accessToken = reLogin.body?.data?.accessToken
+
     section('Session lifecycle')
     const refreshed = await call('/api/auth/refresh', { method: 'POST', auth: false })
     check('POST /api/auth/refresh rotates the session', refreshed.status === 200 && Boolean(refreshed.body?.data?.accessToken))
