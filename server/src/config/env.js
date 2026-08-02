@@ -1,9 +1,15 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const ROOT_DIR = path.resolve(__dirname, '../..')
+
+// Load server/.env explicitly rather than relying on the working directory:
+// `npm start` from the repo root would otherwise look for a .env that isn't
+// there and start with development defaults. Platform-provided variables
+// (Cloud Run, etc.) already in the environment always win.
+dotenv.config({ path: path.join(ROOT_DIR, '.env') })
 
 const bool = (v, fallback = false) => {
   if (v === undefined || v === '') return fallback

@@ -1,0 +1,22 @@
+{
+  "name": "dr-naman-aggarwal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Practice website and CMS for Dr. Naman Aggarwal — Urology, Dwarka, Delhi",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "//": "Google Cloud buildpacks run `build` at deploy time, then `start`.",
+    "build": "npm --prefix client ci && npm --prefix client run build && npm --prefix server ci --omit=dev",
+    "start": "node server/src/index.js",
+
+    "//dev": "Local development helpers.",
+    "dev": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "seed:reset": "npm --prefix server run seed:reset",
+    "test": "npm --prefix server test",
+    "install:all": "npm --prefix client install && npm --prefix server install"
+  }
+}
