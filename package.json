@@ -6,17 +6,18 @@
   "engines": {
     "node": ">=20"
   },
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "//": "Google Cloud buildpacks run `build` at deploy time, then `start`.",
-    "build": "npm --prefix client ci && npm --prefix client run build && npm --prefix server ci --omit=dev",
+    "build": "npm run build --workspace client",
     "start": "node server/src/index.js",
-
-    "//dev": "Local development helpers.",
-    "dev": "npm --prefix server run dev",
-    "dev:client": "npm --prefix client run dev",
-    "seed": "npm --prefix server run seed",
-    "seed:reset": "npm --prefix server run seed:reset",
-    "test": "npm --prefix server test",
-    "install:all": "npm --prefix client install && npm --prefix server install"
+    "dev": "npm run dev --workspace server",
+    "dev:client": "npm run dev --workspace client",
+    "seed": "npm run seed --workspace server",
+    "seed:reset": "npm run seed:reset --workspace server",
+    "create:admin": "npm run create:admin --workspace server",
+    "test": "npm test --workspace server"
   }
 }
