@@ -22,10 +22,9 @@ export const settings = {
   },
   contact: {
     email: 'info@drnamanaggarwal.com',
-    phone: '+911142888888',
-    phoneLabel: 'Manipal Hospital Dwarka',
-    // TODO: replace with the clinic's real WhatsApp number before going live.
-    whatsappNumber: '919999999999',
+    phone: '+919811094112',
+    phoneLabel: 'Dr. Naman Aggarwal',
+    whatsappNumber: '919811094112',
     whatsappMessage: "Hi Dr. Naman, I'd like to book a consultation.",
     responseTime: 'Response within 24 hours',
   },

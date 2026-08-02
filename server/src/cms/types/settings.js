@@ -57,7 +57,7 @@ export default defineType({
         { name: 'email', type: 'email', label: 'Public email' },
         { name: 'phone', type: 'phone', label: 'Primary phone' },
         { name: 'phoneLabel', type: 'string', label: 'Phone label', help: 'e.g. "Manipal Hospital Dwarka"' },
-        { name: 'whatsappNumber', type: 'string', label: 'WhatsApp number', help: 'Country code, digits only — e.g. 919999999999.' },
+        { name: 'whatsappNumber', type: 'string', label: 'WhatsApp number', help: 'Country code first, digits only, no + or spaces — e.g. 91XXXXXXXXXX for India.' },
         { name: 'whatsappMessage', type: 'text', label: 'WhatsApp prefilled message' },
         { name: 'responseTime', type: 'string', label: 'Response promise', help: 'e.g. "Response within 24 hours"' },
       ],

@@ -16,7 +16,7 @@ import BlogPostPage from './pages/BlogPost'
 import TreatmentDetailPage from './pages/TreatmentDetail'
 import waStyles from './components/WhatsAppFloat.module.css'
 
-const WA_NUMBER = '919999999999' // TODO: replace with Dr. Naman's WhatsApp number
+const WA_NUMBER = '919811094112'
 const WA_MSG = encodeURIComponent("Hi Dr. Naman, I'd like to book a consultation.")
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${WA_MSG}`
 
