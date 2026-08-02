@@ -1,9 +1,155 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  Secrets — anything here would be a credential leak if pushed.
+#  Rule: real values live in .env, templates live in .env.example.
+# ═══════════════════════════════════════════════════════════════════════════
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+
+# Keys, certificates, service-account files
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+*service-account*.json
+*credentials*.json
+gcp-*.json
+firebase-adminsdk*.json
+.npmrc
+.netrc
+
+# Cloud / deploy CLI state, which often embeds tokens
+.vercel/
+.netlify/
+.serverless/
+.terraform/
+*.tfstate
+*.tfstate.*
+.aws/
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Patient & operational data
+#  Consultation requests contain symptoms — treat every export as clinical data.
+# ═══════════════════════════════════════════════════════════════════════════
+*.csv
+!**/fixtures/*.csv
+!**/seed/**/*.csv
+appointments-*.csv
+subscribers*.csv
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+dump/
+mongo-dump/
+*.bson
+backups/
+*.bak
+
+# Uploaded media — user content, not source
+server/uploads/
+server/uploads-*/
+uploads/
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Dependencies & build output
+# ═══════════════════════════════════════════════════════════════════════════
+node_modules/
+.pnp
+.pnp.js
+jspm_packages/
+
+client/dist/
+client/dist-ssr/
+dist/
+build/
+out/
+.vite/
+.cache/
+.parcel-cache/
+.turbo/
+*.tsbuildinfo
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Logs, coverage, temporary files
+# ═══════════════════════════════════════════════════════════════════════════
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+coverage/
+.nyc_output/
+*.lcov
+
+# Scratch space: Node's compile cache and Claude Code session data both land
+# here. Never source, sometimes contains transcripts — always excluded.
 temp/
+tmp/
+.tmp/
+*.tmp
+*.pid
+*.seed
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Editors & operating systems
+# ═══════════════════════════════════════════════════════════════════════════
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*.sw?
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
 .DS_Store
-*.local
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Claude Code
+#  Share settings.json (team config); keep local overrides and history private.
+# ═══════════════════════════════════════════════════════════════════════════
+.claude/settings.local.json
 .claude/worktrees/
 .claude/projects/
-node_modules/
-.env
-server/uploads/
-server/uploads-smoke/
+.claude/history/
+.claude/todos/
+CLAUDE.local.md
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Misc
+# ═══════════════════════════════════════════════════════════════════════════
+*.local
+.eslintcache
+.stylelintcache
+.node_repl_history

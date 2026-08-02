@@ -1,4 +1,24 @@
-node_modules/
+# Backend-specific rules. The root .gitignore covers the shared cases —
+# these exist so the server folder stays safe if it is ever split into its
+# own repository.
+
+# Secrets — real values only ever live in .env
 .env
+.env.*
+!.env.example
+
+# Uploaded media: user content, not source. No .gitkeep needed — the server
+# creates this directory on boot (ensureUploadDir).
 uploads/
+uploads-*/
+
+# Data exports — consultation requests contain symptom descriptions
+*.csv
+*.bson
+dump/
+backups/
+
+node_modules/
+logs/
 *.log
+coverage/

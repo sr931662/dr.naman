@@ -1,23 +1,31 @@
-# Logs
-logs
+# Frontend-specific rules. The root .gitignore covers the shared cases —
+# these exist so the client folder stays safe if it is ever split out.
+
+# Vite exposes every VITE_* variable to the browser bundle, so a .env here is
+# public by definition — but it still must not be committed.
+.env
+.env.*
+!.env.example
+
+node_modules/
+dist/
+dist-ssr/
+.vite/
+
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
 *.local
-temp/
-.vite/
+.eslintcache
 
-# Editor directories and files
+# Editors
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
