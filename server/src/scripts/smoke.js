@@ -293,6 +293,89 @@ async function main() {
     check('  · captured the login', activity.body?.data?.some(a => a.action === 'login'))
     check('  · captured a publish', activity.body?.data?.some(a => a.action === 'publish'))
 
+    section('Forgotten password (OTP)')
+    // A throwaway account, so resetting a password cannot disturb the admin
+    // session the rest of this run depends on.
+    const targetEmail = 'reset-target@example.com'
+    await call('/api/auth/users', {
+      method: 'POST',
+      body: { name: 'Reset Target', email: targetEmail, password: 'OldPassword123', role: 'editor' },
+    })
+
+    // Sign in as them once, so we can prove the reset kills live sessions.
+    const targetLogin = await call('/api/auth/login', {
+      method: 'POST', auth: false,
+      body: { email: targetEmail, password: 'OldPassword123' },
+    })
+    const targetRefresh = targetLogin.body?.data?.refreshToken
+
+    const unknown = await call('/api/auth/forgot-password', {
+      method: 'POST', auth: false, body: { email: 'nobody-here@example.com' },
+    })
+    check('an unknown address still returns 200', unknown.status === 200, `got ${unknown.status}`)
+    check('  · with a non-committal message', /if that address/i.test(unknown.body?.data?.message || ''))
+
+    const requested = await call('/api/auth/forgot-password', {
+      method: 'POST', auth: false, body: { email: targetEmail },
+    })
+    check('POST /api/auth/forgot-password', requested.status === 200, `got ${requested.status}`)
+    check('  · returns the identical message for a real account',
+      requested.body?.data?.message === unknown.body?.data?.message)
+    // SMTP is off under test, so the server hands back the code instead of
+    // mailing it. This branch is gated on NODE_ENV !== production.
+    const code = requested.body?.data?.devCode
+    check('  · issued a six-digit code', /^\d{6}$/.test(code || ''), code)
+
+    const wrongCode = await call('/api/auth/verify-reset-code', {
+      method: 'POST', auth: false, body: { email: targetEmail, code: code === '000000' ? '111111' : '000000' },
+    })
+    check('a wrong code is rejected', wrongCode.status === 400, `got ${wrongCode.status}`)
+    check('  · and counts down the remaining attempts',
+      /attempts? remaining/i.test(wrongCode.body?.error?.message || ''), wrongCode.body?.error?.message)
+
+    const verified = await call('/api/auth/verify-reset-code', {
+      method: 'POST', auth: false, body: { email: targetEmail, code },
+    })
+    check('the correct code is accepted', verified.status === 200, `got ${verified.status}`)
+    const ticket = verified.body?.data?.ticket
+    check('  · and returns a reset ticket', Boolean(ticket))
+
+    const replayCode = await call('/api/auth/verify-reset-code', {
+      method: 'POST', auth: false, body: { email: targetEmail, code },
+    })
+    check('  · the code cannot be verified twice', replayCode.status === 400, `got ${replayCode.status}`)
+
+    const weak = await call('/api/auth/reset-password', {
+      method: 'POST', auth: false, body: { ticket, newPassword: 'short' },
+    })
+    check('a weak new password is rejected', weak.status === 422, `got ${weak.status}`)
+
+    const reset = await call('/api/auth/reset-password', {
+      method: 'POST', auth: false, body: { ticket, newPassword: 'BrandNewPass9' },
+    })
+    check('  · but the ticket survived it', reset.status === 200, `got ${reset.status}`)
+
+    const replayTicket = await call('/api/auth/reset-password', {
+      method: 'POST', auth: false, body: { ticket, newPassword: 'AnotherPass123' },
+    })
+    check('the ticket is single-use', replayTicket.status === 400, `got ${replayTicket.status}`)
+
+    const oldPassword = await call('/api/auth/login', {
+      method: 'POST', auth: false, body: { email: targetEmail, password: 'OldPassword123' },
+    })
+    check('the old password no longer works', oldPassword.status === 401, `got ${oldPassword.status}`)
+
+    const newPassword = await call('/api/auth/login', {
+      method: 'POST', auth: false, body: { email: targetEmail, password: 'BrandNewPass9' },
+    })
+    check('the new password works', newPassword.status === 200, `got ${newPassword.status}`)
+
+    cookie = null
+    const deadSession = await call('/api/auth/refresh', {
+      method: 'POST', auth: false, body: { refreshToken: targetRefresh },
+    })
+    check('sessions opened before the reset are revoked', deadSession.status === 401, `got ${deadSession.status}`)
+
     section('Cookieless session (cross-origin / mobile / Safari)')
     // Simulates a browser that drops third-party cookies entirely: no Cookie
     // header is ever sent, and the refresh token travels in the body instead.

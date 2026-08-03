@@ -32,10 +32,11 @@ export async function renderActivity() {
         el('th', {}, ''),
       )),
       el('tbody', {}, res.data.map(entry => el('tr', {},
-        el('td', { class: 'hint' }, formatDate(entry.createdAt, true)),
-        el('td', {}, entry.userName || '—'),
-        el('td', {}, el('span', { class: 'pill pill-draft' }, entry.action)),
-        el('td', {},
+        el('td', { class: 'hint cell-meta' }, formatDate(entry.createdAt, true)),
+        el('td', { class: 'cell-meta' }, entry.userName || '—'),
+        el('td', { class: 'cell-status' }, el('span', { class: 'pill pill-draft' }, entry.action)),
+        // What changed leads the mobile row; who and when trail it.
+        el('td', { class: 'cell-primary' },
           el('div', { class: 'row-title' }, entry.label || '—'),
           el('div', { class: 'hint' }, entry.resource),
         ),
@@ -89,7 +90,7 @@ function showChanges(entry) {
         el('td', { class: 'mono', style: { maxWidth: '260px', wordBreak: 'break-word' } }, format(change.from)),
         el('td', { class: 'mono', style: { maxWidth: '260px', wordBreak: 'break-word' } }, format(change.to)),
       ))),
-    )),
+    ), { stack: true }),
   })
 }
 

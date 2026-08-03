@@ -70,12 +70,14 @@ export async function renderCollection(typeName) {
         dataset: { id: item._id, index: String(index) },
       },
         type.orderable && el('td', { class: 'drag-handle', title: 'Drag to reorder' }, '⠿'),
-        columns.map((col, i) => el('td', {},
+        // The first column identifies the record, so it leads the mobile row;
+        // the rest become the inline meta run beneath it.
+        columns.map((col, i) => el('td', { class: i === 0 ? 'cell-primary' : 'cell-meta' },
           i === 0
             ? el('a', { href: `#/c/${typeName}/${item._id}`, class: 'row-title' }, cellValue(item, col, type) || '(untitled)')
             : cellValue(item, col, type),
         )),
-        type.publishable && el('td', {}, statusPill(item.status)),
+        type.publishable && el('td', { class: 'cell-status' }, statusPill(item.status)),
         el('td', { class: 'actions' },
           can('content.publish') && type.publishable && el('button', {
             class: 'btn btn-sm',

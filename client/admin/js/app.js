@@ -1,5 +1,6 @@
 import { api, setToken } from './api.js'
 import { el, clear, toast, initials } from './ui.js'
+import { enter, fade, slideDrawer, pressFeedback, stack } from './motion.js'
 import { renderLogin } from './views/login.js'
 import { renderDashboard } from './views/dashboard.js'
 import { renderCollection } from './views/collection.js'
@@ -73,6 +74,12 @@ async function route() {
       renderNav()
       setSidebar(false)
       window.scrollTo(0, 0)
+
+      // Only the body travels. Animating the whole view would drag the sticky
+      // topbar along with it, which reads as the page failing to settle.
+      const content = view.querySelector('.content')
+      if (content) stack(content.children, { y: 8 })
+      else enter(view)
     } catch (err) {
       clear(outlet)
       outlet.append(errorView(err))
@@ -166,19 +173,41 @@ function renderNav() {
   }
 }
 
+const drawerQuery = window.matchMedia('(max-width: 900px)')
+
 /**
  * Opens or closes the mobile navigation drawer. Above the breakpoint the
- * sidebar is always visible and the class is simply inert.
+ * sidebar is always on screen and this is a no-op.
  */
 export function setSidebar(open) {
   const shell = document.querySelector('.shell')
-  if (!shell) return
+  if (!shell || open === shell.classList.contains('nav-open')) return
+
   shell.classList.toggle('nav-open', open)
   document.body.classList.toggle('nav-locked', open)
   for (const toggle of document.querySelectorAll('.nav-toggle')) {
     toggle.setAttribute('aria-expanded', String(open))
   }
+
+  if (!drawerQuery.matches) return
+  slideDrawer(shell.querySelector('.sidebar'), open)
+  fade(shell.querySelector('.nav-scrim'), open ? [0, 1] : [1, 0], 0.2)
 }
+
+/**
+ * Growing past the breakpoint has to drop the inline transform the drawer
+ * animation left behind — otherwise a sidebar last seen closing stays parked
+ * off-screen on desktop, where nothing would ever bring it back.
+ */
+drawerQuery.addEventListener('change', () => {
+  const shell = document.querySelector('.shell')
+  if (!shell) return
+
+  shell.classList.remove('nav-open')
+  document.body.classList.remove('nav-locked')
+  shell.querySelector('.sidebar').style.transform = ''
+  shell.querySelector('.nav-scrim').style.opacity = ''
+})
 
 function renderShell() {
   const app = document.getElementById('app')
@@ -288,6 +317,10 @@ async function boot() {
     renderLogin(async () => { await boot() })
   }
 }
+
+// Delegated once, at the root, so controls rendered by any later view are
+// covered without every view having to opt in.
+pressFeedback(document.body)
 
 window.addEventListener('hashchange', route)
 window.addEventListener('keydown', e => {

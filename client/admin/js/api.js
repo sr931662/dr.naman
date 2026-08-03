@@ -142,6 +142,14 @@ export const api = {
     return res
   },
   refresh: refreshOnce,
+
+  // Password reset. All three are unauthenticated, so they bypass `request()`
+  // and its refresh-on-401 retry — there is no session to refresh, and a 401
+  // here means the code was wrong, not that a token went stale.
+  forgotPassword: email => raw('/auth/forgot-password', { method: 'POST', body: { email } }),
+  verifyResetCode: (email, code) => raw('/auth/verify-reset-code', { method: 'POST', body: { email, code } }),
+  resetPassword: (ticket, newPassword) => raw('/auth/reset-password', { method: 'POST', body: { ticket, newPassword } }),
+
   logout: async () => {
     const stored = readRefresh()
     writeRefresh(null)

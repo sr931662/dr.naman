@@ -58,6 +58,55 @@ a:hover { text-decoration: underline; }
 .login-card h1 { font-size: 21px; margin: 18px 0 4px; letter-spacing: -.01em; }
 .login-card .sub { color: var(--muted); font-size: 14px; margin: 0 0 26px; }
 
+/* ─── Auth steps ──────────────────────────────────────────────────────────── */
+.auth-step-head { margin: 0 0 20px; }
+.auth-step-head h2 { font-size: 16px; margin: 0 0 5px; letter-spacing: -.01em; }
+.auth-step-head p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.55; overflow-wrap: anywhere; }
+
+.label-row { display: flex; align-items: baseline; gap: 10px; }
+.label-row label { flex: 1; }
+
+.btn-block { width: 100%; justify-content: center; }
+
+/* A button that reads as a link — real <button> so it is keyboard-reachable
+   and never looks like a navigation the browser could follow. */
+.link-btn {
+  border: 0; background: none; padding: 0; margin: 0;
+  font: inherit; font-size: 12.5px; color: var(--crimson);
+  cursor: pointer; text-decoration: none;
+}
+.link-btn:hover:not(:disabled) { text-decoration: underline; }
+.link-btn:disabled { color: var(--muted); cursor: default; }
+
+.auth-resend { margin: 14px 0 0; text-align: center; }
+.auth-back { margin: 18px 0 0; text-align: center; }
+
+.auth-done {
+  width: 46px; height: 46px; margin: 0 auto 16px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: #eaf5ec; color: var(--ok); font-size: 22px;
+}
+
+/* One box per digit: the expected length is obvious and each is a real
+   touch target. `ch` keeps them proportional to the digit itself. */
+.otp-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.otp-box {
+  flex: 1 1 0; min-width: 0; width: auto;
+  padding: 12px 0; text-align: center;
+  font-family: var(--mono); font-size: 20px; font-weight: 600;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink);
+  -moz-appearance: textfield;
+}
+.otp-box:focus {
+  outline: none; border-color: var(--crimson);
+  box-shadow: 0 0 0 3px rgba(179, 18, 42, .09);
+}
+@media (max-width: 400px) {
+  .otp-row { gap: 6px; }
+  .otp-box { padding: 10px 0; font-size: 18px; }
+}
+
 /* ─── Shell ───────────────────────────────────────────────────────────────── */
 .shell { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
 
@@ -110,9 +159,11 @@ a:hover { text-decoration: underline; }
 .sidebar-foot .who b { display: block; font-size: 12.5px; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sidebar-foot .who span { font-size: 11px; color: #8b8397; text-transform: capitalize; }
 
-/* Drawer scrim — only ever visible at the mobile breakpoint. */
+/* Drawer furniture — only ever present at the mobile breakpoint. Qualified
+   with `.btn` so these outrank `.btn { display: inline-flex }`, which is
+   declared later and would otherwise win on source order alone. */
 .nav-scrim { display: none; }
-.nav-toggle, .nav-close { display: none; }
+.btn.nav-toggle, .btn.nav-close { display: none; }
 
 .main { min-width: 0; display: flex; flex-direction: column; }
 
@@ -182,6 +233,10 @@ tbody tr:last-child td { border-bottom: 0; }
 tbody tr:hover { background: #fdfcfc; }
 td.actions { text-align: right; white-space: nowrap; }
 td.align-end { text-align: right; }
+
+/* Cell roles. Inert on desktop — they only take effect once a row has to
+   reflow into a summary line at the mobile breakpoint. */
+.row-break { display: none; }
 td .row-title { font-weight: 500; }
 .drag-handle { cursor: grab; color: var(--muted); user-select: none; padding: 0 4px; }
 tr.dragging { opacity: .4; }
@@ -335,11 +390,10 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
 .toast {
   background: var(--ink); color: #fff; padding: 11px 15px;
   border-radius: var(--radius-sm); font-size: 13.5px; max-width: 360px;
-  box-shadow: 0 8px 26px rgba(0,0,0,.2); animation: slide .22s ease;
+  box-shadow: 0 8px 26px rgba(0,0,0,.2);
 }
 .toast.error { background: var(--crimson); }
 .toast.success { background: var(--ok); }
-@keyframes slide { from { transform: translateY(10px); opacity: 0; } }
 
 .modal-backdrop {
   position: fixed; inset: 0; background: rgba(22,20,26,.45);
@@ -367,21 +421,23 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
 
   /* The sidebar becomes an off-canvas drawer. */
   .shell { grid-template-columns: minmax(0, 1fr); }
+  /* Resting states only. The open/close transition itself is a Framer Motion
+     spring, so a CSS transition here would fight it. */
   .sidebar {
     position: fixed; top: 0; left: 0; bottom: 0; z-index: 60;
     width: min(280px, 84vw); height: 100%;
-    transform: translateX(-100%); transition: transform .22s ease;
+    transform: translateX(-100%); will-change: transform;
   }
   .shell.nav-open .sidebar { transform: none; box-shadow: 0 0 44px rgba(0, 0, 0, .38); }
 
   .nav-scrim {
     display: block; position: fixed; inset: 0; z-index: 50;
     background: rgba(22, 20, 26, .45);
-    opacity: 0; pointer-events: none; transition: opacity .22s ease;
+    opacity: 0; pointer-events: none;
   }
-  .shell.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
+  .shell.nav-open .nav-scrim { pointer-events: auto; }
 
-  .nav-toggle, .nav-close { display: inline-flex; }
+  .btn.nav-toggle, .btn.nav-close { display: inline-flex; }
   .nav-close { margin-left: auto; background: transparent; border-color: rgba(255,255,255,.16); color: #cfc9d6; }
   .nav-close:hover { background: var(--sidebar-soft); }
 
@@ -394,27 +450,75 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
   .media-detail { grid-template-columns: minmax(0, 1fr); }
   .media-detail img { max-width: 220px; }
 
-  /* Rows become stacked cards, each cell labelled from its column header. */
+  /* A row becomes a compact summary line, not a transposed column dump:
+     title and controls on the first line, secondary values inline beneath. */
   .table-wrap { overflow-x: visible; }
   .table-wrap thead { display: none; }
-  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; width: auto; }
-  .table-wrap tr { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .table-wrap table, .table-wrap tbody { display: block; width: auto; }
+  .table-wrap tr {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 2px 14px; padding: 12px 14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
   .table-wrap tbody tr:last-child { border-bottom: 0; }
-  .table-wrap td { padding: 3px 0; border: 0; }
-  .table-wrap td[data-label] { display: flex; gap: 12px; align-items: baseline; }
-  .table-wrap td[data-label]::before {
-    content: attr(data-label); flex: 0 0 34%; min-width: 0;
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
+  .table-wrap td { display: block; padding: 0; border: 0; width: auto; }
+  /* The break is deliberately empty, so it has to survive this. */
+  .table-wrap td:empty:not(.row-break) { display: none; }
+
+  /* Every role below is scoped to `.table-wrap` so it outranks the blanket
+     `td` rule above — otherwise `display` and `order` silently lose. */
+  /* Basis 0, not auto: a long title would otherwise claim the whole line and
+     bump its own status pill onto the next one, so two rows of the same table
+     could disagree about where the pill lives. */
+  .table-wrap .cell-primary { order: 0; flex: 1 1 0; min-width: 9rem; font-weight: 500; }
+  .table-wrap .cell-primary .hint { font-weight: 400; }
+  .table-wrap .cell-status { order: 1; flex: 0 0 auto; }
+  .table-wrap td.actions {
+    order: 2; flex: 0 0 auto; margin-left: auto;
+    display: flex; gap: 6px; align-items: center;
+  }
+
+  /* Zero-height full-width flex item: forces the meta values onto their
+     own line without needing a wrapper element a table row cannot hold. */
+  .table-wrap .row-break { display: block; order: 3; flex: 1 0 100%; height: 0; }
+
+  /* Self-explanatory values (a phone number, an email) take a line of their
+     own and go unlabelled — naming them would say less than the value does. */
+  .table-wrap .cell-line { order: 4; flex: 1 0 100%; font-size: 12.5px; color: var(--ink-soft); }
+
+  /* Long free text: its own line, capped so one verbose record cannot push
+     the rest of the list off screen. Height rather than `-webkit-line-clamp`
+     because a flex item gets blockified — `display: -webkit-box` does not
+     survive, and the clamp silently stops applying. */
+  .table-wrap .cell-excerpt {
+    order: 5; flex: 1 0 100%;
+    font-size: 12.5px; color: var(--muted); margin-top: 2px;
+    line-height: 1.5; max-height: 3em; overflow: hidden;
+  }
+
+  /* Short values keep their column name as a lowercase suffix — "4 published"
+     rather than a PUBLISHED heading owning a line of its own. */
+  .table-wrap .cell-meta {
+    order: 6; flex: 0 0 auto;
+    font-size: 12.5px; color: var(--ink-soft); line-height: 1.5;
+  }
+  .table-wrap .cell-meta[data-label]::after {
+    content: ' ' attr(data-label);
+    color: var(--muted); text-transform: lowercase; font-weight: 400;
+  }
+
+  .table-wrap td.drag-handle, .table-wrap .cell-hide { display: none; }
+  .table-wrap td.align-end { text-align: left; }
+
+  /* The diff view is genuinely field/before/after data, so it keeps the
+     label-above-value stack that reads badly everywhere else. */
+  .table-wrap.stack tr { display: block; padding: 10px 14px; }
+  .table-wrap.stack td { padding: 3px 0; }
+  .table-wrap.stack td[data-label]::before {
+    content: attr(data-label); display: block;
+    font-size: 10.5px; font-weight: 600; text-transform: uppercase;
     letter-spacing: .06em; color: var(--muted);
   }
-  .table-wrap td.actions {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    text-align: left; margin-top: 8px;
-  }
-  .table-wrap td.actions::before { content: none; }
-  .table-wrap td.drag-handle { display: none; }
-  .table-wrap td.align-end { text-align: left; }
-  .table-wrap td:empty { display: none; }
 
   .tabs { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
@@ -448,7 +552,9 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
   .topbar .spacer { display: none; }
   .topbar-title { flex: 1 1 auto; }
   .topbar-actions { flex: 1 0 100%; }
-  .topbar-actions > * { flex: 1 1 auto; justify-content: center; }
+  /* Only the page's primary action earns the full-width treatment — a
+     secondary link stretched edge to edge reads as the main thing to do. */
+  .topbar-actions > .btn-primary { flex: 1 1 auto; justify-content: center; }
 
   .pager { flex-wrap: wrap; }
   .stat-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
@@ -460,8 +566,17 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
   .img-preview { width: 100%; height: 128px; }
   .array-simple { flex-wrap: wrap; }
   .array-simple > :first-child { flex: 1 0 100%; }
-  .table-wrap td[data-label] { flex-direction: column; align-items: stretch; gap: 2px; }
-  .table-wrap td[data-label]::before { flex: none; }
+
+  /* Below this a title, its status and a cluster of controls stop sharing a
+     line comfortably, so the actions drop to a row of their own. */
+  .table-wrap tr { gap: 2px 12px; }
+  .table-wrap td.actions { order: 7; flex: 1 0 100%; margin: 6px 0 0; }
+
+  /* Unless there is only one control — a lone button does not need a whole
+     row, and rows of it add up fast on a list of seventeen content types. */
+  .table-wrap td.actions:has(> :only-child) {
+    order: 2; flex: 0 0 auto; margin: 0 0 0 auto;
+  }
 }
 
 /* Comfortable hit targets once there is no mouse. */
@@ -473,7 +588,7 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
   .media-tile .cap { padding: 10px; }
 }
 
+/* Motion-driven animation checks this too, in js/motion.js. */
 @media (prefers-reduced-motion: reduce) {
-  .sidebar, .nav-scrim, .btn { transition: none; }
-  .toast { animation: none; }
+  .btn { transition: none; }
 }

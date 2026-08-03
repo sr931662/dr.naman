@@ -42,12 +42,12 @@ export async function renderDashboard() {
                 style: { cursor: 'pointer' },
                 onclick: () => { window.location.hash = '#/appointments' },
               },
-                el('td', {},
+                el('td', { class: 'cell-primary' },
                   el('div', { class: 'row-title' }, a.name),
                   el('div', { class: 'hint' }, a.phone),
                 ),
-                el('td', {}, el('span', { class: `pill pill-${a.status}` }, a.status)),
-                el('td', { class: 'hint align-end' }, relativeTime(a.createdAt)),
+                el('td', { class: 'cell-status' }, el('span', { class: `pill pill-${a.status}` }, a.status)),
+                el('td', { class: 'hint align-end cell-meta' }, relativeTime(a.createdAt)),
               ))),
             ))
           : el('div', { class: 'empty', style: { padding: '34px' } },
@@ -83,10 +83,10 @@ export async function renderDashboard() {
         el('tbody', {}, (state.schema?.types || []).map(type => {
           const c = counts[type.name] || { total: 0, published: 0, drafts: 0 }
           return el('tr', {},
-            el('td', {}, el('span', { style: { marginRight: '8px' } }, type.icon), el('b', {}, type.label)),
-            el('td', {}, String(c.published)),
-            el('td', {}, c.drafts ? el('span', { class: 'pill pill-draft' }, String(c.drafts)) : '—'),
-            el('td', {}, String(c.total)),
+            el('td', { class: 'cell-primary' }, el('span', { style: { marginRight: '8px' } }, type.icon), el('b', {}, type.label)),
+            el('td', { class: 'cell-meta' }, String(c.published)),
+            el('td', { class: 'cell-meta' }, c.drafts ? el('span', { class: 'pill pill-draft' }, String(c.drafts)) : '—'),
+            el('td', { class: 'cell-meta' }, String(c.total)),
             el('td', { class: 'actions' }, el('a', { class: 'btn btn-sm', href: `#/c/${type.name}` }, 'Manage')),
           )
         })),

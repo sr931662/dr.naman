@@ -1,13 +1,30 @@
 import crypto from 'node:crypto'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { env } from '../config/env.js'
 import { User } from '../models/User.js'
 import { RefreshToken } from '../models/RefreshToken.js'
+import { PasswordReset } from '../models/PasswordReset.js'
 import { ApiError } from '../utils/ApiError.js'
 import { logger } from '../config/logger.js'
+import { sendMail, passwordResetOtp } from './mail.service.js'
 
 const MAX_FAILED_LOGINS = 5
 const LOCK_MINUTES = 15
+
+// ─── Password reset tuning ───────────────────────────────────────────────────
+
+const OTP_MINUTES = 10
+/** Attempts against the six digits before the reset is burned. */
+const OTP_MAX_ATTEMPTS = 5
+/** How long the verified ticket lasts — long enough to choose a password. */
+const TICKET_MINUTES = 15
+
+/** Surfaced to the client so the resend countdown matches the server's limiter. */
+export const RESET_POLICY = {
+  otpMinutes: OTP_MINUTES,
+  resendSeconds: 60,
+}
 
 // ─── Tokens ──────────────────────────────────────────────────────────────────
 
@@ -148,6 +165,169 @@ export async function changePassword(userId, currentPassword, newPassword) {
   await user.setPassword(newPassword)
   await user.save()
   await revokeAllForUser(user._id)
+
+  return user.toJSON()
+}
+
+// ─── Password reset by emailed passcode ──────────────────────────────────────
+
+/** Six digits, uniformly drawn. `Math.random` has no business near a credential. */
+function generateOtp() {
+  return String(crypto.randomInt(0, 1_000_000)).padStart(6, '0')
+}
+
+const normaliseEmail = value => String(value || '').toLowerCase().trim()
+
+/**
+ * Starts a reset. Always resolves the same way whether or not the address is
+ * on file — the response must not become an account-enumeration oracle.
+ *
+ * The returned object is for the *server's* logging only; the route sends a
+ * fixed message regardless.
+ */
+export async function requestPasswordReset(email, meta = {}) {
+  const address = normaliseEmail(email)
+  const user = await User.findOne({ email: address })
+
+  // Deactivated accounts do not get a recovery path — that is the point of
+  // deactivating them.
+  if (!user || !user.active) {
+    await new Promise(r => setTimeout(r, 150))
+    logger.info(`Password reset requested for unknown or inactive address: ${address}`)
+    return { sent: false }
+  }
+
+  // Note: the resend cooldown is enforced by an email-keyed rate limiter on
+  // the route, not here. Refusing here would only ever fire for addresses that
+  // exist, which would turn this endpoint into an account-enumeration oracle —
+  // the very thing the uniform response above is protecting.
+
+  // Only one live reset per account: an older code must stop working the
+  // moment a newer one is issued.
+  await PasswordReset.deleteMany({ user: user._id })
+
+  const code = generateOtp()
+  const reset = await PasswordReset.create({
+    user: user._id,
+    email: user.email,
+    codeHash: await bcrypt.hash(code, 10),
+    expiresAt: new Date(Date.now() + OTP_MINUTES * 60_000),
+    ip: meta.ip,
+    userAgent: meta.userAgent,
+  })
+
+  try {
+    await sendMail(passwordResetOtp({
+      name: user.name,
+      email: user.email,
+      code,
+      minutes: OTP_MINUTES,
+    }))
+  } catch (err) {
+    if (!env.mail.enabled && !env.isProd) {
+      // Local development with no SMTP configured: hand the code back instead
+      // of making the flow impossible to exercise. The record has to stay —
+      // deleting it here would leave a code that can never be verified.
+      logger.warn(`[dev] SMTP disabled — password reset code for ${user.email} is ${code}`)
+      return { sent: false, devCode: code }
+    }
+
+    // A genuine delivery failure. The code is unreachable, so drop the record
+    // rather than leave a live reset nobody can complete.
+    await reset.deleteOne()
+    logger.error(`Could not send reset code to ${user.email}: ${err.message}`)
+    throw ApiError.internal('We could not send the email just now. Please try again shortly.')
+  }
+
+  return { sent: true }
+}
+
+/**
+ * Trades a correct passcode for a single-use ticket. The six digits are
+ * discarded here so they can never be replayed against the reset step.
+ */
+export async function verifyResetOtp(email, code, meta = {}) {
+  const address = normaliseEmail(email)
+  const generic = () => ApiError.badRequest('That code is not valid. Check the email and try again.')
+
+  const reset = await PasswordReset.findOne({
+    email: address,
+    consumedAt: { $exists: false },
+  }).sort({ createdAt: -1 }).select('+codeHash')
+
+  if (!reset || !reset.codeHash) throw generic()
+  if (reset.isExpired) throw ApiError.badRequest('That code has expired. Please request a new one.')
+
+  if (reset.attempts >= OTP_MAX_ATTEMPTS) {
+    throw ApiError.tooMany('Too many incorrect codes. Please request a new one.')
+  }
+
+  const okCode = await bcrypt.compare(String(code || '').trim(), reset.codeHash)
+  if (!okCode) {
+    reset.attempts += 1
+    await reset.save()
+
+    const left = OTP_MAX_ATTEMPTS - reset.attempts
+    if (left <= 0) {
+      logger.warn(`Password reset burned after ${OTP_MAX_ATTEMPTS} bad codes: ${address}`)
+      throw ApiError.tooMany('Too many incorrect codes. Please request a new one.')
+    }
+    throw ApiError.badRequest(
+      `That code is not correct. ${left} attempt${left === 1 ? '' : 's'} remaining.`,
+    )
+  }
+
+  const ticket = crypto.randomBytes(32).toString('hex')
+  reset.ticketHash = hashToken(ticket)
+  reset.codeHash = undefined
+  reset.attempts = 0
+  reset.expiresAt = new Date(Date.now() + TICKET_MINUTES * 60_000)
+  reset.ip = meta.ip || reset.ip
+  await reset.save()
+
+  return { ticket, expiresInMinutes: TICKET_MINUTES }
+}
+
+/**
+ * Consumes a verified ticket and sets the new password.
+ *
+ * Also clears any lockout: someone who forgot their password has very likely
+ * just tripped the failed-login lock, and leaving it in place would mean a
+ * successful reset still could not sign in.
+ */
+export async function resetPassword(ticket, newPassword) {
+  const stale = () => ApiError.badRequest('This reset has expired. Please start again.')
+
+  const raw = String(ticket || '')
+  if (!raw) throw stale()
+
+  const reset = await PasswordReset.findOne({
+    ticketHash: hashToken(raw),
+    consumedAt: { $exists: false },
+  }).select('+ticketHash')
+
+  if (!reset) throw stale()
+  if (reset.isExpired) throw stale()
+
+  // Validate before consuming, so a weak password does not burn the ticket.
+  assertPasswordStrength(newPassword)
+
+  const user = await User.findById(reset.user).select('+passwordHash')
+  if (!user || !user.active) throw ApiError.forbidden('This account is no longer available')
+
+  await user.setPassword(newPassword)
+  user.failedLogins = 0
+  user.lockedUntil = undefined
+  await user.save()
+
+  reset.consumedAt = new Date()
+  reset.ticketHash = undefined
+  await reset.save()
+
+  // Anyone already holding a session on this account is now signed out —
+  // if the reset was prompted by a compromise, that is the whole point.
+  await revokeAllForUser(user._id)
+  logger.info(`Password reset completed for ${user.email}`)
 
   return user.toJSON()
 }

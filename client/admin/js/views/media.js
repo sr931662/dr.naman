@@ -1,6 +1,7 @@
 import { api } from '../api.js'
 import { el, clear, toast, confirmDialog, modal, bytes, formatDate, debounce } from '../ui.js'
 import { page, pageHeader, can } from '../app.js'
+import { stack } from '../motion.js'
 
 export async function renderMedia() {
   const { node, reload } = mediaBrowser({ selectable: false })
@@ -160,6 +161,8 @@ function mediaBrowser({ selectable, onSelect }) {
         ),
       ))
     }
+
+    stack(grid.children, { y: 12 })
 
     if (res.meta.pages > 1) {
       pager.append(

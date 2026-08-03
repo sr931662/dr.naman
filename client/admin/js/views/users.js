@@ -28,7 +28,7 @@ export async function renderUsers() {
         el('th', {}, ''),
       )),
       el('tbody', {}, res.data.map(user => el('tr', {},
-        el('td', {},
+        el('td', { class: 'cell-primary' },
           el('div', { style: { display: 'flex', alignItems: 'center', gap: '10px' } },
             el('div', { class: 'avatar', style: { background: 'var(--line-soft)', color: 'var(--ink)' } }, initials(user.name)),
             el('div', {},
@@ -37,11 +37,11 @@ export async function renderUsers() {
             ),
           ),
         ),
-        el('td', {}, el('span', { class: 'pill pill-draft' }, user.role)),
-        el('td', {}, user.active
+        el('td', { class: 'cell-meta' }, el('span', { class: 'pill pill-draft' }, user.role)),
+        el('td', { class: 'cell-status' }, user.active
           ? el('span', { class: 'pill pill-published' }, 'active')
           : el('span', { class: 'pill pill-archived' }, 'disabled')),
-        el('td', { class: 'hint' }, user.lastLoginAt ? relativeTime(user.lastLoginAt) : 'never'),
+        el('td', { class: 'hint cell-meta' }, user.lastLoginAt ? relativeTime(user.lastLoginAt) : 'never'),
         el('td', { class: 'actions' },
           el('button', { class: 'btn btn-sm', onclick: () => editUser(user, load) }, 'Edit'),
           user.id !== state.user.id && el('button', {

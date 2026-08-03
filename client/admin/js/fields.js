@@ -471,7 +471,7 @@ function richTextEditor(html, commit) {
     tool('✕', 'Clear formatting', () => cmd('removeFormat')),
     tool('</>', 'Edit HTML source', () => {
       const ta = el('textarea', { class: 'code', rows: 18, value: area.innerHTML })
-      modal({
+      const dialog = modal({
         title: 'Edit HTML source',
         body: ta,
         footer: el('button', {
@@ -479,7 +479,10 @@ function richTextEditor(html, commit) {
           onclick: () => {
             area.innerHTML = ta.value
             commit(area.innerHTML)
-            document.querySelector('.modal-backdrop')?.remove()
+            // Closing through the handle plays the exit; reaching into the
+            // DOM for `.modal-backdrop` would also grab the wrong dialog
+            // whenever this one was opened from inside another.
+            dialog.close()
             toast('HTML updated')
           },
         }, 'Apply'),

@@ -20,10 +20,17 @@ function getTransporter() {
 /**
  * Sends an email if SMTP is configured; otherwise logs and resolves.
  * Callers never need to branch on whether mail is set up.
+ *
+ * @param {object}  message
+ * @param {boolean} [message.required]  Throw instead of swallowing a failure.
+ *   Appointment alerts are best-effort — a mail outage must not break a
+ *   patient's form submission. A one-time passcode is the opposite: silently
+ *   "succeeding" leaves someone waiting forever for a code that never left.
  */
-export async function sendMail({ to, subject, text, html, replyTo }) {
+export async function sendMail({ to, subject, text, html, replyTo, required = false }) {
   const tx = getTransporter()
   if (!tx) {
+    if (required) throw new Error('SMTP is not configured on this server')
     logger.info(`[mail disabled] would send "${subject}" to ${to}`)
     return { skipped: true }
   }
@@ -33,8 +40,8 @@ export async function sendMail({ to, subject, text, html, replyTo }) {
     logger.info(`Mail sent: ${subject} → ${to}`)
     return { messageId: info.messageId }
   } catch (err) {
-    // Never let a mail outage break the patient-facing form submission.
     logger.error('Mail send failed:', err.message)
+    if (required) throw err
     return { error: err.message }
   }
 }
@@ -79,6 +86,46 @@ export function appointmentAcknowledgement(appointment, doctorName = 'Dr. Naman 
     text,
     html: text.split('\n').map(l => (l ? `<p>${escapeHtml(l)}</p>` : '')).join(''),
   }
+}
+
+/**
+ * The password-reset passcode.
+ *
+ * Deliberately plain: no tracking pixels, no link to click. A reset mail that
+ * looks like the phishing it is trying to protect against teaches staff
+ * exactly the wrong reflex.
+ */
+export function passwordResetOtp({ name, email, code, minutes }) {
+  const text = [
+    `Hello ${name || 'there'},`,
+    '',
+    `Your passcode for resetting the Dr. Naman Aggarwal CMS password is:`,
+    '',
+    code,
+    '',
+    `It expires in ${minutes} minutes and can be used once.`,
+    '',
+    'Type it into the window you already have open. Nobody from the clinic will ever ask you for this code — if you did not request a reset, ignore this email and your password stays as it is.',
+  ].join('\n')
+
+  const html = `
+    <div style="font-family:ui-sans-serif,system-ui,'Segoe UI',Roboto,sans-serif;color:#16141a;line-height:1.6">
+      <p>Hello ${escapeHtml(name || 'there')},</p>
+      <p>Your passcode for resetting the Dr. Naman Aggarwal CMS password is:</p>
+      <p style="margin:24px 0">
+        <span style="display:inline-block;padding:14px 22px;background:#fbe9ec;color:#b3122a;
+                     border-radius:10px;font:600 30px/1 ui-monospace,'SF Mono',Menlo,monospace;
+                     letter-spacing:.32em">${escapeHtml(code)}</span>
+      </p>
+      <p>It expires in ${minutes} minutes and can be used once.</p>
+      <p style="color:#7d7887;font-size:14px">
+        Type it into the window you already have open. Nobody from the clinic will ever ask you
+        for this code — if you did not request a reset, ignore this email and your password
+        stays as it is.
+      </p>
+    </div>`
+
+  return { to: email, subject: `${code} is your CMS password reset code`, text, html, required: true }
 }
 
 function escapeHtml(s) {

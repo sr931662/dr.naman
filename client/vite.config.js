@@ -33,7 +33,15 @@ export default defineConfig({
     ),
   },
   build: {
-    target: 'es2015',
+    /**
+     * ES2015 output cost more than it bought: it downlevelled every
+     * `async` function onto a shared runtime helper, and that helper landing
+     * in `vendor` made the CMS preload React, the router and Helmet — none of
+     * which it uses. Nothing here runs on a browser that old in any case, as
+     * the CMS editor calls `structuredClone` (Chrome 98 / Safari 15.4) and the
+     * site runs React 19.
+     */
+    target: 'es2020',
     cssMinify: true,
     rollupOptions: {
       /**
@@ -49,7 +57,19 @@ export default defineConfig({
         admin: resolve(root, 'admin/index.html'),
       },
       output: {
-        manualChunks: (id) => id.includes('node_modules') ? 'vendor' : undefined,
+        /**
+         * Motion gets its own chunk rather than sharing `vendor`.
+         *
+         * The CMS animates with Framer Motion's React-free `framer-motion/dom`
+         * entry. Bucketing every dependency together would mean the CMS had to
+         * download React, the router and Helmet to get it — so the two entry
+         * points share this chunk and nothing else.
+         */
+        manualChunks: (id) => {
+          if (!id.includes('node_modules')) return undefined
+          if (/node_modules[\\/](framer-motion|motion-dom|motion-utils)[\\/]/.test(id)) return 'motion'
+          return 'vendor'
+        },
         assetFileNames: 'assets/[name]-[hash][extname]',
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',

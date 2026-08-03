@@ -1,5 +1,7 @@
 /** Small DOM + UI helpers shared by every view. */
 
+import { popIn, popOut, fade, play, SPRING_POP } from './motion.js'
+
 /**
  * Creates an element. Children may be nodes, strings, or nested arrays;
  * `null`/`false` children are skipped so `cond && el(...)` reads naturally.
@@ -39,42 +41,93 @@ export function clear(node) {
 }
 
 /**
- * Wraps a table so it scrolls sideways on tablets and collapses into stacked
- * cards on phones. Each cell is labelled from its column header; list views
- * fill their tbody after the table exists, so new rows are labelled as they
- * arrive rather than only once up front.
+ * Wraps a table so it scrolls sideways on tablets and reflows into a compact
+ * summary line on phones — title and controls first, secondary values inline
+ * beneath, driven by the `cell-*` role classes each view puts on its cells.
+ *
+ * Cells carry their column name so the mobile layout can render it as a
+ * suffix ("4 published"). List views fill their tbody after the table exists,
+ * so rows are labelled as they arrive rather than only once up front.
+ *
+ * @param {HTMLTableElement} table
+ * @param {{stack?: boolean}} [options]  `stack` keeps the label-above-value
+ *   layout, which suits genuine key/value data such as an audit diff.
  */
-export function dataTable(table) {
-  const relabel = () => {
+export function dataTable(table, { stack = false } = {}) {
+  const sync = () => {
     const heads = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim())
+
     for (const row of table.querySelectorAll('tbody tr')) {
-      Array.from(row.children).forEach((cell, i) => {
+      const cells = [...row.children].filter(cell => !cell.classList.contains('row-break'))
+
+      cells.forEach((cell, i) => {
         if (heads[i]) cell.setAttribute('data-label', heads[i])
         else cell.removeAttribute('data-label')
       })
+
+      // The line break between the title row and the meta run. A table row
+      // cannot hold a wrapper element, so the break has to be a cell itself.
+      if (!stack && !row.querySelector(':scope > .row-break')) {
+        row.append(el('td', { class: 'row-break', 'aria-hidden': 'true' }))
+      }
     }
   }
 
-  relabel()
-  new MutationObserver(relabel).observe(table, { childList: true, subtree: true })
-  return el('div', { class: 'table-wrap' }, table)
+  sync()
+  // Re-running on mutation re-enters this callback once more (appending the
+  // break is itself a mutation); the `row-break` guard makes that pass a no-op.
+  new MutationObserver(sync).observe(table, { childList: true, subtree: true })
+
+  return el('div', { class: `table-wrap${stack ? ' stack' : ''}` }, table)
 }
 
 export function toast(message, kind = '') {
   const host = document.getElementById('toasts')
   const node = el('div', { class: `toast ${kind}` }, message)
   host.append(node)
-  setTimeout(() => {
-    node.style.opacity = '0'
-    node.style.transition = 'opacity .25s'
-    setTimeout(() => node.remove(), 260)
+
+  play(node, { opacity: [0, 1], y: [14, 0], scale: [0.96, 1] }, SPRING_POP)
+
+  setTimeout(async () => {
+    await play(node, { opacity: [1, 0], y: [0, 8] }, { duration: 0.18, ease: 'easeIn' })
+    node.remove()
   }, kind === 'error' ? 6000 : 3200)
+}
+
+/**
+ * Plays a dialog in, and hands back the matching teardown. Keeping both
+ * halves together is what stops a dialog from vanishing on one frame after
+ * having eased in over twelve.
+ */
+function openDialog(backdrop) {
+  document.getElementById('modal-root').append(backdrop)
+
+  const panel = backdrop.firstElementChild
+  fade(backdrop, [0, 1], 0.16)
+  popIn(panel)
+
+  // Idempotent: the media picker closes on both its own backdrop handler and
+  // the one built into `modal`, and a second call must not replay the exit.
+  let closing = false
+  return async () => {
+    if (closing) return
+    closing = true
+    await Promise.all([popOut(panel), fade(backdrop, [1, 0], 0.13)])
+    backdrop.remove()
+  }
 }
 
 /** Promise-based confirm dialog — resolves true when the user proceeds. */
 export function confirmDialog({ title, message, confirmLabel = 'Delete', danger = true }) {
   return new Promise(resolve => {
-    const close = result => { backdrop.remove(); resolve(result) }
+    // Resolve immediately; the caller should not wait on the exit animation.
+    const close = result => {
+      document.removeEventListener('keydown', onKey)
+      dismiss()
+      resolve(result)
+    }
+
+    const onKey = e => { if (e.key === 'Escape') close(false) }
 
     const backdrop = el('div', {
       class: 'modal-backdrop',
@@ -93,31 +146,32 @@ export function confirmDialog({ title, message, confirmLabel = 'Delete', danger 
       ),
     )
 
-    document.addEventListener('keydown', function onKey(e) {
-      if (e.key === 'Escape') { document.removeEventListener('keydown', onKey); close(false) }
-    })
+    // Previously this only unbound itself when Escape was the thing that
+    // closed the dialog, so confirming with a button leaked the listener.
+    document.addEventListener('keydown', onKey)
 
-    document.getElementById('modal-root').append(backdrop)
+    const dismiss = openDialog(backdrop)
   })
 }
 
 export function modal({ title, body, footer, width = '760px' }) {
   const backdrop = el('div', {
     class: 'modal-backdrop',
-    onclick: e => { if (e.target === backdrop) backdrop.remove() },
+    onclick: e => { if (e.target === backdrop) dismiss() },
   },
     el('div', { class: 'modal', style: { maxWidth: width } },
       el('div', { class: 'modal-head' },
         el('h3', {}, title),
         el('div', { style: { flex: '1' } }),
-        el('button', { class: 'btn btn-sm', onclick: () => backdrop.remove() }, '✕'),
+        el('button', { class: 'btn btn-sm', onclick: () => dismiss() }, '✕'),
       ),
       el('div', { class: 'modal-body' }, body),
       footer && el('div', { class: 'modal-foot' }, footer),
     ),
   )
-  document.getElementById('modal-root').append(backdrop)
-  return { close: () => backdrop.remove(), node: backdrop }
+
+  const dismiss = openDialog(backdrop)
+  return { close: dismiss, node: backdrop }
 }
 
 export function statusPill(status) {

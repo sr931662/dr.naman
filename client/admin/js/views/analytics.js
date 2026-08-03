@@ -42,9 +42,9 @@ export async function renderAnalytics() {
             ? dataTable(el('table', {},
                 el('thead', {}, el('tr', {}, el('th', {}, 'Path'), el('th', {}, 'Views'), el('th', {}, 'Visitors'))),
                 el('tbody', {}, data.topPages.map(p => el('tr', {},
-                  el('td', { class: 'mono' }, p.path),
-                  el('td', {}, String(p.views)),
-                  el('td', {}, String(p.visitors)),
+                  el('td', { class: 'mono cell-primary' }, p.path),
+                  el('td', { class: 'cell-meta' }, String(p.views)),
+                  el('td', { class: 'cell-meta' }, String(p.visitors)),
                 ))),
               ))
             : el('div', { class: 'empty', style: { padding: '30px' } }, el('p', {}, 'No page views yet.')),

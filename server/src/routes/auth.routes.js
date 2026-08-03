@@ -2,7 +2,7 @@ import { Router } from 'express'
 import * as auth from '../services/auth.service.js'
 import { User, ROLES, PERMISSIONS } from '../models/User.js'
 import { requireAuth, requireRole } from '../middleware/auth.js'
-import { authLimiter } from '../middleware/rateLimit.js'
+import { authLimiter, passwordResetLimiter, otpLimiter } from '../middleware/rateLimit.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { ok, created } from '../utils/respond.js'
 import { ApiError } from '../utils/ApiError.js'
@@ -75,6 +75,56 @@ router.post('/change-password', requireAuth, authLimiter, asyncHandler(async (re
   auth.clearRefreshCookie(res)
   audit(req, { action: 'password-change', resource: 'auth', resourceId: user.id, label: user.email })
   return ok(res, { user, message: 'Password updated. Please sign in again.' })
+}))
+
+// ─── Forgotten password, by emailed passcode ─────────────────────────────────
+
+/**
+ * Step 1 — send a code.
+ *
+ * Answers identically whether or not the address is on file. Telling an
+ * anonymous caller "no such user" would turn the login screen into a way to
+ * discover who has CMS access.
+ */
+router.post('/forgot-password', passwordResetLimiter, asyncHandler(async (req, res) => {
+  const { email } = req.body || {}
+  if (!email) throw ApiError.badRequest('Please enter your email address')
+
+  const result = await auth.requestPasswordReset(email, meta(req))
+
+  return ok(res, {
+    // Non-committal by design — see above.
+    message: 'If that address has a CMS account, a passcode is on its way.',
+    resendSeconds: auth.RESET_POLICY.resendSeconds,
+    expiresInMinutes: auth.RESET_POLICY.otpMinutes,
+    // Only ever set on a development box with no SMTP configured, so the flow
+    // stays testable locally. Never populated when NODE_ENV=production.
+    ...(result.devCode ? { devCode: result.devCode } : {}),
+  })
+}))
+
+/** Step 2 — exchange a correct code for a single-use ticket. */
+router.post('/verify-reset-code', otpLimiter, asyncHandler(async (req, res) => {
+  const { email, code } = req.body || {}
+  if (!email || !code) throw ApiError.badRequest('Enter the code from your email')
+
+  const { ticket, expiresInMinutes } = await auth.verifyResetOtp(email, code, meta(req))
+  return ok(res, { ticket, expiresInMinutes })
+}))
+
+/** Step 3 — spend the ticket on a new password. */
+router.post('/reset-password', otpLimiter, asyncHandler(async (req, res) => {
+  const { ticket, newPassword } = req.body || {}
+  if (!ticket || !newPassword) throw ApiError.badRequest('A reset ticket and new password are required')
+
+  const user = await auth.resetPassword(ticket, newPassword)
+
+  // Any session on this account is already revoked; drop this browser's cookie
+  // too so nothing stale is presented on the next request.
+  auth.clearRefreshCookie(res)
+  audit(req, { action: 'password-reset', resource: 'auth', resourceId: user.id, label: user.email })
+
+  return ok(res, { message: 'Password updated. You can sign in with it now.' })
 }))
 
 // ─── User administration (admin only) ────────────────────────────────────────
