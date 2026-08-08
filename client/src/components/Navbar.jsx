@@ -47,13 +47,13 @@ function YouTubeIcon() {
 function SocialIcons({ className }) {
   return (
     <div className={`${styles.socials} ${className || ''}`}>
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialLink}>
+      <a href="https://www.linkedin.com/in/andrologistdelhi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialLink}>
         <LinkedInIcon/>
       </a>
       <a href="https://instagram.com/drnaman.uro" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialLink}>
         <InstagramIcon/>
       </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={styles.socialLink}>
+      <a href="https://www.youtube.com/@drnamanaggarwal" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={styles.socialLink}>
         <YouTubeIcon/>
       </a>
     </div>

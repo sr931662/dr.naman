@@ -29,9 +29,9 @@ export const settings = {
     responseTime: 'Response within 24 hours',
   },
   social: [
-    { platform: 'linkedin', label: 'LinkedIn', url: 'https://linkedin.com', visible: true },
+    { platform: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/andrologistdelhi/', visible: true },
     { platform: 'instagram', label: '@drnaman.uro', url: 'https://instagram.com/drnaman.uro', visible: true },
-    { platform: 'youtube', label: 'YouTube', url: 'https://youtube.com', visible: true },
+    { platform: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@drnamanaggarwal', visible: true },
   ],
   announcement: { enabled: false, text: '', linkLabel: '', linkUrl: '' },
   copyright: `© ${new Date().getFullYear()} Dr. Naman Aggarwal. All rights reserved.`,

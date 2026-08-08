@@ -49,7 +49,7 @@ export default function Footer() {
           <div className={styles.socialSection}>
             <p className={styles.socialLabel}>Follow &amp; Connect</p>
             <div className={styles.socialRow}>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/andrologistdelhi/" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="LinkedIn">
                 <LinkedInIcon/>
                 <span>LinkedIn</span>
               </a>
@@ -57,7 +57,7 @@ export default function Footer() {
                 <InstagramIcon/>
                 <span>@drnaman.uro</span>
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="YouTube">
+              <a href="https://www.youtube.com/@drnamanaggarwal" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="YouTube">
                 <YouTubeIcon/>
                 <span>YouTube</span>
               </a>

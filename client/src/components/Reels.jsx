@@ -110,7 +110,7 @@ export default function Reels() {
           <a href="https://instagram.com/drnaman.uro" target="_blank" rel="noopener noreferrer" className={`btn btn-ghost ${styles.ctaBtn}`}>
             <InstagramIcon/> Follow on Instagram
           </a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className={`btn btn-ghost ${styles.ctaBtn}`}>
+          <a href="https://www.youtube.com/@drnamanaggarwal" target="_blank" rel="noopener noreferrer" className={`btn btn-ghost ${styles.ctaBtn}`}>
             <YouTubeIcon/> Subscribe on YouTube
           </a>
         </motion.div>
