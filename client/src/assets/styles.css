@@ -95,13 +95,21 @@ body.cursor-on a,body.cursor-on button,body.cursor-on .btn,body.cursor-on [data-
 #preloader .pl-mono{font-family:var(--serif);font-size:64px;color:var(--crimson);line-height:1;
   opacity:0;animation:plMono 1s var(--ease-out) .15s forwards;}
 #preloader .pl-name{font-family:var(--mono);font-size:11px;letter-spacing:.42em;text-transform:uppercase;
-  color:var(--ink-soft);opacity:0;animation:plName 1s var(--ease-out) .5s forwards;}
+  color:var(--ink-soft);opacity:0;animation:plName 1s var(--ease-out) .5s forwards;
+  text-align:center;padding:0 20px;box-sizing:border-box;max-width:100%;}
 #preloader .pl-ecg{width:240px;height:60px;overflow:visible;}
 #preloader .pl-ecg path{fill:none;stroke:var(--crimson);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:600;stroke-dashoffset:600;animation:plEcg 1.7s var(--ease-io) .35s forwards;}
 @keyframes plMono{from{opacity:0;transform:translateY(10px) scale(.96);}to{opacity:1;transform:none;}}
 @keyframes plName{from{opacity:0;letter-spacing:.6em;}to{opacity:1;letter-spacing:.42em;}}
+@keyframes plNameMobile{from{opacity:0;letter-spacing:.3em;}to{opacity:1;letter-spacing:.16em;}}
 @keyframes plEcg{to{stroke-dashoffset:0;}}
+/* At .42em letter-spacing (and .6em mid-animation) this line runs wider than a phone
+   screen and, since the box isn't stretched by its flex parent, ends up positioned off
+   -center rather than wrapping cleanly — shrink both the spacing and its animation. */
+@media (max-width:480px){
+  #preloader .pl-name{font-size:9px;letter-spacing:.16em;animation-name:plNameMobile;}
+}
 #preloader.done{animation:plOut .9s var(--ease-io) forwards;}
 @keyframes plOut{to{transform:translateY(-102%);}}
 #preloader .pl-wipe{position:absolute;inset:0;background:var(--crimson);transform:scaleY(0);transform-origin:bottom;z-index:-1;}

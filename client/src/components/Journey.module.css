@@ -1,6 +1,6 @@
 .section { background: var(--paper); padding: 140px 0; }
 .head { max-width: 760px; margin-bottom: 74px; }
-.head h2 { margin-top: 22px; }
+.head h2 { margin-top: 16px; }
 .timeline { position: relative; max-width: 920px; margin: 0 auto; }
 .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--line-2); transform: translateX(-50%); }
 .spine { position: absolute; left: 50%; top: 0; width: 1px; background: linear-gradient(var(--crimson),var(--crimson-bright)); transform: translateX(-50%); height: 0; transition: height .2s linear; box-shadow: 0 0 10px rgba(179,18,42,.5); }

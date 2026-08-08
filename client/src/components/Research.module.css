@@ -1,7 +1,7 @@
 .section { background: var(--ink); color: #fff; position: relative; overflow: hidden; padding: 140px 0; }
 .eyebrow { color: #ff8a9a !important; }
 .eyebrow::before { background: #ff8a9a !important; }
-.h2 { color: #fff; }
+.h2 { color: #fff; margin-top: 16px; }
 .top { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 60px; }
 .topDesc { color: rgba(255,255,255,.7); margin: 22px 0 0; }
 .list { border-top: 1px solid rgba(255,255,255,.16); }

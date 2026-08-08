@@ -1,4 +1,6 @@
-.section { padding: 140px 0; background: var(--soft); }
+/* Gallery (the section right above this one) is also --soft — without a seam the two
+   completely different sections run together with no visible boundary. */
+.section { padding: 140px 0; background: var(--soft); border-top: 1px solid var(--line); }
 .head { max-width: 700px; margin-bottom: 64px; }
 .head h2 { margin: 16px 0 18px; }
 .layout { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
