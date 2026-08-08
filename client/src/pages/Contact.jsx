@@ -1,7 +1,38 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Seo from '../components/Seo'
+import { SITE_URL, DOCTOR } from '../config/seo'
 import styles from './Contact.module.css'
+
+const CLINIC_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  name: `${DOCTOR.name} — ${DOCTOR.hospital}`,
+  url: `${SITE_URL}/contact`,
+  image: DOCTOR.image,
+  telephone: DOCTOR.telephone,
+  email: DOCTOR.email,
+  priceRange: '₹1000–₹1500',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: DOCTOR.addressLine,
+    addressLocality: DOCTOR.addressLocality,
+    addressRegion: DOCTOR.addressRegion,
+    postalCode: DOCTOR.postalCode,
+    addressCountry: DOCTOR.addressCountry,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: DOCTOR.geo.latitude,
+    longitude: DOCTOR.geo.longitude,
+  },
+  medicalSpecialty: DOCTOR.medicalSpecialty,
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Saturday'], opens: '09:00', closes: '15:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '11:00', closes: '15:00' },
+  ],
+  physician: { '@type': 'Physician', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
+}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -26,6 +57,7 @@ export default function ContactPage() {
         title="Book a Consultation"
         description="Book a consultation with Dr. Naman Aggarwal, Consultant Urologist at Manipal Hospital, Dwarka, Delhi. In-person and teleconsultation appointments available."
         path="/contact"
+        jsonLd={CLINIC_JSON_LD}
       />
       {/* Hero banner */}
       <section className={styles.hero}>

@@ -69,12 +69,13 @@
   .heroStat { min-width: 120px; }
   .timelineSection, .medantaSection, .philoSection, .ctaSection { padding: 80px 0; }
   .medantaGrid { grid-template-columns: 1fr; gap: 40px; }
-  .pillars { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: 1fr 1fr; }
   .tItem { grid-template-columns: 130px 32px 1fr; }
 }
 @media (max-width: 640px) {
   .heroStats { flex-direction: column; max-width: 100%; }
   .heroStat { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .pillars { grid-template-columns: 1fr; }
   .tItem { grid-template-columns: 90px 28px 1fr; }
   .tLeft { font-size: 10px; }
   .tRight h4 { font-size: 16px; }

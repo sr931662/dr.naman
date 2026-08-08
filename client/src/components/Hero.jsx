@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import drNaman from '../assets/Dr__Naman.png'
 import uaeFlag from '../assets/UAE.svg'
-import usaFlag from '../assets/USA.png'
+import usaFlag from '../assets/USA.svg'
 import styles from './Hero.module.css'
 
 
@@ -51,6 +51,7 @@ export default function Hero() {
               Urology · Andrology · Uro-oncology · Renal Transplant
             </motion.span>
             <h1 className={styles.h1}>
+              <span className="visually-hidden">Dr. Naman Aggarwal — Urologist, Andrologist &amp; Laparoscopic Surgeon in Dwarka, Delhi. </span>
               {WORDS.map((word, i) => (
                 <motion.span
                   key={i}

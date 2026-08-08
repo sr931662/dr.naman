@@ -49,4 +49,5 @@
 @media (max-width: 640px) {
   .grid { grid-template-columns: 1fr; }
   .hero { padding: 80px 0 60px; }
+  .filterBtn { padding: 11px 18px; }
 }

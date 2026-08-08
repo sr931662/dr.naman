@@ -26,8 +26,8 @@
 .mobileMenu > div > a { font-family: var(--serif); font-size: clamp(26px,6vw,40px); color: var(--ink); padding: 14px 0; border-bottom: 1px solid var(--line); width: 100%; text-decoration: none; display: block; }
 .mobilePageLink { font-family: var(--serif) !important; font-size: clamp(26px,6vw,40px) !important; color: var(--ink) !important; padding: 14px 0 !important; border-bottom: 1px solid var(--line) !important; width: 100% !important; text-decoration: none !important; display: block !important; }
 .mobileCtaBtn { margin-top: 28px !important; font-size: 16px !important; padding: 16px 28px !important; width: auto !important; }
-.mobileSocials { margin-top: 32px; gap: 22px !important; border-left: none !important; padding-left: 0 !important; }
-.mobileSocials .socialLink { color: var(--ink-soft); }
+.mobileSocials { margin-top: 32px; gap: 10px !important; border-left: none !important; padding-left: 0 !important; }
+.mobileSocials .socialLink { color: var(--ink-soft); padding: 9px; }
 .mobileSocials svg { width: 22px; height: 22px; }
 .overlay { position: fixed; inset: 0; top: 80px; z-index: 47; background: rgba(24,18,20,.35); backdrop-filter: blur(2px); }
 .navCta { }

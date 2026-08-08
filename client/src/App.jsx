@@ -26,7 +26,7 @@ function ScrollToTop() {
   return null
 }
 
-function Shell() {
+export function Shell() {
   useScrollProgress()
   useCursor()
   return (

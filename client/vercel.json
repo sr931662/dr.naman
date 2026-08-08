@@ -13,6 +13,14 @@
       "destination": "/admin/index.html"
     },
     {
+      "source": "/api/:path*",
+      "destination": "https://YOUR-CLOUD-RUN-URL.run.app/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://YOUR-CLOUD-RUN-URL.run.app/uploads/:path*"
+    },
+    {
       "source": "/((?!admin).*)",
       "destination": "/index.html"
     }
