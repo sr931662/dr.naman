@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import drNaman from '../assets/Dr__Naman.png'
+import drNaman from '../assets/Dr__Naman.jpg'
 import uaeFlag from '../assets/UAE.svg'
 import usaFlag from '../assets/USA.svg'
 import styles from './Hero.module.css'

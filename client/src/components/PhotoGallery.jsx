@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import styles from './PhotoGallery.module.css'
-import drNaman from '../assets/Dr__Naman.png'
+import drNaman from '../assets/Dr__Naman.jpg'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
