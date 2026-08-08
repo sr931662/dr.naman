@@ -26,10 +26,14 @@
 *{box-sizing:border-box;}
 /* Keeps text available to screen readers and crawlers without affecting the visual design. */
 .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+/* overflow-x:hidden on body alone doesn't reliably stop sideways drag/rubber-band
+   scroll on mobile Safari/Chrome if any descendant technically overflows — html needs
+   it too, since html is the actual root scroller in most mobile browsers. */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;width:100%;}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
   font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overflow-x:hidden;}
+  overflow-x:hidden;width:100%;}
+#root{overflow-x:hidden;}
 ::selection{background:var(--crimson);color:#fff;}
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
