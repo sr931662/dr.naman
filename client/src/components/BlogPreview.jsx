@@ -1,12 +1,22 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContent } from '../lib/ContentProvider'
 import { BLOGS } from '../data/blogs'
 import styles from './BlogPreview.module.css'
 
-const FEATURED = BLOGS.filter(b => b.featured)
+const FEATURED_FALLBACK = BLOGS.filter(b => b.featured)
+
+const formatDate = iso => iso
+  ? new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  : ''
 
 export default function BlogPreview() {
+  const { home } = useContent()
+  const FEATURED = home?.posts?.length
+    ? home.posts.map(p => ({ ...p, date: formatDate(p.publishedAt) }))
+    : FEATURED_FALLBACK
   const [main, ...rest] = FEATURED
+  if (!main) return null
   return (
     <section className={styles.section} id="blog">
       <div className="wrap">

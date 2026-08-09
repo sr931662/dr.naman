@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { getPosts } from '../lib/api'
 import { BLOGS } from '../data/blogs'
 import Seo from '../components/Seo'
 import styles from './Blog.module.css'
-
-const CATS = ['All', 'Patient Education', 'Surgical Advances', 'Andrology', 'Urology', 'Transplant']
 
 const CARD_GRADIENTS = [
   'linear-gradient(155deg,#1a0a0e,#3d1020,#5c1a30)',
@@ -16,9 +15,25 @@ const CARD_GRADIENTS = [
   'linear-gradient(155deg,#0e1218,#192030,#243040)',
 ]
 
+const formatDate = iso => iso
+  ? new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  : ''
+
 export default function BlogPage() {
   const [cat, setCat] = useState('All')
-  const posts = cat === 'All' ? BLOGS : BLOGS.filter(b => b.category === cat)
+  const [allPosts, setAllPosts] = useState(null) // null = not yet loaded
+
+  useEffect(() => {
+    let cancelled = false
+    getPosts()
+      .then(posts => { if (!cancelled) setAllPosts(posts.map(p => ({ ...p, date: formatDate(p.publishedAt) }))) })
+      .catch(() => { if (!cancelled) setAllPosts(null) })
+    return () => { cancelled = true }
+  }, [])
+
+  const ALL_POSTS = allPosts?.length ? allPosts : BLOGS
+  const CATS = ['All', ...Array.from(new Set(ALL_POSTS.map(p => p.category)))]
+  const posts = cat === 'All' ? ALL_POSTS : ALL_POSTS.filter(b => b.category === cat)
 
   return (
     <main className={styles.page}>

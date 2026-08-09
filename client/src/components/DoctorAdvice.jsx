@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useContent } from '../lib/ContentProvider'
 import styles from './DoctorAdvice.module.css'
 
-const CONDITIONS = [
+const CONDITIONS_FALLBACK = [
   {
     name: 'Blood in Urine',
     subtitle: 'Haematuria',
@@ -111,6 +112,8 @@ const URGENCY_BG = {
 }
 
 export default function DoctorAdvice() {
+  const { home } = useContent()
+  const CONDITIONS = home?.conditions?.length ? home.conditions : CONDITIONS_FALLBACK
   const [active, setActive] = useState(null)
 
   return (
@@ -143,7 +146,7 @@ export default function DoctorAdvice() {
               >
                 <div className={styles.cardTop}>
                   <div className={styles.iconWrap} style={{ color: c.urgencyColor }}>
-                    {c.icon}
+                    {typeof c.icon === 'string' ? <span dangerouslySetInnerHTML={{ __html: c.icon }}/> : c.icon}
                   </div>
                   <div className={styles.cardInfo}>
                     <span className={styles.conditionName}>{c.name}</span>

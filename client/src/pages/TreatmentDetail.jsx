@@ -1,20 +1,56 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
-import { TREATMENTS } from '../components/Gallery'
+import { getTreatment } from '../lib/api'
+import { useContent } from '../lib/ContentProvider'
+import { TREATMENTS_FALLBACK } from '../components/Gallery'
 import { TREATMENT_CONTENT } from '../data/treatmentContent'
 import Seo from '../components/Seo'
 import { SITE_URL, DOCTOR } from '../config/seo'
 import styles from './TreatmentDetail.module.css'
 
+function localFallbackFor(slug) {
+  const card = TREATMENTS_FALLBACK.find(t => t.slug === slug)
+  const content = TREATMENT_CONTENT[slug]
+  if (!card || !content) return null
+  return { ...card, ...content }
+}
+
 export default function TreatmentDetailPage() {
   const { slug } = useParams()
   const [openFaq, setOpenFaq] = useState(null)
-  const treatment = TREATMENTS.find(t => t.slug === slug)
-  const content = TREATMENT_CONTENT[slug]
+  // Seeded by scripts/prerender.js for the exact route it prerendered, so the SSR
+  // pass (and the first client render after a direct load) has real data without
+  // waiting on the effect below, which never runs during SSR.
+  const seeded = useContent().routeData?.treatments?.[slug]
+  const [apiTreatment, setApiTreatment] = useState(seeded || undefined) // undefined = loading, false = not found via API
+
+  useEffect(() => {
+    if (seeded) return // already have this exact route's data from the SSR seed
+    let cancelled = false
+    setApiTreatment(undefined)
+    getTreatment(slug)
+      .then(data => { if (!cancelled) setApiTreatment(data) })
+      .catch(() => { if (!cancelled) setApiTreatment(false) })
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug])
 
   useEffect(() => { setOpenFaq(null) }, [slug])
-  const related = TREATMENTS.filter(t => t.slug !== slug).slice(0, 3)
+
+  const localFallback = localFallbackFor(slug)
+  // Prefer live API data once it resolves; show the local fallback immediately
+  // (including during SSR/prerendering, where the effect above never runs) rather
+  // than a false "not found" while apiTreatment is still undefined.
+  const treatment = apiTreatment || localFallback
+  const content = treatment // the API doc already carries both card + detail fields, same as the merged local fallback
+  const related = apiTreatment
+    ? apiTreatment.related || []
+    : TREATMENTS_FALLBACK.filter(t => t.slug !== slug).slice(0, 3)
+
+  if (apiTreatment === undefined && !localFallback) {
+    return null // still loading, and no local fallback to show meanwhile
+  }
 
   if (!treatment || !content) {
     return (
@@ -35,7 +71,7 @@ export default function TreatmentDetailPage() {
     name: treatment.title,
     description: content.overview,
     url: pageUrl,
-    lastReviewed: new Date().toISOString().slice(0, 10),
+    lastReviewed: treatment.lastReviewed ? String(treatment.lastReviewed).slice(0, 10) : new Date().toISOString().slice(0, 10),
     reviewedBy: { '@type': 'Person', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
     about: { '@type': 'MedicalCondition', name: treatment.title },
   }
@@ -80,7 +116,9 @@ export default function TreatmentDetailPage() {
             <div className={styles.heroMeta}>
               <span className={styles.catBadge}>{treatment.tag}</span>
             </div>
-            <div className={styles.heroIcon}>{treatment.icon}</div>
+            <div className={styles.heroIcon}>
+              {typeof treatment.icon === 'string' ? <span dangerouslySetInnerHTML={{ __html: treatment.icon }}/> : treatment.icon}
+            </div>
             <h1 className={styles.heroH1}>{treatment.title}</h1>
             <p className={styles.heroSub}>{treatment.sub}</p>
             {content.keyStat && (
@@ -269,7 +307,9 @@ export default function TreatmentDetailPage() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
               >
                 <Link to={`/treatments/${r.slug}`} className={styles.moreCard}>
-                  <div className={styles.moreIcon}>{r.icon}</div>
+                  <div className={styles.moreIcon}>
+                    {typeof r.icon === 'string' ? <span dangerouslySetInnerHTML={{ __html: r.icon }}/> : r.icon}
+                  </div>
                   <h3>{r.title}</h3>
                   <p>{r.sub}</p>
                 </Link>

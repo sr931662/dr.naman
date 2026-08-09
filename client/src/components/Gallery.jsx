@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Gallery.module.css'
 
 const CHUNK = 4
 const MotionLink = motion.create(Link)
 
-export const TREATMENTS = [
+export const TREATMENTS_FALLBACK = [
   {
     icon: (
       <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -177,6 +178,8 @@ export const TREATMENTS = [
 ]
 
 export default function Gallery() {
+  const { home } = useContent()
+  const TREATMENTS = home?.treatments?.length ? home.treatments : TREATMENTS_FALLBACK
   const trackRef = useRef(null)
   const [activeDot, setActiveDot] = useState(0)
   const totalDots = Math.ceil(TREATMENTS.length / CHUNK)
@@ -245,7 +248,9 @@ export default function Gallery() {
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.03 }}
               whileHover={{ y: -4 }}
             >
-              <div className={styles.iconWrap}>{t.icon}</div>
+              <div className={styles.iconWrap}>
+                {typeof t.icon === 'string' ? <span dangerouslySetInnerHTML={{ __html: t.icon }}/> : t.icon}
+              </div>
               <div className={styles.cardBody}>
                 <h3 className={styles.cardTitle}>{t.title}</h3>
                 <p className={styles.cardSub}>{t.sub}</p>

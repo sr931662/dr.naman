@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Journey.module.css'
 
-const ITEMS = [
+const ITEMS_FALLBACK = [
   { side: 'left', year: 'Certification · ASRM', title: 'Andrology Certification', desc: 'Awarded by the American Society for Reproductive Medicine — formal credentialing in male fertility and reproductive surgery.' },
   { side: 'right', year: 'Observership · Dubai', title: 'First IVF, Dubai (UAE)', desc: 'International observership in advanced reproductive medicine, deepening expertise in andrology and assisted fertility.' },
   { side: 'left', year: '2022 · Fellowship', title: 'Devon Traveling Fellowship', desc: 'A competitive traveling fellowship recognising surgical promise and a commitment to evolving urological practice.' },
@@ -35,6 +36,8 @@ function TimelineRow({ item }) {
 }
 
 export default function Journey() {
+  const { home } = useContent()
+  const ITEMS = home?.journey?.length ? home.journey : ITEMS_FALLBACK
   const tlRef = useRef(null)
   const [spineH, setSpineH] = useState(0)
 

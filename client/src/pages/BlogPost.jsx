@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, Link } from 'react-router-dom'
+import { getPost } from '../lib/api'
+import { useContent } from '../lib/ContentProvider'
 import { BLOGS } from '../data/blogs'
 import Seo from '../components/Seo'
 import { SITE_URL, DOCTOR } from '../config/seo'
@@ -56,11 +59,44 @@ const CARD_GRADIENTS = [
   'linear-gradient(155deg,#0f1a12,#1a3020,#2a4a2e)',
 ]
 
+const formatDate = iso => iso
+  ? new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  : ''
+
 export default function BlogPostPage() {
   const { slug } = useParams()
-  const post = BLOGS.find(b => b.slug === slug)
-  const related = BLOGS.filter(b => b.slug !== slug).slice(0, 3)
-  const body = ARTICLE_BODY[slug] || FALLBACK_BODY
+  // Seeded by scripts/prerender.js for the exact route it prerendered, so the SSR
+  // pass (and the first client render after a direct load) has real data without
+  // waiting on the effect below, which never runs during SSR.
+  const seeded = useContent().routeData?.posts?.[slug]
+  const [apiPost, setApiPost] = useState(seeded || undefined) // undefined = loading, false = not found via API
+
+  useEffect(() => {
+    if (seeded) return // already have this exact route's data from the SSR seed
+    let cancelled = false
+    setApiPost(undefined)
+    getPost(slug)
+      .then(data => { if (!cancelled) setApiPost(data) })
+      .catch(() => { if (!cancelled) setApiPost(false) })
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug])
+
+  const localFallback = BLOGS.find(b => b.slug === slug)
+  // Prefer live API data once it resolves; show the local fallback immediately
+  // (including during SSR/prerendering, where the effect above never runs) rather
+  // than a false "not found" while apiPost is still undefined.
+  const post = apiPost || localFallback
+  const related = apiPost
+    ? apiPost.related || []
+    : BLOGS.filter(b => b.slug !== slug).slice(0, 3)
+  const body = post?.body || null // richtext HTML from the CMS, if set
+  const paragraphs = post?.paragraphs?.length ? post.paragraphs : (ARTICLE_BODY[slug] || FALLBACK_BODY)
+  const displayDate = apiPost ? formatDate(apiPost.publishedAt) : post?.date
+
+  if (apiPost === undefined && !localFallback) {
+    return null // still loading, and no local fallback to show meanwhile
+  }
 
   if (!post) {
     return (
@@ -81,7 +117,7 @@ export default function BlogPostPage() {
     description: post.excerpt,
     author: { '@type': 'Person', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
     url: `${SITE_URL}/blog/${post.slug}`,
-    datePublished: post.date,
+    datePublished: apiPost ? apiPost.publishedAt : undefined,
   }
 
   return (
@@ -101,7 +137,7 @@ export default function BlogPostPage() {
             <div className={styles.heroMeta}>
               <span className={styles.catBadge}>{post.category}</span>
               <span className={styles.metaSep}>·</span>
-              <span>{post.date}</span>
+              <span>{displayDate}</span>
               <span className={styles.metaSep}>·</span>
               <span>{post.readTime}</span>
             </div>
@@ -128,9 +164,13 @@ export default function BlogPostPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
             >
-              {body.map((para, i) => (
-                <p key={i} className={styles.para}>{para}</p>
-              ))}
+              {body ? (
+                <div className={styles.para} dangerouslySetInnerHTML={{ __html: body }}/>
+              ) : (
+                paragraphs.map((para, i) => (
+                  <p key={i} className={styles.para}>{para}</p>
+                ))
+              )}
 
               <div className={styles.articleFooter}>
                 <div className={styles.authorCard}>
@@ -200,7 +240,7 @@ export default function BlogPostPage() {
                   <span className={styles.moreCat}>{r.category}</span>
                 </div>
                 <div className={styles.moreBody}>
-                  <div className={styles.moreMeta}>{r.date} · {r.readTime}</div>
+                  <div className={styles.moreMeta}>{r.date || formatDate(r.publishedAt)} · {r.readTime}</div>
                   <h3><Link to={`/blog/${r.slug}`}>{r.title}</Link></h3>
                   <p>{r.excerpt}</p>
                 </div>

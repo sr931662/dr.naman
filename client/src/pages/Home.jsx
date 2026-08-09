@@ -1,6 +1,7 @@
 import Seo from '../components/Seo'
 import { SITE_URL, DOCTOR } from '../config/seo'
-import { FAQS } from '../data/faqs'
+import { FAQS as FAQS_FALLBACK } from '../data/faqs'
+import { useContent } from '../lib/ContentProvider'
 import Hero from '../components/Hero'
 import CredentialsMarquee from '../components/CredentialsMarquee'
 import Gallery from '../components/Gallery'
@@ -41,24 +42,26 @@ const PHYSICIAN_JSON_LD = {
   },
 }
 
-const FAQ_JSON_LD = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map(f => ({
-    '@type': 'Question',
-    name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
-  })),
-}
-
 export default function Home() {
+  const { home } = useContent()
+  const faqs = home?.faqs?.length ? home.faqs : FAQS_FALLBACK
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  }
+
   return (
     <>
       <Seo
         title="Urologist in Dwarka, Delhi"
         description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
         path="/"
-        jsonLd={[PHYSICIAN_JSON_LD, FAQ_JSON_LD]}
+        jsonLd={[PHYSICIAN_JSON_LD, faqJsonLd]}
       />
       <Hero/>
       <Gallery/>

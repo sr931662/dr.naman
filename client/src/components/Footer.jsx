@@ -1,8 +1,20 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Footer.module.css'
 
 const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } }
+
+const FOOTER_COLUMNS_FALLBACK = [
+  { title: 'Practice', links: [{ url: '#expertise', label: 'Urology' }, { url: '#expertise', label: 'Andrology' }, { url: '#expertise', label: 'Uro-oncology' }, { url: '#expertise', label: 'Renal Transplant' }] },
+  { title: 'Explore', links: [{ url: '/about', label: 'About Dr. Aggarwal' }, { url: '/blog', label: 'Blog & Insights' }, { url: '#journey', label: 'Journey' }, { url: '#research', label: 'Research' }] },
+  { title: 'Clinic', links: [{ url: '#contact', label: 'Book a consultation' }, { url: '#contact', label: 'Manipal Hospital, Dwarka' }, { url: '#contact', label: 'Referrals' }, { url: '#contact', label: 'Teleconsultation' }] },
+]
+const SOCIAL_FALLBACK = [
+  { platform: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/andrologistdelhi/' },
+  { platform: 'instagram', label: '@drnaman.uro', url: 'https://instagram.com/drnaman.uro' },
+  { platform: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@drnamanaggarwal' },
+]
 
 function LinkedInIcon() {
   return (
@@ -34,7 +46,16 @@ function YouTubeIcon() {
   )
 }
 
+const PLATFORM_ICON = { linkedin: LinkedInIcon, instagram: InstagramIcon, youtube: YouTubeIcon }
+
 export default function Footer() {
+  const { site } = useContent()
+  const columns = site?.navigation?.footerColumns?.length ? site.navigation.footerColumns : FOOTER_COLUMNS_FALLBACK
+  const social = site?.settings?.social?.filter(s => s.visible !== false)?.length
+    ? site.settings.social.filter(s => s.visible !== false)
+    : SOCIAL_FALLBACK
+  const copyright = site?.settings?.copyright || '© 2026 Dr. Naman Aggarwal'
+
   return (
     <footer className={styles.footer}>
       <motion.div
@@ -49,33 +70,26 @@ export default function Footer() {
           <div className={styles.socialSection}>
             <p className={styles.socialLabel}>Follow &amp; Connect</p>
             <div className={styles.socialRow}>
-              <a href="https://www.linkedin.com/in/andrologistdelhi/" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="LinkedIn">
-                <LinkedInIcon/>
-                <span>LinkedIn</span>
-              </a>
-              <a href="https://instagram.com/drnaman.uro" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="Instagram @drnaman.uro">
-                <InstagramIcon/>
-                <span>@drnaman.uro</span>
-              </a>
-              <a href="https://www.youtube.com/@drnamanaggarwal" target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label="YouTube">
-                <YouTubeIcon/>
-                <span>YouTube</span>
-              </a>
+              {social.map(s => {
+                const Icon = PLATFORM_ICON[s.platform] || LinkedInIcon
+                return (
+                  <a key={s.platform + s.url} href={s.url} target="_blank" rel="noopener noreferrer" className={styles.socialCard} aria-label={s.label || s.platform}>
+                    <Icon/>
+                    <span>{s.label || s.platform}</span>
+                  </a>
+                )
+              })}
             </div>
           </div>
         </motion.div>
-        {[
-          ['Practice', [['#expertise','Urology'],['#expertise','Andrology'],['#expertise','Uro-oncology'],['#expertise','Renal Transplant']]],
-          ['Explore', [['/about','About Dr. Aggarwal'],['/blog','Blog & Insights'],['#journey','Journey'],['#research','Research']]],
-          ['Clinic', [['#contact','Book a consultation'],['#contact','Manipal Hospital, Dwarka'],['#contact','Referrals'],['#contact','Teleconsultation']]],
-        ].map(([heading, links]) => (
-          <motion.div key={heading} className={styles.col} variants={fadeUp}>
-            <h5>{heading}</h5>
-            {links.map(([href, label]) =>
-              href.startsWith('/') ? (
-                <Link key={label} to={href}>{label}</Link>
+        {columns.map(col => (
+          <motion.div key={col.title} className={styles.col} variants={fadeUp}>
+            <h5>{col.title}</h5>
+            {col.links.map(l =>
+              l.url.startsWith('/') ? (
+                <Link key={l.label} to={l.url}>{l.label}</Link>
               ) : (
-                <a key={label} href={href}>{label}</a>
+                <a key={l.label} href={l.url} target={l.external ? '_blank' : undefined} rel={l.external ? 'noopener noreferrer' : undefined}>{l.label}</a>
               )
             )}
           </motion.div>
@@ -83,7 +97,7 @@ export default function Footer() {
       </motion.div>
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
-          <span>© 2026 Dr. Naman Aggarwal</span>
+          <span>{copyright}</span>
           <span>Manipal Hospital · Dwarka Sector 6, Delhi, India</span>
         </div>
       </div>

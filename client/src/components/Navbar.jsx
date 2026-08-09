@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Navbar.module.css'
 
-const SECTION_LINKS = [
-  ['#expertise', 'Expertise'],
-  ['#advice', 'Patient Guide'],
-  ['#journey', 'Journey'],
-  ['#voices', 'Voices'],
+const SECTION_LINKS_FALLBACK = [
+  { url: '#expertise', label: 'Expertise' },
+  { url: '#advice', label: 'Patient Guide' },
+  { url: '#journey', label: 'Journey' },
+  { url: '#voices', label: 'Voices' },
 ]
-const PAGE_LINKS = [
-  ['/blog', 'Blog'],
-  ['/about', 'About'],
+const PAGE_LINKS_FALLBACK = [
+  { url: '/blog', label: 'Blog' },
+  { url: '/about', label: 'About' },
+]
+const SOCIAL_FALLBACK = [
+  { platform: 'linkedin', url: 'https://linkedin.com' },
+  { platform: 'instagram', url: 'https://instagram.com/drnaman.uro' },
+  { platform: 'youtube', url: 'https://youtube.com' },
 ]
 
 function LinkedInIcon() {
@@ -44,18 +50,20 @@ function YouTubeIcon() {
   )
 }
 
-function SocialIcons({ className }) {
+const PLATFORM_ICON = { linkedin: LinkedInIcon, instagram: InstagramIcon, youtube: YouTubeIcon }
+const PLATFORM_LABEL = { linkedin: 'LinkedIn', instagram: 'Instagram', youtube: 'YouTube', facebook: 'Facebook', x: 'X' }
+
+function SocialIcons({ className, social }) {
   return (
     <div className={`${styles.socials} ${className || ''}`}>
-      <a href="https://www.linkedin.com/in/andrologistdelhi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={styles.socialLink}>
-        <LinkedInIcon/>
-      </a>
-      <a href="https://instagram.com/drnaman.uro" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={styles.socialLink}>
-        <InstagramIcon/>
-      </a>
-      <a href="https://www.youtube.com/@drnamanaggarwal" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={styles.socialLink}>
-        <YouTubeIcon/>
-      </a>
+      {social.map(s => {
+        const Icon = PLATFORM_ICON[s.platform] || LinkedInIcon
+        return (
+          <a key={s.platform + s.url} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label || PLATFORM_LABEL[s.platform] || 'Social link'} className={styles.socialLink}>
+            <Icon/>
+          </a>
+        )
+      })}
     </div>
   )
 }
@@ -64,8 +72,16 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
+  const { site } = useContent()
   const isHome = pathname === '/'
   const close = () => setOpen(false)
+
+  const nav = site?.navigation || {}
+  const SECTION_LINKS = nav.sectionLinks?.length ? nav.sectionLinks : SECTION_LINKS_FALLBACK
+  const PAGE_LINKS = nav.pageLinks?.length ? nav.pageLinks : PAGE_LINKS_FALLBACK
+  const social = (site?.settings?.social?.filter(s => s.visible !== false)) || SOCIAL_FALLBACK
+  const ctaLabel = nav.headerCtaLabel || 'Book a consultation'
+  const ctaUrl = nav.headerCtaUrl
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -107,15 +123,15 @@ export default function Navbar() {
             </span>
           </Link>
           <div className={styles.navLinks}>
-            {isHome && SECTION_LINKS.map(([href, label]) => (
-              <a key={href} href={href}>{label}</a>
+            {isHome && SECTION_LINKS.map(l => (
+              <a key={l.url} href={l.url}>{l.label}</a>
             ))}
-            {PAGE_LINKS.map(([href, label]) => (
-              <Link key={href} to={href}>{label}</Link>
+            {PAGE_LINKS.map(l => (
+              <Link key={l.url} to={l.url}>{l.label}</Link>
             ))}
-            <SocialIcons/>
+            <SocialIcons social={social}/>
           </div>
-          <Link className={`btn btn-primary ${styles.navCta}`} to={isHome ? '/#contact' : '/contact'}>Book a consultation</Link>
+          <Link className={`btn btn-primary ${styles.navCta}`} to={ctaUrl || (isHome ? '/#contact' : '/contact')}>{ctaLabel}</Link>
           <button
             className={`${styles.burger}${open ? ' ' + styles.burgerOpen : ''}`}
             onClick={() => setOpen(o => !o)}
@@ -137,25 +153,25 @@ export default function Navbar() {
               exit={{ x: '100%' }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              {isHome && SECTION_LINKS.map(([href, label], i) => (
+              {isHome && SECTION_LINKS.map((l, i) => (
                 <motion.a
-                  key={href}
-                  href={href}
+                  key={l.url}
+                  href={l.url}
                   onClick={close}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.06 + 0.1, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  {label}
+                  {l.label}
                 </motion.a>
               ))}
-              {PAGE_LINKS.map(([href, label], i) => (
-                <motion.div key={href}
+              {PAGE_LINKS.map((l, i) => (
+                <motion.div key={l.url}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: (isHome ? SECTION_LINKS.length : 0) * 0.06 + i * 0.06 + 0.1, duration: 0.35 }}
                 >
-                  <Link className={styles.mobilePageLink} to={href} onClick={close}>{label}</Link>
+                  <Link className={styles.mobilePageLink} to={l.url} onClick={close}>{l.label}</Link>
                 </motion.div>
               ))}
               <motion.div
@@ -163,8 +179,8 @@ export default function Navbar() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: allLinks.length * 0.06 + 0.1, duration: 0.35 }}
               >
-                <Link className={`btn btn-primary ${styles.mobileCtaBtn}`} to={isHome ? '/#contact' : '/contact'} onClick={close}>
-                  Book a consultation
+                <Link className={`btn btn-primary ${styles.mobileCtaBtn}`} to={ctaUrl || (isHome ? '/#contact' : '/contact')} onClick={close}>
+                  {ctaLabel}
                 </Link>
               </motion.div>
               <motion.div
@@ -172,7 +188,7 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: allLinks.length * 0.06 + 0.22 }}
               >
-                <SocialIcons className={styles.mobileSocials}/>
+                <SocialIcons className={styles.mobileSocials} social={social}/>
               </motion.div>
             </motion.div>
             <motion.div

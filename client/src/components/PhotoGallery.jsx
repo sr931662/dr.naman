@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useContent } from '../lib/ContentProvider'
 import styles from './PhotoGallery.module.css'
 import drNaman from '../assets/Dr__Naman.jpg'
 
@@ -9,34 +10,41 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }
 })
 
-const CLINIC_PHOTOS = [
+const PHOTOS_FALLBACK = [
   {
-    src: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80',
+    featured: true,
+    label: 'Dr. Naman Aggarwal',
+    sub: 'MCh Urology · ASRM · Manipal Hospital, Dwarka',
+    image: { url: drNaman, alt: 'Dr. Naman Aggarwal — Consultant Urologist, Manipal Hospital Dwarka' },
+  },
+  {
     label: 'OPD Consultation',
     sub: 'Manipal Hospital · Dwarka',
-    alt: "Dr. Naman Aggarwal's OPD consultation room at Manipal Hospital, Dwarka, Delhi",
+    image: { url: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80', alt: "Dr. Naman Aggarwal's OPD consultation room at Manipal Hospital, Dwarka, Delhi" },
   },
   {
-    src: 'https://images.unsplash.com/photo-1758206523711-f20bb01033a5?auto=format&fit=crop&w=800&q=80',
     label: 'Surgical Suite',
     sub: 'Minimally invasive · Laparoscopic',
-    alt: 'Minimally invasive laparoscopic surgical suite used by Dr. Naman Aggarwal, urologist in Dwarka, Delhi',
+    image: { url: 'https://images.unsplash.com/photo-1758206523711-f20bb01033a5?auto=format&fit=crop&w=800&q=80', alt: 'Minimally invasive laparoscopic surgical suite used by Dr. Naman Aggarwal, urologist in Dwarka, Delhi' },
   },
   {
-    src: 'https://plus.unsplash.com/premium_photo-1661627109539-69d7096ea354?auto=format&fit=crop&w=800&q=80',
     label: 'Endoscopy Unit',
     sub: 'RIRS · Ureteroscopy · PCNL',
-    alt: 'Endoscopy unit for RIRS, ureteroscopy and PCNL kidney stone procedures at Manipal Hospital, Dwarka',
+    image: { url: 'https://plus.unsplash.com/premium_photo-1661627109539-69d7096ea354?auto=format&fit=crop&w=800&q=80', alt: 'Endoscopy unit for RIRS, ureteroscopy and PCNL kidney stone procedures at Manipal Hospital, Dwarka' },
   },
   {
-    src: 'https://images.unsplash.com/photo-1758691462878-6edc3d3da1be?auto=format&fit=crop&w=800&q=80',
     label: 'Patient Care',
     sub: 'Post-operative follow-up',
-    alt: 'Post-operative patient follow-up care with Dr. Naman Aggarwal, urologist and andrologist in Delhi',
+    image: { url: 'https://images.unsplash.com/photo-1758691462878-6edc3d3da1be?auto=format&fit=crop&w=800&q=80', alt: 'Post-operative patient follow-up care with Dr. Naman Aggarwal, urologist and andrologist in Delhi' },
   },
 ]
 
 export default function PhotoGallery() {
+  const { home } = useContent()
+  const PHOTOS = home?.photos?.length ? home.photos : PHOTOS_FALLBACK
+  const featured = PHOTOS.find(p => p.featured) || PHOTOS[0]
+  const rest = PHOTOS.filter(p => p !== featured)
+
   return (
     <section className={styles.section} id="gallery">
       <div className="wrap">
@@ -47,19 +55,19 @@ export default function PhotoGallery() {
         </motion.div>
 
         <div className={styles.grid}>
-          {/* Doctor portrait — featured */}
+          {/* Featured photo */}
           <motion.div className={`${styles.cell} ${styles.portrait}`} {...fadeUp(0.08)}>
-            <img src={drNaman} alt="Dr. Naman Aggarwal — Consultant Urologist, Manipal Hospital Dwarka" className={styles.portraitImg} loading="lazy"/>
+            <img src={featured.image.url} alt={featured.image.alt || featured.label} className={styles.portraitImg} loading="lazy"/>
             <div className={styles.portraitCaption}>
-              <span className={styles.captionName}>Dr. Naman Aggarwal</span>
-              <span className={styles.captionSub}>MCh Urology · ASRM · Manipal Hospital, Dwarka</span>
+              <span className={styles.captionName}>{featured.label}</span>
+              <span className={styles.captionSub}>{featured.sub}</span>
             </div>
           </motion.div>
 
           {/* Clinic photos */}
-          {CLINIC_PHOTOS.map((p, i) => (
-            <motion.div key={i} className={`${styles.cell} ${styles.clinicPhoto}`} {...fadeUp(0.12 + i * 0.06)}>
-              <img src={p.src} alt={p.alt} className={styles.clinicImg} loading="lazy"/>
+          {rest.map((p, i) => (
+            <motion.div key={p.label} className={`${styles.cell} ${styles.clinicPhoto}`} {...fadeUp(0.12 + i * 0.06)}>
+              <img src={p.image.url} alt={p.image.alt || p.label} className={styles.clinicImg} loading="lazy"/>
               <div className={styles.clinicCaption}>
                 <span className={styles.captionName}>{p.label}</span>
                 <span className={styles.captionSub}>{p.sub}</span>

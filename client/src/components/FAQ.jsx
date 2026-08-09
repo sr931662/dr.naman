@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { FAQS } from '../data/faqs'
+import { useContent } from '../lib/ContentProvider'
+import { FAQS as FAQS_FALLBACK } from '../data/faqs'
 import styles from './FAQ.module.css'
 
 export default function FAQ() {
+  const { home } = useContent()
+  const FAQS = home?.faqs?.length ? home.faqs.map(f => ({ q: f.q, a: f.a })) : FAQS_FALLBACK
   const [open, setOpen] = useState(null)
   const toggle = i => setOpen(open === i ? null : i)
 

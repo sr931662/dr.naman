@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
+import { useContent } from '../lib/ContentProvider'
 import styles from './SectionRail.module.css'
 
-const LINKS = [
-  ['#top', 'Top'],
-  ['#treatments', 'Treatments'],
-  ['#advice', 'Guide'],
-  ['#expertise', 'Atlas'],
-  ['#gallery', 'Gallery'],
-  ['#philosophy', 'Philosophy'],
-  ['#journey', 'Journey'],
-  ['#research', 'Research'],
-  ['#voices', 'Voices'],
-  ['#faq', 'FAQ'],
+const LINKS_FALLBACK = [
+  { url: '#top', label: 'Top' },
+  { url: '#treatments', label: 'Treatments' },
+  { url: '#advice', label: 'Guide' },
+  { url: '#expertise', label: 'Atlas' },
+  { url: '#gallery', label: 'Gallery' },
+  { url: '#philosophy', label: 'Philosophy' },
+  { url: '#journey', label: 'Journey' },
+  { url: '#research', label: 'Research' },
+  { url: '#voices', label: 'Voices' },
+  { url: '#faq', label: 'FAQ' },
 ]
 
 export default function SectionRail() {
   const [active, setActive] = useState('#top')
   const { pathname } = useLocation()
+  const { site } = useContent()
+  const LINKS = site?.navigation?.railLinks?.length ? site.navigation.railLinks : LINKS_FALLBACK
   const isHome = pathname === '/'
 
   useEffect(() => {
@@ -42,9 +45,9 @@ export default function SectionRail() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 3.0, ease: [0.16, 1, 0.3, 1] }}
     >
-      {LINKS.map(([href, label]) => (
-        <a key={href} href={href} className={`${styles.link}${active === href ? ' ' + styles.active : ''}`}>
-          <span className={styles.lbl}>{label}</span>
+      {LINKS.map(l => (
+        <a key={l.url} href={l.url} className={`${styles.link}${active === l.url ? ' ' + styles.active : ''}`}>
+          <span className={styles.lbl}>{l.label}</span>
           <span className={styles.pip}/>
         </a>
       ))}

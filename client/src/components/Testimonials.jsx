@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Testimonials.module.css'
 
-const TESTIMONIALS = [
+const TESTIMONIALS_FALLBACK = [
   {
     quote: "I was terrified of surgery. Dr. Aggarwal explained every step with a calm clarity I had never experienced with a doctor before. The RIRS procedure was over in an hour, and I was home the same evening.",
     name: "Rajesh Kumar", location: "Delhi NCR", condition: "Kidney Stone — RIRS",
@@ -43,10 +44,12 @@ function Stars({ count }) {
 }
 
 export default function Testimonials() {
+  const { home } = useContent()
+  const TESTIMONIALS = home?.testimonials?.length ? home.testimonials : TESTIMONIALS_FALLBACK
   const [active, setActive] = useState(0)
   const prev = () => setActive(a => (a - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
   const next = () => setActive(a => (a + 1) % TESTIMONIALS.length)
-  const t = TESTIMONIALS[active]
+  const t = TESTIMONIALS[active % TESTIMONIALS.length]
 
   return (
     <section className={styles.section} id="voices">

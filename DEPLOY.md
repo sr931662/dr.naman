@@ -159,9 +159,28 @@ media.
 **The CMS is then live at `https://drnamanaggarwal.com/admin`.** Sign in and
 change the password immediately under *My Account*.
 
-> You do **not** need `VITE_API_URL` on Vercel. The site and the CMS both call
+> At **runtime** you do not need `VITE_API_URL`. The site and the CMS both call
 > a relative `/api`, which the proxy forwards — that is what keeps the login
 > cookie first-party.
+>
+> At **build time** you do need it, though, for a different reason:
+> `client/scripts/prerender.js` runs after `vite build` and fetches live CMS
+> content (via `getBootstrap`/`getHome`/etc.) to bake into each route's static
+> HTML, so published changes actually reach crawlers and social-preview cards
+> instead of only ever being visible after a client-side fetch. That script runs
+> in Node, not a browser, so it has no page origin to resolve a relative `/api`
+> against — it needs an absolute URL. Set `VITE_API_URL` as a **Vercel
+> Environment Variable** (Project → Settings → Environment Variables, scoped to
+> the Build step) to your Cloud Run URL + `/api`, e.g.
+> `https://your-service-abc123.run.app/api`.
+>
+> Without it, prerendering silently falls back to each component's hardcoded
+> placeholder content on every build — the site still builds and deploys fine,
+> it just means CMS edits (a new video reel, a new testimonial, a new blog
+> post) never show up in the prerendered HTML, only after the browser's own
+> client-side fetch resolves. Check the Vercel build log for a line starting
+> `[prerender]` — it says outright whether that build used live CMS data or the
+> static fallback.
 
 ---
 

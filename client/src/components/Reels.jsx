@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
+import { useContent } from '../lib/ContentProvider'
 import styles from './Reels.module.css'
 
-const REELS = [
+const REELS_FALLBACK = [
   { title: 'What is RIRS?', platform: 'youtube', duration: '2:14', views: '12K', desc: 'Flexible ureteroscopy explained simply', gradient: 'linear-gradient(160deg,#1a0a0e,#3d1020,#6b1f36)' },
   { title: 'HoLEP vs TURP', platform: 'youtube', duration: '3:40', views: '8.2K', desc: 'Why HoLEP is now preferred for BPH', gradient: 'linear-gradient(160deg,#0d0d14,#1a1a2e,#2a2850)' },
   { title: 'Varicocele & Male Fertility', platform: 'instagram', duration: '0:58', views: '21K', desc: 'The link between varicocele and infertility', gradient: 'linear-gradient(160deg,#0f1a12,#1a3020,#2a4a2e)' },
@@ -30,6 +31,8 @@ function InstagramIcon() {
 }
 
 export default function Reels() {
+  const { home } = useContent()
+  const REELS = home?.reels?.length ? home.reels : REELS_FALLBACK
   return (
     <section className={styles.section} id="reels">
       <div className="wrap">
@@ -58,7 +61,12 @@ export default function Reels() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.07 }}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
             >
-              <div className={styles.visual} style={{ background: r.gradient }}>
+              <div
+                className={styles.visual}
+                style={r.thumbnail?.url
+                  ? { backgroundImage: `url(${r.thumbnail.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                  : { background: r.gradient }}
+              >
                 <svg className={styles.pattern} viewBox="0 0 160 280" aria-hidden="true">
                   <defs>
                     <pattern id={`rp${i}`} x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
