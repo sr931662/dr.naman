@@ -1,7 +1,20 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useContent } from '../lib/ContentProvider'
 import styles from './PhotoGallery.module.css'
 import drNaman from '../assets/Dr__Naman.jpg'
+
+/**
+ * Falls back gracefully if a CMS-stored image URL 404s — e.g. a seed record
+ * pointing at a file that was never actually uploaded, or an upload lost to
+ * Cloud Run's ephemeral filesystem (see DEPLOY.md's known limitation). Without
+ * this a broken URL just renders a blank broken-image icon forever.
+ */
+function GalleryImage({ src, alt, fallbackSrc, className }) {
+  const [failed, setFailed] = useState(false)
+  if (failed && !fallbackSrc) return null
+  return <img src={failed ? fallbackSrc : src} alt={alt} className={className} loading="lazy" onError={() => setFailed(true)}/>
+}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -57,7 +70,7 @@ export default function PhotoGallery() {
         <div className={styles.grid}>
           {/* Featured photo */}
           <motion.div className={`${styles.cell} ${styles.portrait}`} {...fadeUp(0.08)}>
-            <img src={featured.image.url} alt={featured.image.alt || featured.label} className={styles.portraitImg} loading="lazy"/>
+            <GalleryImage src={featured.image.url} alt={featured.image.alt || featured.label} fallbackSrc={drNaman} className={styles.portraitImg}/>
             <div className={styles.portraitCaption}>
               <span className={styles.captionName}>{featured.label}</span>
               <span className={styles.captionSub}>{featured.sub}</span>
@@ -67,7 +80,7 @@ export default function PhotoGallery() {
           {/* Clinic photos */}
           {rest.map((p, i) => (
             <motion.div key={p.label} className={`${styles.cell} ${styles.clinicPhoto}`} {...fadeUp(0.12 + i * 0.06)}>
-              <img src={p.image.url} alt={p.image.alt || p.label} className={styles.clinicImg} loading="lazy"/>
+              <GalleryImage src={p.image.url} alt={p.image.alt || p.label} className={styles.clinicImg}/>
               <div className={styles.clinicCaption}>
                 <span className={styles.captionName}>{p.label}</span>
                 <span className={styles.captionSub}>{p.sub}</span>
