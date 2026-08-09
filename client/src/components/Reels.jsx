@@ -83,10 +83,10 @@ function ReelCard({ r, i }) {
         </div>
 
         {r.desc && (
-          <>
+          <span className={styles.infoWrap}>
             <span className={styles.infoBtn} tabIndex={0} role="button" aria-label="Show description">i</span>
             <span className={styles.infoTooltip}>{r.desc}</span>
-          </>
+          </span>
         )}
       </div>
 
