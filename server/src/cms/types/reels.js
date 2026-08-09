@@ -35,5 +35,11 @@ export default defineType({
     },
     { name: 'duration', type: 'string', label: 'Duration', help: 'e.g. "2:14".' },
     { name: 'views', type: 'string', label: 'View count', help: 'Display text, e.g. "12K".' },
+    {
+      name: 'sourceId',
+      type: 'string',
+      label: 'Source video ID',
+      help: 'Set automatically when this reel was pulled in by the YouTube sync — used to match it on future syncs and update its view count. Leave blank for reels you add by hand.',
+    },
   ],
 })

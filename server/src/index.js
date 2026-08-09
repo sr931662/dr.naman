@@ -3,6 +3,7 @@ import { connectDB, disconnectDB } from './config/db.js'
 import { env, assertProductionConfig } from './config/env.js'
 import { logger } from './config/logger.js'
 import { ensureUploadDir } from './services/media.service.js'
+import { startYoutubeSyncJob } from './jobs/youtubeSync.job.js'
 
 async function main() {
   assertProductionConfig()
@@ -17,6 +18,8 @@ async function main() {
     logger.info(`Health   → http://localhost:${env.port}/api/health`)
     logger.info(`Env      → ${env.nodeEnv}`)
   })
+
+  startYoutubeSyncJob()
 
   const shutdown = async signal => {
     logger.info(`${signal} received — shutting down`)

@@ -140,6 +140,7 @@ export async function renderCollection(typeName) {
       title: type.label,
       description: type.description,
       actions: [
+        typeName === 'reels' && can('content.write') && youtubeSyncButton(load),
         can('content.write') && el('a', { class: 'btn btn-primary', href: `#/c/${typeName}/new` }, `+ New ${type.singular}`),
       ],
     }),
@@ -150,6 +151,41 @@ export async function renderCollection(typeName) {
     tableWrap,
     pager,
   )
+}
+
+/**
+ * "Sync from YouTube" — pulls the channel's current Shorts and upserts them
+ * into this list (see server/src/services/reelsSync.service.js). The same
+ * sync also runs automatically on a timer; this is just for "I just posted a
+ * Short, show it now" instead of waiting for the next scheduled run.
+ */
+function youtubeSyncButton(reload) {
+  const btn = el('button', {
+    class: 'btn',
+    type: 'button',
+    onclick: async () => {
+      btn.disabled = true
+      btn.textContent = 'Syncing…'
+      try {
+        const res = await api.post('/cms/youtube/sync')
+        const { created, updated, unchanged, found } = res.data
+        toast(
+          created || updated
+            ? `Synced: ${created} new, ${updated} updated (${found} Shorts found)`
+            : `Already up to date (${found} Shorts checked, ${unchanged} unchanged)`,
+          'success',
+        )
+        reload()
+        refreshCounts()
+      } catch (err) {
+        toast(`YouTube sync failed: ${err.message}`, 'error')
+      } finally {
+        btn.disabled = false
+        btn.textContent = '↻ Sync from YouTube'
+      }
+    },
+  }, '↻ Sync from YouTube')
+  return btn
 }
 
 /** Drag-and-drop row ordering, persisted with one bulk reorder call. */

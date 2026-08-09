@@ -53,6 +53,21 @@ export const env = {
     publicUrl: process.env.PUBLIC_URL || '',
   },
 
+  youtube: {
+    apiKey: process.env.YOUTUBE_API_KEY || '',
+    // Accepts either an @handle (e.g. "@drnamanaggarwal") or a bare channel ID (UC…).
+    channelHandle: process.env.YOUTUBE_CHANNEL_HANDLE || '',
+    syncIntervalHours: num(process.env.YOUTUBE_SYNC_INTERVAL_HOURS, 12),
+    syncMaxItems: num(process.env.YOUTUBE_SYNC_MAX_ITEMS, 20),
+    // YouTube extended Shorts from 60s to 3 minutes in late 2024; 200s leaves headroom.
+    syncMaxDurationSeconds: num(process.env.YOUTUBE_SYNC_MAX_DURATION_SECONDS, 200),
+    // New reels are published immediately by default — the channel's own videos are
+    // presumably already reviewed before they go up on YouTube. Set to false to have
+    // synced reels land as drafts for a CMS user to review and publish by hand instead.
+    autoPublish: bool(process.env.YOUTUBE_SYNC_AUTO_PUBLISH, true),
+    get configured() { return Boolean(this.apiKey && this.channelHandle) },
+  },
+
   mail: {
     host: process.env.SMTP_HOST || '',
     port: num(process.env.SMTP_PORT, 587),

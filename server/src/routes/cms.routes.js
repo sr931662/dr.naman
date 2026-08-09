@@ -8,6 +8,8 @@ import { ok, created, paginate } from '../utils/respond.js'
 import { ApiError } from '../utils/ApiError.js'
 import { audit, diff } from '../services/audit.service.js'
 import { AuditLog } from '../models/AuditLog.js'
+import { syncYoutubeReels } from '../services/reelsSync.service.js'
+import { env } from '../config/env.js'
 
 /**
  * One generic router serving every content type. Adding a content type to the
@@ -40,6 +42,31 @@ router.get('/activity', requirePermission('audit.read'), asyncHandler(async (req
     AuditLog.countDocuments(query),
   ])
   return ok(res, items, meta(total))
+}))
+
+// ─── Video Reels — YouTube Shorts sync ────────────────────────────────────────
+
+router.get('/youtube/status', requirePermission('content.read'), asyncHandler(async (_req, res) => {
+  return ok(res, {
+    configured: env.youtube.configured,
+    channelHandle: env.youtube.channelHandle || null,
+    syncIntervalHours: env.youtube.syncIntervalHours,
+    autoPublish: env.youtube.autoPublish,
+  })
+}))
+
+/** Manual "Sync now" — the automatic job (server/src/jobs/youtubeSync.job.js) runs this same function on a timer. */
+router.post('/youtube/sync', requirePermission('content.write'), asyncHandler(async (req, res) => {
+  if (!env.youtube.configured) {
+    throw ApiError.badRequest('YouTube sync is not configured — set YOUTUBE_API_KEY and YOUTUBE_CHANNEL_HANDLE on the server')
+  }
+  const result = await syncYoutubeReels()
+  audit(req, {
+    action: 'sync',
+    resource: 'reels',
+    label: `YouTube sync — ${result.created} new, ${result.updated} updated`,
+  })
+  return ok(res, result)
 }))
 
 // ─── Per-type routes ─────────────────────────────────────────────────────────
