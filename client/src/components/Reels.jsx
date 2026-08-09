@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useContent } from '../lib/ContentProvider'
 import styles from './Reels.module.css'
+
+const DEFAULT_GRADIENT = 'linear-gradient(160deg,#1a0a0e,#3d1020,#6b1f36)'
 
 const REELS_FALLBACK = [
   { title: 'What is RIRS?', platform: 'youtube', duration: '2:14', views: '12K', desc: 'Flexible ureteroscopy explained simply', gradient: 'linear-gradient(160deg,#1a0a0e,#3d1020,#6b1f36)' },
@@ -30,6 +33,77 @@ function InstagramIcon() {
   )
 }
 
+function ReelCard({ r, i }) {
+  const [thumbFailed, setThumbFailed] = useState(false)
+  const Card = r.url ? motion.a : motion.div
+  const linkProps = r.url ? { href: r.url, target: '_blank', rel: 'noopener noreferrer' } : {}
+  const showThumb = r.thumbnail?.url && !thumbFailed
+
+  return (
+    <Card
+      className={styles.reel}
+      {...linkProps}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.07 }}
+      whileHover={{ y: -6, transition: { duration: 0.3 } }}
+    >
+      <div className={styles.visual} style={!showThumb ? { background: r.gradient || DEFAULT_GRADIENT } : undefined}>
+        {/* Falls back to the gradient above if the thumbnail 404s — e.g. an upload
+            lost to Cloud Run's ephemeral filesystem (see DEPLOY.md) — rather than
+            leaving a blank card. */}
+        {showThumb && (
+          <img src={r.thumbnail.url} alt="" className={styles.thumbImg} loading="lazy" onError={() => setThumbFailed(true)}/>
+        )}
+
+        <svg className={styles.pattern} viewBox="0 0 160 280" aria-hidden="true">
+          <defs>
+            <pattern id={`rp${i}`} x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="16" cy="16" r="0.8" fill="rgba(255,255,255,.08)"/>
+              <line x1="16" y1="6" x2="16" y2="26" stroke="rgba(255,255,255,.04)" strokeWidth="0.4"/>
+              <line x1="6" y1="16" x2="26" y2="16" stroke="rgba(255,255,255,.04)" strokeWidth="0.4"/>
+            </pattern>
+          </defs>
+          <rect width="160" height="280" fill={`url(#rp${i})`}/>
+          <circle cx="80" cy="140" r="50" stroke="rgba(255,255,255,.05)" strokeWidth="0.5" fill="none"/>
+        </svg>
+
+        <div className={styles.playBtn}>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <path d="M8 6l10 5-10 5V6z" fill="#fff"/>
+          </svg>
+        </div>
+
+        <div className={styles.topMeta}>
+          <span className={`${styles.platform} ${r.platform === 'youtube' ? styles.yt : styles.ig}`}>
+            {r.platform === 'youtube' ? <YouTubeIcon/> : <InstagramIcon/>}
+            {r.platform === 'youtube' ? 'YouTube' : 'Instagram'}
+          </span>
+        </div>
+
+        {r.desc && (
+          <>
+            <span className={styles.infoBtn} tabIndex={0} role="button" aria-label="Show description">i</span>
+            <span className={styles.infoTooltip}>{r.desc}</span>
+          </>
+        )}
+      </div>
+
+      <div className={styles.info}>
+        <span className={styles.reelTitle}>{r.title}</span>
+        {(r.views || r.duration) && (
+          <div className={styles.reelMeta}>
+            {r.views && <span>{r.views} views</span>}
+            {r.views && r.duration && <span className={styles.dot2}>·</span>}
+            {r.duration && <span>{r.duration}</span>}
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
 export default function Reels() {
   const { home } = useContent()
   const REELS = home?.reels?.length ? home.reels : REELS_FALLBACK
@@ -51,59 +125,7 @@ export default function Reels() {
 
       <div className={styles.scrollWrap}>
         <div className={styles.track}>
-          {REELS.map((r, i) => (
-            <motion.div
-              key={i}
-              className={styles.reel}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.07 }}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-            >
-              <div
-                className={styles.visual}
-                style={r.thumbnail?.url
-                  ? { backgroundImage: `url(${r.thumbnail.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-                  : { background: r.gradient }}
-              >
-                <svg className={styles.pattern} viewBox="0 0 160 280" aria-hidden="true">
-                  <defs>
-                    <pattern id={`rp${i}`} x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-                      <circle cx="16" cy="16" r="0.8" fill="rgba(255,255,255,.08)"/>
-                      <line x1="16" y1="6" x2="16" y2="26" stroke="rgba(255,255,255,.04)" strokeWidth="0.4"/>
-                      <line x1="6" y1="16" x2="26" y2="16" stroke="rgba(255,255,255,.04)" strokeWidth="0.4"/>
-                    </pattern>
-                  </defs>
-                  <rect width="160" height="280" fill={`url(#rp${i})`}/>
-                  <circle cx="80" cy="140" r="50" stroke="rgba(255,255,255,.05)" strokeWidth="0.5" fill="none"/>
-                </svg>
-
-                <div className={styles.playBtn}>
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                    <path d="M8 6l10 5-10 5V6z" fill="#fff"/>
-                  </svg>
-                </div>
-
-                <div className={styles.topMeta}>
-                  <span className={`${styles.platform} ${r.platform === 'youtube' ? styles.yt : styles.ig}`}>
-                    {r.platform === 'youtube' ? <YouTubeIcon/> : <InstagramIcon/>}
-                    {r.platform === 'youtube' ? 'YouTube' : 'Instagram'}
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.info}>
-                <span className={styles.reelTitle}>{r.title}</span>
-                <span className={styles.reelDesc}>{r.desc}</span>
-                <div className={styles.reelMeta}>
-                  <span>{r.views} views</span>
-                  <span className={styles.dot2}>·</span>
-                  <span>{r.duration}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          {REELS.map((r, i) => <ReelCard key={i} r={r} i={i}/>)}
         </div>
       </div>
 
