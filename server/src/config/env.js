@@ -54,10 +54,17 @@ export const env = {
   },
 
   storage: {
-    // When set, uploads go to Google Cloud Storage instead of local disk — the
-    // fix for Cloud Run's ephemeral filesystem silently losing every upload
-    // once an idle instance scales to zero (see DEPLOY.md). Left unset, local
-    // dev keeps writing to ./uploads exactly as before, no GCS setup required.
+    // Uploads default to local disk, which Cloud Run wipes whenever an idle
+    // instance scales to zero (see DEPLOY.md) — everything below is a
+    // persistent alternative. Cloudinary takes priority when both are
+    // configured; GCS is still supported if you'd rather use that instead.
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || '',
+    get useCloudinary() {
+      return Boolean(this.cloudinaryCloudName && this.cloudinaryApiKey && this.cloudinaryApiSecret)
+    },
+
     gcsBucket: process.env.GCS_BUCKET || '',
     // Optional — only needed if Application Default Credentials can't infer
     // the project on their own (Cloud Run's attached service account usually

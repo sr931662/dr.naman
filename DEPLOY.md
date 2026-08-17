@@ -184,7 +184,7 @@ change the password immediately under *My Account*.
 
 ---
 
-## Media uploads — Google Cloud Storage
+## Media uploads — Cloudinary (or Google Cloud Storage)
 
 Cloud Run containers have an ephemeral filesystem: with `min instances: 0`
 (the cost-saving default from Step 1), an idle instance scales to zero and its
@@ -193,13 +193,32 @@ a brand-new, empty container. In practice this meant an uploaded photo or
 video thumbnail could vanish within the same day it was added, sometimes
 within minutes.
 
-`server/src/services/media.service.js` now supports Google Cloud Storage as a
-persistent alternative, used automatically whenever `GCS_BUCKET` is set —
-local dev is unaffected and keeps writing to `./uploads` when it's left unset.
+`server/src/services/media.service.js` supports two persistent alternatives —
+**Cloudinary takes priority if both happen to be configured**. Local dev is
+unaffected either way and keeps writing to `./uploads` when neither is set.
 Everything already stored in MongoDB (treatments, posts, testimonials,
-settings) is unaffected either way; only the *files themselves* were at risk.
+settings) is unaffected regardless; only the *files themselves* were at risk.
 
-### Set it up (~10 minutes, same GCP project as everything else)
+### Option A — Cloudinary (simplest: no bucket, no IAM, just 3 values)
+
+1. Sign in at **cloudinary.com/console** — the dashboard home page shows
+   **Cloud name**, **API Key**, and **API Secret** right at the top.
+2. **Cloud Run → Edit & Deploy New Revision → Variables**, add all three:
+   ```
+   CLOUDINARY_CLOUD_NAME = <your cloud name>
+   CLOUDINARY_API_KEY = <your api key>
+   CLOUDINARY_API_SECRET = <your api secret>
+   ```
+3. Deploy. Upload a new photo through the CMS and confirm its URL now starts
+   with `https://res.cloudinary.com/...` instead of `/uploads/...`.
+4. The API secret is a real credential — only ever set it as a Cloud Run
+   environment variable (or a Secret Manager reference), never commit it to
+   the repo or put it in a `VITE_*` variable, which would ship it to browsers.
+
+Cloudinary's free tier (25 GB storage + bandwidth/month) covers a single
+clinic's photo/reel-thumbnail library comfortably.
+
+### Option B — Google Cloud Storage (~10 minutes, same GCP project as everything else)
 
 1. **Console → Cloud Storage → Buckets → Create**
    - Name it something like `dr-naman-uploads` (must be globally unique)
@@ -233,9 +252,14 @@ settings) is unaffected either way; only the *files themselves* were at risk.
    `https://storage.googleapis.com/dr-naman-uploads/...` instead of
    `/uploads/...`.
 
-5. **Anything uploaded before this point is still gone** — the seed photo and
-   any uploads lost to the ephemeral disk need to be re-uploaded through the
-   CMS once GCS is live. They'll persist this time.
+### Either way
+
+Anything uploaded before switching to Cloudinary or GCS is already gone — the
+seed photo and anything else lost to the ephemeral disk needs to be
+re-uploaded through the CMS once one of these is live. It'll persist this
+time. The CMS's media picker ("Choose an image") has a **⋯** button on each
+tile (hover to reveal it) for cleaning up the now-dead entries — edit or
+delete them right there, no need for a separate page.
 
 ---
 
