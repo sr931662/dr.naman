@@ -342,6 +342,16 @@ input[type=color] { width: 46px; height: 34px; padding: 2px; border: 1px solid v
 }
 .media-tile:hover { border-color: var(--crimson); }
 .media-tile .thumb { aspect-ratio: 4/3; background: var(--line-soft) center/cover no-repeat; display: grid; place-items: center; font-size: 26px; }
+.media-tile-manage {
+  position: absolute; top: 6px; right: 6px; z-index: 1;
+  width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4);
+  background: rgba(20,20,20,.6); color: #fff; font-size: 14px; line-height: 1;
+  display: grid; place-items: center; cursor: pointer;
+  opacity: 0; transition: opacity .15s, background .15s;
+}
+.media-tile:hover .media-tile-manage,
+.media-tile-manage:focus-visible { opacity: 1; }
+.media-tile-manage:hover { background: var(--crimson); border-color: var(--crimson); }
 .media-tile .cap { padding: 8px 10px; font-size: 11.5px; }
 .media-tile .cap b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .media-tile .cap span { color: var(--muted); }

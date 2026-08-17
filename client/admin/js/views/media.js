@@ -151,6 +151,15 @@ function mediaBrowser({ selectable, onSelect }) {
         onclick: () => (selectable ? onSelect(item) : details(item)),
         title: item.originalName,
       },
+        // In picker mode a plain click selects the file, so managing it (rename,
+        // fix alt text, delete a broken/stale upload) needs its own affordance —
+        // otherwise there's no way to clean up the library without leaving the
+        // picker and going to the standalone Media Library page.
+        selectable && (can('media.write') || can('media.delete')) && el('button', {
+          class: 'media-tile-manage',
+          title: 'Edit or delete this file',
+          onclick: e => { e.stopPropagation(); details(item) },
+        }, '⋯'),
         el('div', {
           class: 'thumb',
           style: isImage ? { backgroundImage: `url("${item.thumbnailUrl || item.url}")` } : {},
