@@ -53,6 +53,20 @@ export const env = {
     publicUrl: process.env.PUBLIC_URL || '',
   },
 
+  storage: {
+    // When set, uploads go to Google Cloud Storage instead of local disk — the
+    // fix for Cloud Run's ephemeral filesystem silently losing every upload
+    // once an idle instance scales to zero (see DEPLOY.md). Left unset, local
+    // dev keeps writing to ./uploads exactly as before, no GCS setup required.
+    gcsBucket: process.env.GCS_BUCKET || '',
+    // Optional — only needed if Application Default Credentials can't infer
+    // the project on their own (Cloud Run's attached service account usually
+    // can, with no key file at all; a bucket-level "allUsers: Storage Object
+    // Viewer" IAM binding is what makes the uploaded files publicly readable).
+    gcsProjectId: process.env.GCS_PROJECT_ID || '',
+    get useGcs() { return Boolean(this.gcsBucket) },
+  },
+
   youtube: {
     apiKey: process.env.YOUTUBE_API_KEY || '',
     // Accepts either an @handle (e.g. "@drnamanaggarwal") or a bare channel ID (UC…).

@@ -184,17 +184,58 @@ change the password immediately under *My Account*.
 
 ---
 
-## Known limitation: media uploads
+## Media uploads — Google Cloud Storage
 
-Cloud Run containers have an ephemeral filesystem. Uploaded images survive
-until the instance restarts or scales down, then disappear.
+Cloud Run containers have an ephemeral filesystem: with `min instances: 0`
+(the cost-saving default from Step 1), an idle instance scales to zero and its
+local disk — where an upload was sitting — is wiped. The next request spins up
+a brand-new, empty container. In practice this meant an uploaded photo or
+video thumbnail could vanish within the same day it was added, sometimes
+within minutes.
 
-Everything stored in MongoDB — treatments, blog posts, testimonials,
-appointments, settings — is unaffected.
+`server/src/services/media.service.js` now supports Google Cloud Storage as a
+persistent alternative, used automatically whenever `GCS_BUCKET` is set —
+local dev is unaffected and keeps writing to `./uploads` when it's left unset.
+Everything already stored in MongoDB (treatments, posts, testimonials,
+settings) is unaffected either way; only the *files themselves* were at risk.
 
-To fix properly, swap the storage layer in
-`server/src/services/media.service.js` for Google Cloud Storage. It is isolated
-to `store()` and `destroy()`.
+### Set it up (~10 minutes, same GCP project as everything else)
+
+1. **Console → Cloud Storage → Buckets → Create**
+   - Name it something like `dr-naman-uploads` (must be globally unique)
+   - Region: same as Cloud Run (`asia-south1`) to keep uploads fast
+   - Access control: **Uniform** (the default) — this is what the code assumes
+   - Public access prevention: **uncheck "Enforce public access prevention"** —
+     the uploaded photos need to be publicly viewable on the site
+
+2. **Make the bucket's contents public**: bucket → **Permissions** tab → **Grant
+   access** → New principal `allUsers` → Role **Storage Object Viewer** → Save.
+   (This makes every file in the bucket readable by anyone with its URL — fine
+   here, since everything uploaded through the CMS is public-facing content
+   anyway. It does *not* let anyone list, upload, or delete anything.)
+
+3. **Let Cloud Run write to the bucket**: bucket → **Permissions** → **Grant
+   access** → add the Cloud Run service's own service account (Cloud Run →
+   your service → the account shown under "Security" — usually
+   `<PROJECT_NUMBER>-compute@developer.gserviceaccount.com` unless you set a
+   custom one) → Role **Storage Object Admin**.
+
+   No downloaded key file, no `GOOGLE_APPLICATION_CREDENTIALS` — Cloud Run's
+   attached service account authenticates automatically.
+
+4. **Cloud Run → Edit & Deploy New Revision → Variables**, add:
+   ```
+   GCS_BUCKET = dr-naman-uploads
+   ```
+   Deploy. Check the logs for the usual startup lines — no separate
+   "GCS enabled" log line exists yet, so the real check is uploading a new
+   photo through the CMS and confirming its URL is
+   `https://storage.googleapis.com/dr-naman-uploads/...` instead of
+   `/uploads/...`.
+
+5. **Anything uploaded before this point is still gone** — the seed photo and
+   any uploads lost to the ephemeral disk need to be re-uploaded through the
+   CMS once GCS is live. They'll persist this time.
 
 ---
 

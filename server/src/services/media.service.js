@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import sharp from 'sharp'
+import { Storage } from '@google-cloud/storage'
 import { env } from '../config/env.js'
 import { Media } from '../models/Media.js'
 import { logger } from '../config/logger.js'
@@ -10,8 +11,35 @@ const IMAGE_MIMES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avi
 const MAX_DIMENSION = 2400
 const THUMB_WIDTH = 400
 
+// `new Storage()` with no explicit key reads Application Default Credentials —
+// on Cloud Run that's the instance's attached service account automatically,
+// no downloaded JSON key needed. Only constructed at all when GCS_BUCKET is set.
+const bucket = env.storage.useGcs
+  ? new Storage(env.storage.gcsProjectId ? { projectId: env.storage.gcsProjectId } : undefined)
+    .bucket(env.storage.gcsBucket)
+  : null
+
 export async function ensureUploadDir() {
+  if (bucket) return // nothing to create — GCS buckets have no directories to pre-make
   await fs.mkdir(path.join(env.uploads.dir, 'thumbs'), { recursive: true })
+}
+
+/** Writes a buffer to whichever backend is active, at a path relative to the uploads root. */
+async function writeFile(relativePath, buffer, contentType) {
+  if (bucket) {
+    await bucket.file(relativePath).save(buffer, { contentType, resumable: false })
+    return
+  }
+  await fs.mkdir(path.dirname(path.join(env.uploads.dir, relativePath)), { recursive: true })
+  await fs.writeFile(path.join(env.uploads.dir, relativePath), buffer)
+}
+
+async function deleteFile(relativePath) {
+  if (bucket) {
+    await bucket.file(relativePath).delete({ ignoreNotFound: true }).catch(err => logger.warn(`Could not delete gs://${env.storage.gcsBucket}/${relativePath}: ${err.message}`))
+    return
+  }
+  await unlinkQuiet(path.join(env.uploads.dir, relativePath))
 }
 
 /**
@@ -51,16 +79,17 @@ export async function store(file, { alt = '', caption = '', folder = 'general', 
     height = outMeta.height
 
     const thumbName = `${safeBase}-${id}-thumb.webp`
-    await sharp(file.buffer)
+    const thumbBuffer = await sharp(file.buffer)
       .rotate()
       .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
       .webp({ quality: 72 })
-      .toFile(path.join(env.uploads.dir, 'thumbs', thumbName))
+      .toBuffer()
+    await writeFile(`thumbs/${thumbName}`, thumbBuffer, 'image/webp')
     thumbnailUrl = publicUrl(`thumbs/${thumbName}`)
   }
 
   const filename = `${safeBase}-${id}${ext}`
-  await fs.writeFile(path.join(env.uploads.dir, filename), buffer)
+  await writeFile(filename, buffer, isVector ? file.mimetype : isImage ? 'image/webp' : file.mimetype)
 
   const doc = await Media.create({
     filename,
@@ -86,9 +115,9 @@ export async function destroy(id) {
   const doc = await Media.findById(id)
   if (!doc) return null
 
-  await unlinkQuiet(path.join(env.uploads.dir, doc.storagePath))
+  await deleteFile(doc.storagePath)
   if (doc.thumbnailUrl) {
-    await unlinkQuiet(path.join(env.uploads.dir, 'thumbs', path.basename(doc.thumbnailUrl)))
+    await deleteFile(`thumbs/${path.basename(doc.thumbnailUrl)}`)
   }
 
   await doc.deleteOne()
@@ -96,6 +125,7 @@ export async function destroy(id) {
 }
 
 export function publicUrl(relativePath) {
+  if (bucket) return `https://storage.googleapis.com/${env.storage.gcsBucket}/${relativePath}`
   const base = env.uploads.publicUrl.replace(/\/$/, '')
   return `${base}/uploads/${relativePath}`.replace(/^\/+/, '/')
 }
