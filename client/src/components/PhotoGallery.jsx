@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useContent } from '../lib/ContentProvider'
 import styles from './PhotoGallery.module.css'
 import drNaman from '../assets/Dr__Naman.jpg'
@@ -55,8 +55,20 @@ const PHOTOS_FALLBACK = [
 export default function PhotoGallery() {
   const { home } = useContent()
   const PHOTOS = home?.photos?.length ? home.photos : PHOTOS_FALLBACK
-  const featured = PHOTOS.find(p => p.featured) || PHOTOS[0]
-  const rest = PHOTOS.filter(p => p !== featured)
+  const featuredIndex = Math.max(0, PHOTOS.findIndex(p => p.featured))
+
+  const [active, setActive] = useState(featuredIndex)
+  const thumbRefs = useRef([])
+  const current = PHOTOS[active] || PHOTOS[0]
+
+  const prev = () => setActive(a => (a - 1 + PHOTOS.length) % PHOTOS.length)
+  const next = () => setActive(a => (a + 1) % PHOTOS.length)
+
+  // Keeps the active thumbnail in view when it's changed via the arrows rather
+  // than a direct click on a (possibly off-screen) thumbnail.
+  useEffect(() => {
+    thumbRefs.current[active]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }, [active])
 
   return (
     <section className={styles.section} id="gallery">
@@ -67,28 +79,73 @@ export default function PhotoGallery() {
           <p className="lead">Eleven years of focused urological practice at Manipal Hospital, Dwarka — where precision meets patient-first care.</p>
         </motion.div>
 
-        <div className={styles.grid}>
-          {/* Featured photo */}
-          <motion.div className={`${styles.cell} ${styles.portrait}`} {...fadeUp(0.08)}>
-            <GalleryImage src={featured.image.url} alt={featured.image.alt || featured.label} fallbackSrc={drNaman} className={styles.portraitImg}/>
-            <div className={styles.portraitCaption}>
-              <span className={styles.captionName}>{featured.label}</span>
-              <span className={styles.captionSub}>{featured.sub}</span>
-            </div>
-          </motion.div>
+        <motion.div className={styles.stage} {...fadeUp(0.1)}>
+          <div className={styles.preview}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                className={styles.previewFrame}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.99 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <GalleryImage
+                  src={current.image.url}
+                  alt={current.image.alt || current.label}
+                  fallbackSrc={active === featuredIndex ? drNaman : undefined}
+                  className={styles.previewImg}
+                />
+                <div className={styles.previewCaption}>
+                  <span className={styles.captionName}>{current.label}</span>
+                  <span className={styles.captionSub}>{current.sub}</span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
 
-          {/* Clinic photos */}
-          {rest.map((p, i) => (
-            <motion.div key={p.label} className={`${styles.cell} ${styles.clinicPhoto}`} {...fadeUp(0.12 + i * 0.06)}>
-              <GalleryImage src={p.image.url} alt={p.image.alt || p.label} className={styles.clinicImg}/>
-              <div className={styles.clinicCaption}>
-                <span className={styles.captionName}>{p.label}</span>
-                <span className={styles.captionSub}>{p.sub}</span>
+            {PHOTOS.length > 1 && (
+              <>
+                <button className={`${styles.arrow} ${styles.arrowLeft}`} onClick={prev} aria-label="Previous photo">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M12 5L7 10l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                <button className={`${styles.arrow} ${styles.arrowRight}`} onClick={next} aria-label="Next photo">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M8 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
+
+          {PHOTOS.length > 1 && (
+            <div className={styles.scrollWrap}>
+              <div className={styles.track}>
+                {PHOTOS.map((p, i) => (
+                  <button
+                    key={`${p.label}-${i}`}
+                    ref={node => { thumbRefs.current[i] = node }}
+                    className={`${styles.thumb}${i === active ? ' ' + styles.thumbActive : ''}`}
+                    onClick={() => setActive(i)}
+                    aria-label={`Show ${p.label}`}
+                    aria-current={i === active}
+                  >
+                    <span className={styles.thumbVisual}>
+                      <GalleryImage
+                        src={p.image.url}
+                        alt=""
+                        fallbackSrc={i === featuredIndex ? drNaman : undefined}
+                        className={styles.thumbImg}
+                      />
+                    </span>
+                    <span className={styles.thumbLabel}>{p.label}</span>
+                  </button>
+                ))}
               </div>
-            </motion.div>
-          ))}
-        </div>
-
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   )
