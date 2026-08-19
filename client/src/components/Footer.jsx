@@ -98,7 +98,7 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
           <span>{copyright}</span>
-          <span>Men's Health Corner &amp; Veena Nursing Home, Delhi, India</span>
+          <span>Men's Health Corner, Manipal Hospital &amp; Veena Nursing Home, Delhi, India</span>
         </div>
       </div>
     </footer>

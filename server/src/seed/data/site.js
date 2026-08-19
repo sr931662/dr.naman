@@ -138,8 +138,8 @@ export const sections = [
   { key: 'home-voices', eyebrow: 'In Their Words', heading: 'Voices of <em>patients</em>', lead: '', order: 8 },
   { key: 'home-blog', eyebrow: 'Reading Room', heading: 'Notes from <em>practice</em>', lead: 'Evidence-based writing on the conditions patients ask about most.', order: 9 },
   { key: 'home-faq', eyebrow: 'Common Questions', heading: 'Before you <em>visit</em>', lead: '', order: 10 },
-  { key: 'home-cta', eyebrow: 'Next Step', heading: 'Book a <em>consultation</em>', lead: "In-person at Men's Health Corner or Veena Nursing Home, or by teleconsultation. Response within 24 hours.", ctaLabel: 'Book now', ctaUrl: '/contact', order: 11 },
-  { key: 'contact-hero', eyebrow: 'Reach Out', heading: 'Book a <em>consultation</em>', lead: "Men's Health Corner & Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours", order: 12 },
+  { key: 'home-cta', eyebrow: 'Next Step', heading: 'Book a <em>consultation</em>', lead: "In-person at Men's Health Corner (main clinic), Manipal Hospital or Veena Nursing Home, or by teleconsultation. Response within 24 hours.", ctaLabel: 'Book now', ctaUrl: '/contact', order: 11 },
+  { key: 'contact-hero', eyebrow: 'Reach Out', heading: 'Book a <em>consultation</em>', lead: "Men's Health Corner (main clinic), Manipal Hospital & Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours", order: 12 },
   { key: 'contact-form', eyebrow: '', heading: 'Send a message', lead: "Fill in your details and we'll get back to you within 24 hours to confirm your appointment.", order: 13 },
   { key: 'blog-hero', eyebrow: 'Reading Room', heading: 'Notes from <em>practice</em>', lead: 'Patient education, surgical advances and evidence-based urology.', order: 14 },
 ]

@@ -53,7 +53,7 @@ export default function Home() {
     <>
       <Seo
         title="Urologist in Delhi"
-        description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon, practising across Delhi at Men's Health Corner and Veena Nursing Home. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
+        description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon, practising across Delhi at Men's Health Corner (main clinic), Manipal Hospital and Veena Nursing Home. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
         path="/"
         jsonLd={[PHYSICIAN_JSON_LD, faqJsonLd]}
       />

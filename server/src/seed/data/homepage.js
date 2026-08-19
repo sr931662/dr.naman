@@ -61,7 +61,7 @@ export const research = [
 ]
 
 export const credentials = [
-  { emphasis: "Men's Health Corner", text: '· Veena Nursing Home, Delhi' },
+  { emphasis: "Men's Health Corner", text: '· Manipal Hospital · Veena Nursing Home, Delhi' },
   { emphasis: 'Reproductive Medicine', text: 'American Society for' },
   { emphasis: 'First IVF', text: 'Dubai · Observership' },
   { emphasis: 'Devon', text: 'Traveling Fellowship' },

@@ -173,7 +173,7 @@ export const TREATMENTS_FALLBACK = [
     slug: 'urology-consultation',
     title: 'Urology Consultation',
     sub: 'OPD · Second opinion · Reports',
-    tag: '₹1500 · Men\'s Health Corner',
+    tag: '₹1500 · Manipal Hospital',
   },
 ]
 

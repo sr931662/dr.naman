@@ -16,6 +16,22 @@ export const locations = [
     directions: [],
   },
   {
+    name: 'Manipal Hospital, Dwarka',
+    kind: 'secondary',
+    addressLine: 'Palam Vihar Colony, Sector 6, Dwarka',
+    landmark: 'Near MTNL Office',
+    city: 'Delhi',
+    consultationFee: 1500,
+    teleconsultation: true,
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
+    mapLink: 'https://maps.google.com/?q=Manipal+Hospital+Dwarka+Delhi',
+    schedule: [
+      { days: 'Tue & Sat', hours: '9:00 AM – 3:00 PM', note: '' },
+      { days: 'Wed & Thu', hours: '11:00 AM – 3:00 PM', note: '' },
+    ],
+    directions: [],
+  },
+  {
     name: 'Veena Nursing Home',
     kind: 'secondary',
     addressLine: 'Pocket A-1, Sector 8',
@@ -69,7 +85,7 @@ export const pages = [
       {
         type: 'cta',
         heading: 'Book a consultation',
-        body: '<p>In person at Men\'s Health Corner or Veena Nursing Home, or by teleconsultation. The clinic responds within 24 hours.</p>',
+        body: '<p>In person at Men\'s Health Corner (main clinic), Manipal Hospital Dwarka, or Veena Nursing Home — or by teleconsultation. The clinic responds within 24 hours.</p>',
         items: [{ label: 'Book now', url: '/contact' }],
       },
     ],

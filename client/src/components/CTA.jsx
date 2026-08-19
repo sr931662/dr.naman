@@ -26,7 +26,7 @@ export default function CTA() {
           </motion.div>
         </div>
         <motion.div className={styles.side} variants={fadeUp}>
-          {[['Clinics',"Men's Health Corner · Veena Nursing Home"],['Speciality','Urology · Andrology · Laparoscopy'],['Languages','English · Hindi']].map(([k, v]) => (
+          {[['Clinics',"Men's Health Corner · Manipal Hospital · Veena Nursing Home"],['Speciality','Urology · Andrology · Laparoscopy'],['Languages','English · Hindi']].map(([k, v]) => (
             <div key={k} className={styles.row}>
               <small>{k}</small>
               <span>{v}</span>

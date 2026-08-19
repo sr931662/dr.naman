@@ -263,7 +263,7 @@ export default function TreatmentDetailPage() {
                   </svg>
                 </div>
                 <h3>Book a consultation</h3>
-                <p>Discuss {treatment.title.toLowerCase()} with Dr. Aggarwal at Men's Health Corner or Veena Nursing Home. Teleconsultation available.</p>
+                <p>Discuss {treatment.title.toLowerCase()} with Dr. Aggarwal at Men's Health Corner, Manipal Hospital or Veena Nursing Home. Teleconsultation available.</p>
                 <Link to="/contact" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
                   Book now <span className="arr">→</span>
                 </Link>

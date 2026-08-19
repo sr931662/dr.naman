@@ -24,10 +24,17 @@ const LOCATIONS_FALLBACK = [
     directions: [],
   },
   {
-    kind: 'oncall',
-    name: 'Maharaja Agarsain Hospital',
-    addressLine: 'D Block, Ashok Vihar Phase 1, Delhi',
-    schedule: [{ days: 'On-call basis', hours: '' }],
+    kind: 'secondary',
+    name: 'Manipal Hospital, Dwarka',
+    addressLine: 'Palam Vihar Colony, Sector 6, Dwarka, Delhi',
+    landmark: 'Near MTNL Office',
+    schedule: [
+      { days: 'Tue & Sat', hours: '9:00 AM – 3:00 PM' },
+      { days: 'Wed & Thu', hours: '11:00 AM – 3:00 PM' },
+    ],
+    consultationFee: 1500,
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
+    mapLink: 'https://maps.google.com/?q=Manipal+Hospital+Dwarka+Delhi',
   },
   {
     kind: 'secondary',
@@ -35,6 +42,12 @@ const LOCATIONS_FALLBACK = [
     addressLine: 'Pocket A-1, Sector 8, Near Deepali Chowk, Delhi',
     schedule: [{ days: 'Mon–Sat', hours: '6:30–8:30 AM & 7:00–9:00 PM' }],
     consultationFee: 1000,
+  },
+  {
+    kind: 'oncall',
+    name: 'Maharaja Agarsain Hospital',
+    addressLine: 'D Block, Ashok Vihar Phase 1, Delhi',
+    schedule: [{ days: 'On-call basis', hours: '' }],
   },
 ]
 
@@ -115,7 +128,7 @@ export default function ContactPage() {
           <motion.div className={styles.heroContent} {...fadeUp(0.1)}>
             <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Reach Out</span>
             <h1 className={styles.heroH1}>Book a <em>consultation</em></h1>
-            <p className={styles.heroSub}>Men's Health Corner &amp; Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours</p>
+            <p className={styles.heroSub}>Men's Health Corner (main clinic), Manipal Hospital &amp; Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours</p>
           </motion.div>
         </div>
       </section>

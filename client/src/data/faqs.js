@@ -25,7 +25,7 @@ export const FAQS = [
   },
   {
     q: 'How do I book an appointment?',
-    a: "You can book using the appointment button on this website, or by calling the clinic directly. Dr. Aggarwal is available at Men's Health Corner and at Veena Nursing Home (Mon–Sat, early morning and evening slots). Teleconsultation is also available."
+    a: "You can book using the appointment button on this website, or by calling the clinic directly. Dr. Aggarwal is available at Men's Health Corner (his main clinic), Manipal Hospital Dwarka (Tue, Wed, Thu & Sat), and Veena Nursing Home (Mon–Sat, early morning and evening slots). Teleconsultation is also available."
   },
   {
     q: 'Is a second opinion appropriate before urological surgery?',

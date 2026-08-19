@@ -83,7 +83,7 @@ export default function AboutPage() {
               </div>
             </motion.div>
             <motion.div className={styles.heroStats} {...fadeUp(0.25)}>
-              {[['11 yrs', 'Experience'],['ASRM', 'Andrology certified'],['Devon', '2022 Fellowship'],['2', 'Clinics in Delhi']].map(([val, label]) => (
+              {[['11 yrs', 'Experience'],['ASRM', 'Andrology certified'],['Devon', '2022 Fellowship'],['3', 'Locations in Delhi']].map(([val, label]) => (
                 <div key={label} className={styles.heroStat}>
                   <b>{val}</b>
                   <span>{label}</span>
@@ -133,11 +133,12 @@ export default function AboutPage() {
             <h2>Practising across <em>Delhi</em></h2>
           </motion.div>
           <p className="lead" style={{ marginTop: 20, maxWidth: 700 }}>
-            Dr. Aggarwal consults at two clinics in Delhi, each handling the full spectrum of urological and andrological care — from stone disease and BPH to male fertility and minimally-invasive laparoscopic procedures. Full addresses, hours and fees are on the <Link to="/contact" style={{ color: 'var(--crimson)' }}>contact page</Link>.
+            Dr. Aggarwal's main clinic is Men's Health Corner, with additional OPD hours at Manipal Hospital, Dwarka and Veena Nursing Home — all handling the full spectrum of urological and andrological care, from stone disease and BPH to male fertility and minimally-invasive laparoscopic procedures. Full addresses, hours and fees are on the <Link to="/contact" style={{ color: 'var(--crimson)' }}>contact page</Link>.
           </p>
           <div className={styles.clinicGrid}>
             {[
-              { name: "Men's Health Corner", desc: "Dr. Aggarwal's own clinic for urology, andrology and men's health consultations." },
+              { name: "Men's Health Corner", desc: "Dr. Aggarwal's main clinic for urology, andrology and men's health consultations." },
+              { name: 'Manipal Hospital, Dwarka', desc: 'Multi-specialty hospital OPD — Tue, Wed, Thu & Sat.' },
               { name: 'Veena Nursing Home', desc: 'Early morning and evening OPD slots for urological and andrological care.' },
             ].map((c, i) => (
               <motion.div key={c.name} className={styles.clinicCard} {...fadeUp(0.1 + i * 0.08)}>
@@ -174,7 +175,7 @@ export default function AboutPage() {
         <div className="wrap">
           <motion.div className={styles.ctaContent} {...fadeUp()}>
             <h2>Ready to consult?</h2>
-            <p className="lead">Book an appointment at Men's Health Corner or Veena Nursing Home, or reach out for a teleconsultation.</p>
+            <p className="lead">Book an appointment at Men's Health Corner, Manipal Hospital or Veena Nursing Home, or reach out for a teleconsultation.</p>
             <div className={styles.ctaActions}>
               <Link to="/contact" className="btn btn-primary">Book a consultation <span className="arr">→</span></Link>
               <Link to="/blog" className="btn btn-ghost">Read the blog</Link>
