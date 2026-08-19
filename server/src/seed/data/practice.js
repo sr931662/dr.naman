@@ -34,6 +34,7 @@ export const locations = [
   {
     name: 'Veena Nursing Home',
     kind: 'secondary',
+    badgeLabel: 'His Own Hospital',
     addressLine: 'Pocket A-1, Sector 8',
     landmark: 'Near Deepali Chowk',
     city: 'Delhi',

@@ -12,6 +12,12 @@ const CONTACT_FALLBACK = {
   responseTime: 'Response within 24 hours',
 }
 
+const DEFAULT_BADGE = {
+  primary: "Dr. Aggarwal's Clinic",
+  secondary: 'Also Consults Here',
+  oncall: 'On-Call',
+}
+
 // TODO: placeholder — no verified address/phone/hours for Men's Health Corner were
 // available yet; update via CMS → Clinic Locations (same note as the seed data).
 const LOCATIONS_FALLBACK = [
@@ -39,6 +45,7 @@ const LOCATIONS_FALLBACK = [
   {
     kind: 'secondary',
     name: 'Veena Nursing Home',
+    badgeLabel: 'His Own Hospital',
     addressLine: 'Pocket A-1, Sector 8, Near Deepali Chowk, Delhi',
     schedule: [{ days: 'Mon–Sat', hours: '6:30–8:30 AM & 7:00–9:00 PM' }],
     consultationFee: 1000,
@@ -150,7 +157,7 @@ export default function ContactPage() {
                     </div>
                   )}
                   <div className={styles.locBody}>
-                    <span className={styles.locBadge}>{loc.kind === 'primary' ? "Dr. Aggarwal's Clinic" : 'Consulting At'}</span>
+                    <span className={styles.locBadge}>{loc.badgeLabel || DEFAULT_BADGE[loc.kind] || 'Consulting At'}</span>
                     <h3>{loc.name}</h3>
                     <p className={styles.locAddress}>
                       {loc.addressLine}{loc.landmark ? `, ${loc.landmark}` : ''}{loc.city ? `, ${loc.city}` : ''}{loc.pincode ? ` – ${loc.pincode}` : ''}

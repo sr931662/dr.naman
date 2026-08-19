@@ -25,6 +25,12 @@ export default defineType({
       ],
     },
     { name: 'image', type: 'image', label: 'Photo', help: 'Shown on the Contact page location card.' },
+    {
+      name: 'badgeLabel',
+      type: 'string',
+      label: 'Card badge',
+      help: 'Small label shown above the name, e.g. "Dr. Aggarwal\'s Clinic", "His Own Hospital", "Also Consults Here". Leave blank to use a default based on Type.',
+    },
     { name: 'addressLine', type: 'text', label: 'Address', group: 'Address' },
     { name: 'landmark', type: 'string', label: 'Landmark', group: 'Address' },
     { name: 'city', type: 'string', label: 'City', group: 'Address' },
