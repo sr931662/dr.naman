@@ -62,15 +62,22 @@ export default function PhotoGallery() {
   const [active, setActive] = useState(featuredIndex)
   const [paused, setPaused] = useState(false)
   const thumbRefs = useRef([])
+  const scrollWrapRef = useRef(null)
   const current = PHOTOS[active] || PHOTOS[0]
 
   const prev = () => setActive(a => (a - 1 + PHOTOS.length) % PHOTOS.length)
   const next = () => setActive(a => (a + 1) % PHOTOS.length)
 
   // Keeps the active thumbnail in view when it's changed via the arrows rather
-  // than a direct click on a (possibly off-screen) thumbnail.
+  // than a direct click on a (possibly off-screen) thumbnail. Scrolls only the
+  // thumbnail strip itself (not scrollIntoView, which also drags the whole page
+  // down to the carousel on every load and every autoplay tick).
   useEffect(() => {
-    thumbRefs.current[active]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    const container = scrollWrapRef.current
+    const thumb = thumbRefs.current[active]
+    if (!container || !thumb) return
+    const target = thumb.offsetLeft - (container.clientWidth - thumb.clientWidth) / 2
+    container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' })
   }, [active])
 
   // Auto-advances every few seconds; the effect re-arms on each change of
@@ -138,7 +145,7 @@ export default function PhotoGallery() {
           </div>
 
           {PHOTOS.length > 1 && (
-            <div className={styles.scrollWrap}>
+            <div className={styles.scrollWrap} ref={scrollWrapRef}>
               <div className={styles.track}>
                 {PHOTOS.map((p, i) => (
                   <button
