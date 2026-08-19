@@ -8,7 +8,7 @@ import styles from './Hero.module.css'
 
 const WORDS_FALLBACK = ['Surgical', 'precision,', 'profoundly', 'human', 'care.']
 const EYEBROW_FALLBACK = 'Urology · Andrology · Uro-oncology · Renal Transplant'
-const SUBHEADING_FALLBACK = 'Consultant Urologist, Andrologist & Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.'
+const SUBHEADING_FALLBACK = 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.'
 const CTAS_FALLBACK = [
   { label: 'Book a consultation', url: '/contact', variant: 'primary' },
   { label: 'Enter the Atlas', url: '#expertise', variant: 'ghost' },
@@ -47,7 +47,7 @@ export default function Hero() {
       <div className={styles.photo}>
         <motion.img
           src={image?.url || drNaman}
-          alt={image?.alt || 'Dr. Naman Aggarwal — Consultant Urologist at Manipal Hospital Dwarka Delhi'}
+          alt={image?.alt || 'Dr. Naman Aggarwal — Consultant Urologist in Delhi'}
           loading="eager"
           fetchPriority="high"
           initial={{ scale: 1.08, opacity: 0 }}
@@ -58,7 +58,7 @@ export default function Hero() {
       <div className={styles.fade}/>
       <div className={styles.measure}>
         <div className={styles.measureTrack}>
-          <span className={styles.ml}>EST · MANIPAL · DELHI</span>
+          <span className={styles.ml}>EST · DELHI · INDIA</span>
           <span className={styles.ml}>N · A · 28.59°N 77.05°E</span>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function Hero() {
               {eyebrow}
             </motion.span>
             <h1 className={styles.h1}>
-              <span className="visually-hidden">Dr. Naman Aggarwal — Urologist, Andrologist &amp; Laparoscopic Surgeon in Dwarka, Delhi. </span>
+              <span className="visually-hidden">Dr. Naman Aggarwal — Urologist, Andrologist &amp; Laparoscopic Surgeon in Delhi. </span>
               {WORDS.map((word, i) => (
                 <motion.span
                   key={i}

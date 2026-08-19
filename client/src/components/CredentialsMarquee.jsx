@@ -3,7 +3,7 @@ import { useContent } from '../lib/ContentProvider'
 import styles from './CredentialsMarquee.module.css'
 
 const CREDENTIALS_FALLBACK = [
-  { emphasis: 'Manipal Hospital', text: 'Dwarka, Delhi' },
+  { emphasis: "Men's Health Corner", text: '· Veena Nursing Home, Delhi' },
   { text: 'American Society for Reproductive Medicine', emphasis: '' },
   { emphasis: 'First IVF', text: 'Dubai · Observership' },
   { emphasis: 'Devon', text: 'Traveling Fellowship' },

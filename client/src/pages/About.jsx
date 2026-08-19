@@ -10,7 +10,7 @@ const TIMELINE = [
   { year: '2022', title: 'Devon Fellowship — United Kingdom', sub: 'Advanced laparoscopic & robotic urological surgery' },
   { year: '2023', title: 'ASRM Andrology Certification', sub: 'American Society for Reproductive Medicine' },
   { year: '2023', title: 'Observership — First IVF, Dubai', sub: 'Advanced male fertility & microsurgical techniques' },
-  { year: 'Present', title: 'Consultant — Manipal Hospital, Dwarka, Delhi', sub: 'Urology · Andrology · Laparoscopic Surgery · 11 yrs experience' },
+  { year: 'Present', title: 'Consultant Urologist — Delhi', sub: 'Urology · Andrology · Laparoscopic Surgery · 11 yrs experience' },
 ]
 
 const PILLARS = [
@@ -37,7 +37,7 @@ const PILLARS = [
   },
   {
     title: 'Evidence, always',
-    text: 'Protocols evolve. Published research is read weekly, not annually. Patients at Manipal Hospital benefit from techniques that reflect the current state of urological science, not the state it was in five years ago.',
+    text: 'Protocols evolve. Published research is read weekly, not annually. Patients benefit from techniques that reflect the current state of urological science, not the state it was in five years ago.',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
         <rect x="10" y="8" width="28" height="36" rx="3" stroke="var(--crimson)" strokeWidth="1.5" opacity=".4"/>
@@ -60,7 +60,7 @@ export default function AboutPage() {
     <main className={styles.page}>
       <Seo
         title="About Dr. Naman Aggarwal"
-        description="MBBS, MS General Surgery, MCh Urology (PGIMER) · Devon Fellow (UK) · ASRM Certified. 11 years of experience in urology, andrology & laparoscopic surgery at Manipal Hospital, Dwarka, Delhi."
+        description="MBBS, MS General Surgery, MCh Urology (PGIMER) · Devon Fellow (UK) · ASRM Certified. 11 years of experience in urology, andrology & laparoscopic surgery across Delhi."
         path="/about"
       />
       {/* Hero */}
@@ -69,11 +69,11 @@ export default function AboutPage() {
         <div className="wrap">
           <div className={styles.heroContent}>
             <motion.div className={styles.heroCopy} {...fadeUp(0.1)}>
-              <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Consultant Urologist · Manipal Hospital, Dwarka, Delhi</span>
+              <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Consultant Urologist · Delhi</span>
               <h1 className={styles.heroH1}>Dr. Naman <em>Aggarwal</em></h1>
               <p className={styles.heroPhilo}>Surgical precision, profoundly human care.</p>
               <p className={styles.heroLead}>
-                MBBS · MS General Surgery · MCh Urology. Urologist, Andrologist &amp; Laparoscopic Surgeon with 11 years of experience — bringing rigorous, evidence-based technique to every patient at Manipal Hospital, Dwarka, Delhi.
+                MBBS · MS General Surgery · MCh Urology. Urologist, Andrologist &amp; Laparoscopic Surgeon with 11 years of experience — bringing rigorous, evidence-based technique to every patient across Delhi.
               </p>
               <div className={styles.heroActions}>
                 <Link to="/contact" className="btn btn-primary">Book a consultation</Link>
@@ -83,7 +83,7 @@ export default function AboutPage() {
               </div>
             </motion.div>
             <motion.div className={styles.heroStats} {...fadeUp(0.25)}>
-              {[['11 yrs', 'Experience'],['ASRM', 'Andrology certified'],['Devon', '2022 Fellowship'],['Manipal', 'Dwarka, Delhi']].map(([val, label]) => (
+              {[['11 yrs', 'Experience'],['ASRM', 'Andrology certified'],['Devon', '2022 Fellowship'],['2', 'Clinics in Delhi']].map(([val, label]) => (
                 <div key={label} className={styles.heroStat}>
                   <b>{val}</b>
                   <span>{label}</span>
@@ -125,49 +125,27 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Manipal Hospital section */}
+      {/* Where to find him */}
       <section className={styles.medantaSection}>
         <div className="wrap">
-          <div className={styles.medantaGrid}>
-            <motion.div {...fadeUp()}>
-              <span className="eyebrow">The Hospital</span>
-              <h2>Manipal Hospital — <em>Dwarka, Delhi</em></h2>
-              <p className="lead" style={{ marginTop: 20 }}>
-                Manipal Hospital, Dwarka is a leading multi-specialty hospital in West Delhi — equipped with advanced surgical suites, diagnostic infrastructure, and a dedicated urology &amp; andrology department.
-              </p>
-              <p style={{ color: 'var(--ink-soft)', marginTop: 16, lineHeight: 1.65 }}>
-                Dr. Aggarwal practices across urology, andrology, and minimally-invasive laparoscopic surgery here. The department handles the full spectrum — from stone disease and BPH to male fertility and complex laparoscopic procedures.
-              </p>
-              <div className={styles.medantaMeta}>
-                <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>Address</span>
-                  <span className={styles.metaVal}>Palam Vihar Colony, Sector 6, Dwarka, Delhi (Near MTNL Office)</span>
-                </div>
-                <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>OPD Schedule</span>
-                  <span className={styles.metaVal}>Tue &amp; Sat: 9:00 AM – 3:00 PM · Wed–Thu: 11:00 AM – 3:00 PM</span>
-                </div>
-                <div className={styles.metaItem}>
-                  <span className={styles.metaLabel}>Consultation Fee</span>
-                  <span className={styles.metaVal}>₹1500 · No booking fee · Prime verified</span>
-                </div>
-              </div>
-              <Link to="/contact" className="btn btn-primary" style={{ marginTop: 28 }}>Get directions &amp; book</Link>
-            </motion.div>
-            <motion.div className={styles.medantaMap} {...fadeUp(0.15)}>
-              <div className={styles.mapPlaceholder}>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  title="Manipal Hospital Dwarka, Delhi"
-                />
-              </div>
-            </motion.div>
+          <motion.div className={styles.sHead} {...fadeUp()}>
+            <span className="eyebrow">Where to Find Him</span>
+            <h2>Practising across <em>Delhi</em></h2>
+          </motion.div>
+          <p className="lead" style={{ marginTop: 20, maxWidth: 700 }}>
+            Dr. Aggarwal consults at two clinics in Delhi, each handling the full spectrum of urological and andrological care — from stone disease and BPH to male fertility and minimally-invasive laparoscopic procedures. Full addresses, hours and fees are on the <Link to="/contact" style={{ color: 'var(--crimson)' }}>contact page</Link>.
+          </p>
+          <div className={styles.clinicGrid}>
+            {[
+              { name: "Men's Health Corner", desc: "Dr. Aggarwal's own clinic for urology, andrology and men's health consultations." },
+              { name: 'Veena Nursing Home', desc: 'Early morning and evening OPD slots for urological and andrological care.' },
+            ].map((c, i) => (
+              <motion.div key={c.name} className={styles.clinicCard} {...fadeUp(0.1 + i * 0.08)}>
+                <h3>{c.name}</h3>
+                <p>{c.desc}</p>
+                <Link to="/contact" className="btn btn-ghost">Get directions &amp; book <span className="arr">→</span></Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -196,7 +174,7 @@ export default function AboutPage() {
         <div className="wrap">
           <motion.div className={styles.ctaContent} {...fadeUp()}>
             <h2>Ready to consult?</h2>
-            <p className="lead">Book an appointment at Manipal Hospital, Dwarka, or reach out for a teleconsultation.</p>
+            <p className="lead">Book an appointment at Men's Health Corner or Veena Nursing Home, or reach out for a teleconsultation.</p>
             <div className={styles.ctaActions}>
               <Link to="/contact" className="btn btn-primary">Book a consultation <span className="arr">→</span></Link>
               <Link to="/blog" className="btn btn-ghost">Read the blog</Link>

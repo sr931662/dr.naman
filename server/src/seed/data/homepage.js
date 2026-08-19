@@ -48,8 +48,8 @@ export const journey = [
   {
     side: 'left',
     year: 'Present · Delhi',
-    title: 'Consultant — Manipal Hospital, Dwarka',
-    desc: 'Practising urology, andrology, laparoscopic and minimally-invasive urological surgery at Manipal Hospital, Dwarka, Delhi.',
+    title: 'Consultant Urologist — Delhi',
+    desc: 'Practising urology, andrology, laparoscopic and minimally-invasive urological surgery across Delhi.',
   },
 ]
 
@@ -61,7 +61,7 @@ export const research = [
 ]
 
 export const credentials = [
-  { emphasis: 'Manipal Hospital', text: 'Dwarka, Delhi' },
+  { emphasis: "Men's Health Corner", text: '· Veena Nursing Home, Delhi' },
   { emphasis: 'Reproductive Medicine', text: 'American Society for' },
   { emphasis: 'First IVF', text: 'Dubai · Observership' },
   { emphasis: 'Devon', text: 'Traveling Fellowship' },
@@ -80,13 +80,13 @@ export const reels = [
 export const photos = [
   {
     label: 'Dr. Naman Aggarwal',
-    sub: 'MCh Urology · ASRM · Manipal Hospital, Dwarka',
+    sub: 'MCh Urology · ASRM · Consultant Urologist, Delhi',
     featured: true,
-    image: { url: '/uploads/seed/dr-naman.png', alt: 'Dr. Naman Aggarwal — Consultant Urologist, Manipal Hospital Dwarka' },
+    image: { url: '/uploads/seed/dr-naman.png', alt: 'Dr. Naman Aggarwal — Consultant Urologist, Delhi' },
   },
   {
     label: 'OPD Consultation',
-    sub: 'Manipal Hospital · Dwarka',
+    sub: 'Consultation room · Delhi',
     image: {
       url: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80',
       alt: 'OPD consultation room',

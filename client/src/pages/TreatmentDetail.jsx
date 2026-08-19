@@ -239,7 +239,7 @@ export default function TreatmentDetailPage() {
                   <div className={styles.authorCardAvatar}>N</div>
                   <div>
                     <span className={styles.authorCardName}>Dr. Naman Aggarwal</span>
-                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Manipal Hospital, Dwarka, Delhi</span>
+                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Delhi</span>
                     <span className={styles.authorCardCreds}>MCh Urology (PGIMER) · Devon Fellow · ASRM Certified</span>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ export default function TreatmentDetailPage() {
                   </svg>
                 </div>
                 <h3>Book a consultation</h3>
-                <p>Discuss {treatment.title.toLowerCase()} with Dr. Aggarwal at Manipal Hospital, Dwarka, Delhi. Teleconsultation available.</p>
+                <p>Discuss {treatment.title.toLowerCase()} with Dr. Aggarwal at Men's Health Corner or Veena Nursing Home. Teleconsultation available.</p>
                 <Link to="/contact" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
                   Book now <span className="arr">→</span>
                 </Link>

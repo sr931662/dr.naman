@@ -17,7 +17,7 @@ export default function CTA() {
           <motion.span className={`eyebrow ${styles.eyebrow}`} variants={fadeUp}>Consultations</motion.span>
           <motion.h2 variants={fadeUp}>Begin the conversation.</motion.h2>
           <motion.p variants={fadeUp}>
-            Whether you are a patient seeking relief, a family weighing surgery, or a physician seeking a referral — Dr. Aggarwal's clinic at Manipal Hospital, Dwarka is open to you.
+            Whether you are a patient seeking relief, a family weighing surgery, or a physician seeking a referral — Dr. Aggarwal's clinics across Delhi are open to you.
           </motion.p>
           <motion.div className={styles.ctaRow} variants={fadeUp}>
             <Link className="btn btn-light" to="/contact" data-magnetic="0.3">
@@ -26,7 +26,7 @@ export default function CTA() {
           </motion.div>
         </div>
         <motion.div className={styles.side} variants={fadeUp}>
-          {[['Hospital','Manipal Hospital, Dwarka, Delhi'],['Speciality','Urology · Andrology · Laparoscopy'],['Languages','English · Hindi']].map(([k, v]) => (
+          {[['Clinics',"Men's Health Corner · Veena Nursing Home"],['Speciality','Urology · Andrology · Laparoscopy'],['Languages','English · Hindi']].map(([k, v]) => (
             <div key={k} className={styles.row}>
               <small>{k}</small>
               <span>{v}</span>

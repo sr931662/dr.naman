@@ -39,7 +39,7 @@ export default function BlogPage() {
     <main className={styles.page}>
       <Seo
         title="Patient Education Blog"
-        description="Insights on kidney stones, HoLEP, male fertility, renal transplant and minimally invasive urology, from Dr. Naman Aggarwal, Consultant Urologist at Manipal Hospital, Dwarka, Delhi."
+        description="Insights on kidney stones, HoLEP, male fertility, renal transplant and minimally invasive urology, from Dr. Naman Aggarwal, Consultant Urologist practising across Delhi."
         path="/blog"
       />
       {/* Hero */}

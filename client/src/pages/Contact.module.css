@@ -5,7 +5,31 @@
 .heroH1 { color: #fff; margin: 18px 0 16px; }
 .heroH1 em { color: var(--crimson-bright); }
 .heroSub { font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.45); margin: 0; }
-.mainSection { padding: 80px 0 120px; background: var(--paper); }
+/* Clinic location cards */
+.locSection { padding: 88px 0 40px; background: var(--paper); }
+.sHead { max-width: 700px; margin-bottom: 48px; }
+.sHead h2 { margin-top: 16px; }
+.locGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.locCard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.locImage { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: var(--line); }
+.locImage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.locBody { padding: 28px 26px 30px; display: flex; flex-direction: column; gap: 10px; }
+.locBadge { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--crimson); }
+.locBody h3 { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); margin: 0; }
+.locAddress { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+.locSchedule { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-direction: column; gap: 5px; }
+.locSchedule li { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--ink-soft); }
+.locSchedule li b { color: var(--ink); font-weight: 600; flex-shrink: 0; }
+.locFee { font-size: 13.5px; color: var(--ink-soft); margin: 2px 0 0; }
+.locActions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
+.mainSection { padding: 40px 0 120px; background: var(--paper); }
 .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 64px; align-items: start; }
 .info { display: flex; flex-direction: column; gap: 36px; }
 .infoBlock { }
@@ -67,7 +91,9 @@
 @media (max-width: 980px) {
   .grid { grid-template-columns: 1fr; gap: 40px; }
   .formWrap { position: static; padding: 28px; }
-  .mainSection { padding: 60px 0 80px; }
+  .mainSection { padding: 40px 0 80px; }
+  .locSection { padding: 64px 0 20px; }
+  .locGrid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   .row { grid-template-columns: 1fr; }

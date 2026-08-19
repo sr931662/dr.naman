@@ -2,24 +2,18 @@
 
 export const locations = [
   {
-    name: 'Manipal Hospital, Dwarka',
+    // TODO: placeholder — no verified address/phone/hours were available when this
+    // was added. Fill in the real details via CMS → Clinic Locations before relying
+    // on this record; the public Contact page will display whatever is here.
+    name: "Men's Health Corner",
     kind: 'primary',
-    addressLine: 'Palam Vihar Colony, Sector 6, Dwarka',
-    landmark: 'Near MTNL Office',
+    addressLine: 'Address to be confirmed',
     city: 'Delhi',
-    phone: '+911142888888',
-    consultationFee: 1500,
     teleconsultation: true,
-    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
     schedule: [
-      { days: 'Tue & Sat', hours: '9:00 AM – 3:00 PM', note: '' },
-      { days: 'Wed – Thu', hours: '11:00 AM – 3:00 PM', note: '' },
+      { days: 'Add via CMS', hours: 'Hours to be confirmed', note: '' },
     ],
-    directions: [
-      { mode: 'By Metro', detail: 'Dwarka Sector 10 (Blue Line) → 5 min cab' },
-      { mode: 'By Road', detail: 'Dwarka Expressway / Palam Road, Sector 6' },
-      { mode: 'From Airport', detail: 'IGI Terminal 3 → 15 min via NH-48 / Palam Road' },
-    ],
+    directions: [],
   },
   {
     name: 'Veena Nursing Home',
@@ -50,19 +44,19 @@ export const pages = [
   {
     title: 'About Dr. Naman Aggarwal',
     slug: 'about',
-    summary: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi — eleven years of focused urological practice.',
+    summary: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi — eleven years of focused urological practice.',
     blocks: [
       {
         type: 'prose',
         heading: 'A surgeon shaped by two disciplines',
-        body: '<p>Dr. Naman Aggarwal is a Consultant Urologist, Andrologist and Laparoscopic Surgeon practising at Manipal Hospital, Dwarka, Delhi. He holds an MBBS, an MS in General Surgery, and an MCh in Urology / Genito-Urinary Surgery, with eleven years of overall clinical experience.</p><p>His practice spans the full spectrum of urological conditions, with particular depth in minimally invasive technique — Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches to uro-oncological surgery.</p>',
+        body: '<p>Dr. Naman Aggarwal is a Consultant Urologist, Andrologist and Laparoscopic Surgeon serving patients across Delhi. He holds an MBBS, an MS in General Surgery, and an MCh in Urology / Genito-Urinary Surgery, with eleven years of overall clinical experience.</p><p>His practice spans the full spectrum of urological conditions, with particular depth in minimally invasive technique — Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches to uro-oncological surgery.</p>',
       },
       {
         type: 'stats',
         heading: 'At a glance',
         items: [
           { label: 'Years in practice', value: '11' },
-          { label: 'Primary hospital', value: 'Manipal, Dwarka' },
+          { label: 'Practice area', value: 'Delhi' },
           { label: 'Andrology certification', value: 'ASRM' },
           { label: 'Fellowship', value: 'Devon Traveling Fellowship' },
         ],
@@ -75,13 +69,13 @@ export const pages = [
       {
         type: 'cta',
         heading: 'Book a consultation',
-        body: '<p>In person at Manipal Hospital Dwarka, or by teleconsultation. The clinic responds within 24 hours.</p>',
+        body: '<p>In person at Men\'s Health Corner or Veena Nursing Home, or by teleconsultation. The clinic responds within 24 hours.</p>',
         items: [{ label: 'Book now', url: '/contact' }],
       },
     ],
     seo: {
-      title: 'About Dr. Naman Aggarwal — Consultant Urologist, Dwarka',
-      description: 'MBBS, MS, MCh Urology. ASRM-certified in andrology, Devon Traveling Fellow. Eleven years of urological practice at Manipal Hospital, Dwarka, Delhi.',
+      title: 'About Dr. Naman Aggarwal — Consultant Urologist, Delhi',
+      description: 'MBBS, MS, MCh Urology. ASRM-certified in andrology, Devon Traveling Fellow. Eleven years of urological practice across Delhi.',
     },
   },
   {

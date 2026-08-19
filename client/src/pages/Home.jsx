@@ -30,15 +30,9 @@ const PHYSICIAN_JSON_LD = {
   email: DOCTOR.email,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: DOCTOR.addressLine,
     addressLocality: DOCTOR.addressLocality,
     addressRegion: DOCTOR.addressRegion,
-    postalCode: DOCTOR.postalCode,
     addressCountry: DOCTOR.addressCountry,
-  },
-  worksFor: {
-    '@type': 'Hospital',
-    name: DOCTOR.hospital,
   },
 }
 
@@ -58,8 +52,8 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="Urologist in Dwarka, Delhi"
-        description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
+        title="Urologist in Delhi"
+        description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon, practising across Delhi at Men's Health Corner and Veena Nursing Home. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
         path="/"
         jsonLd={[PHYSICIAN_JSON_LD, faqJsonLd]}
       />

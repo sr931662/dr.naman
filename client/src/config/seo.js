@@ -3,18 +3,18 @@
 export const SITE_URL = 'https://drnamanaggarwal.com'
 export const SITE_NAME = 'Dr. Naman Aggarwal — Urology, Andrology & Laparoscopic Surgery'
 
+// hospital/addressLine/postalCode/geo were Manipal Hospital's exact building details —
+// removed rather than left wrong now that the practice is framed around Men's Health
+// Corner and Veena Nursing Home instead (see server/src/seed/data/practice.js, which
+// has the same placeholder-until-confirmed treatment for the CMS-backed locations).
 export const DOCTOR = {
   name: 'Dr. Naman Aggarwal',
   jobTitle: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon',
   medicalSpecialty: ['Urology', 'Andrology', 'Laparoscopic Surgery'],
-  hospital: 'Manipal Hospital, Dwarka',
-  addressLine: 'Palam Vihar Colony, Sector 6',
-  addressLocality: 'Dwarka, Delhi',
+  addressLocality: 'Delhi',
   addressRegion: 'Delhi',
-  postalCode: '110075',
   addressCountry: 'IN',
   telephone: '+91-11-42888888',
   email: 'info@drnamanaggarwal.com',
-  geo: { latitude: 28.595245, longitude: 77.066844 },
   image: `${SITE_URL}/social-card.png`,
 }

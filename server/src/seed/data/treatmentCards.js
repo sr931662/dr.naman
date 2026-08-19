@@ -140,7 +140,7 @@ export const treatmentCards = [
     slug: 'urology-consultation',
     title: 'Urology Consultation',
     sub: 'OPD · Second opinion · Reports',
-    tag: '₹1500 · Manipal Hospital',
+    tag: '₹1500 · Men\'s Health Corner',
     icon: `<svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
   <rect x="11" y="10" width="26" height="32" rx="3" stroke="var(--crimson)" stroke-width="1.5" opacity=".4"/>
   <path d="M16 18 h16 M16 24 h16 M16 30 h10" stroke="var(--crimson)" stroke-width="1.5" stroke-linecap="round"/>

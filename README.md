@@ -1,7 +1,7 @@
 # Dr. Naman Aggarwal — Practice Website
 
 Website and content management system for a urology, andrology and laparoscopic
-surgery practice at Manipal Hospital, Dwarka, Delhi.
+surgery practice across Delhi (Men's Health Corner and Veena Nursing Home).
 
 ```
 client/   React 19 + Vite frontend

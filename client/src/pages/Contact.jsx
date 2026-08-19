@@ -8,25 +8,20 @@ import styles from './Contact.module.css'
 const CONTACT_FALLBACK = {
   email: 'info@drnamanaggarwal.com',
   phone: '+911142888888',
-  phoneLabel: 'Manipal Hospital Dwarka',
+  phoneLabel: "Men's Health Corner",
   responseTime: 'Response within 24 hours',
 }
 
+// TODO: placeholder — no verified address/phone/hours for Men's Health Corner were
+// available yet; update via CMS → Clinic Locations (same note as the seed data).
 const LOCATIONS_FALLBACK = [
   {
     kind: 'primary',
-    name: 'Manipal Hospital, Dwarka',
-    addressLine: 'Palam Vihar Colony, Sector 6',
-    landmark: 'Near MTNL Office',
-    city: 'Dwarka, Delhi',
-    schedule: [{ days: 'Tue & Sat', hours: '9:00 AM – 3:00 PM' }, { days: 'Wed – Thu', hours: '11:00 AM – 3:00 PM' }],
-    consultationFee: 1500,
-    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
-    directions: [
-      { mode: 'By Metro', detail: 'Dwarka Sector 10 (Blue Line) → 5 min cab' },
-      { mode: 'By Road', detail: 'Dwarka Expressway / Palam Road, Sector 6' },
-      { mode: 'From Airport', detail: 'IGI Terminal 3 → 15 min via NH-48 / Palam Road' },
-    ],
+    name: "Men's Health Corner",
+    addressLine: 'Address to be confirmed',
+    city: 'Delhi',
+    schedule: [{ days: 'Add via CMS', hours: 'Hours to be confirmed' }],
+    directions: [],
   },
   {
     kind: 'oncall',
@@ -43,33 +38,24 @@ const LOCATIONS_FALLBACK = [
   },
 ]
 
+// Street address, geo-coordinates and hours are intentionally omitted until the
+// real Men's Health Corner details are entered via CMS → Clinic Locations — see
+// the TODO on LOCATIONS_FALLBACK above.
 const CLINIC_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'MedicalClinic',
-  name: `${DOCTOR.name} — ${DOCTOR.hospital}`,
+  name: `${DOCTOR.name} — Men's Health Corner`,
   url: `${SITE_URL}/contact`,
   image: DOCTOR.image,
   telephone: DOCTOR.telephone,
   email: DOCTOR.email,
-  priceRange: '₹1000–₹1500',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: DOCTOR.addressLine,
     addressLocality: DOCTOR.addressLocality,
     addressRegion: DOCTOR.addressRegion,
-    postalCode: DOCTOR.postalCode,
     addressCountry: DOCTOR.addressCountry,
   },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: DOCTOR.geo.latitude,
-    longitude: DOCTOR.geo.longitude,
-  },
   medicalSpecialty: DOCTOR.medicalSpecialty,
-  openingHoursSpecification: [
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Saturday'], opens: '09:00', closes: '15:00' },
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '11:00', closes: '15:00' },
-  ],
   physician: { '@type': 'Physician', name: DOCTOR.name, jobTitle: DOCTOR.jobTitle },
 }
 
@@ -96,7 +82,8 @@ export default function ContactPage() {
   const contact = contactData?.contact && Object.keys(contactData.contact).length ? contactData.contact : CONTACT_FALLBACK
   const locations = contactData?.locations?.length ? contactData.locations : LOCATIONS_FALLBACK
   const primary = locations.find(l => l.kind === 'primary') || locations[0]
-  const others = locations.filter(l => l !== primary)
+  const clinicCards = locations.filter(l => l.kind === 'primary' || l.kind === 'secondary')
+  const onCall = locations.filter(l => l.kind === 'oncall')
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   const handleSubmit = async e => {
@@ -117,7 +104,7 @@ export default function ContactPage() {
     <main className={styles.page}>
       <Seo
         title="Book a Consultation"
-        description="Book a consultation with Dr. Naman Aggarwal, Consultant Urologist at Manipal Hospital, Dwarka, Delhi. In-person and teleconsultation appointments available."
+        description="Book a consultation with Dr. Naman Aggarwal, Consultant Urologist in Delhi. In-person and teleconsultation appointments available."
         path="/contact"
         jsonLd={CLINIC_JSON_LD}
       />
@@ -128,42 +115,64 @@ export default function ContactPage() {
           <motion.div className={styles.heroContent} {...fadeUp(0.1)}>
             <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Reach Out</span>
             <h1 className={styles.heroH1}>Book a <em>consultation</em></h1>
-            <p className={styles.heroSub}>Manipal Hospital, Dwarka, Delhi · Teleconsultation available · Response within 24 hours</p>
+            <p className={styles.heroSub}>Men's Health Corner &amp; Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours</p>
           </motion.div>
         </div>
       </section>
+
+      {/* Clinic location cards */}
+      {clinicCards.length > 0 && (
+        <section className={styles.locSection}>
+          <div className="wrap">
+            <motion.div className={styles.sHead} {...fadeUp()}>
+              <span className="eyebrow">Clinic Locations</span>
+              <h2>Where to <em>find him</em></h2>
+            </motion.div>
+            <div className={styles.locGrid}>
+              {clinicCards.map((loc, i) => (
+                <motion.div key={loc.name} className={styles.locCard} {...fadeUp(0.08 + i * 0.08)}>
+                  {loc.image?.url && (
+                    <div className={styles.locImage}>
+                      <img src={loc.image.url} alt={loc.image.alt || loc.name} loading="lazy"/>
+                    </div>
+                  )}
+                  <div className={styles.locBody}>
+                    <span className={styles.locBadge}>{loc.kind === 'primary' ? "Dr. Aggarwal's Clinic" : 'Consulting At'}</span>
+                    <h3>{loc.name}</h3>
+                    <p className={styles.locAddress}>
+                      {loc.addressLine}{loc.landmark ? `, ${loc.landmark}` : ''}{loc.city ? `, ${loc.city}` : ''}{loc.pincode ? ` – ${loc.pincode}` : ''}
+                    </p>
+                    {loc.schedule?.length > 0 && (
+                      <ul className={styles.locSchedule}>
+                        {loc.schedule.map((s, si) => (
+                          <li key={si}><b>{s.days}</b><span>{s.hours}{s.note ? ` (${s.note})` : ''}</span></li>
+                        ))}
+                      </ul>
+                    )}
+                    {loc.consultationFee ? <p className={styles.locFee}>Consultation fee: ₹{loc.consultationFee}</p> : null}
+                    <div className={styles.locActions}>
+                      {loc.phone && <a href={`tel:${loc.phone}`} className="btn btn-ghost">Call</a>}
+                      {loc.mapLink && <a href={loc.mapLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Get directions <span className="arr">→</span></a>}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className={styles.mainSection}>
         <div className="wrap">
           <div className={styles.grid}>
             {/* Left: contact info */}
             <motion.div className={styles.info} {...fadeUp()}>
-              <div className={styles.infoBlock}>
-                <span className={styles.infoLabel}>Primary Hospital</span>
-                <h3>{primary.name}</h3>
-                <p>{primary.addressLine}{primary.city ? <><br/>{primary.city}</> : null}{primary.landmark ? <><br/>{primary.landmark}</> : null}</p>
-              </div>
-
-              {primary.schedule?.length > 0 && (
+              {onCall.length > 0 && (
                 <div className={styles.infoBlock}>
-                  <span className={styles.infoLabel}>OPD Schedule</span>
-                  <p>
-                    {primary.schedule.map((s, i) => (
-                      <span key={i}><b>{s.days}:</b> {s.hours}{s.note ? ` (${s.note})` : ''}<br/></span>
-                    ))}
-                    {primary.consultationFee ? `Consultation fee: ₹${primary.consultationFee}` : null}
-                  </p>
-                </div>
-              )}
-
-              {others.length > 0 && (
-                <div className={styles.infoBlock}>
-                  <span className={styles.infoLabel}>Also available at</span>
-                  {others.map((loc, i) => (
+                  <span className={styles.infoLabel}>Also available (on-call)</span>
+                  {onCall.map((loc, i) => (
                     <p key={loc.name} style={i > 0 ? { marginTop: 10 } : undefined}>
                       <b>{loc.name}</b><br/>{loc.addressLine}
-                      <br/>{loc.schedule?.map(s => `${s.days}${s.hours ? ': ' + s.hours : ''}`).join(' · ')}
-                      {loc.consultationFee ? ` · ₹${loc.consultationFee}` : ''}
                     </p>
                   ))}
                 </div>
@@ -201,20 +210,22 @@ export default function ContactPage() {
                 </div>
               )}
 
-              {/* Google Maps */}
-              <motion.div className={styles.mapWrap} {...fadeUp(0.15)}>
-                <iframe
-                  src={primary.mapEmbedUrl || LOCATIONS_FALLBACK[0].mapEmbedUrl}
-                  width="100%"
-                  height="320"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  title={primary.name}
-                  className={styles.mapFrame}
-                />
-              </motion.div>
+              {/* Google Maps — only once a real embed URL is set via CMS */}
+              {primary.mapEmbedUrl && (
+                <motion.div className={styles.mapWrap} {...fadeUp(0.15)}>
+                  <iframe
+                    src={primary.mapEmbedUrl}
+                    width="100%"
+                    height="320"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    title={primary.name}
+                    className={styles.mapFrame}
+                  />
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Right: form */}

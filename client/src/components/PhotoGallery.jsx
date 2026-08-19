@@ -27,23 +27,23 @@ const PHOTOS_FALLBACK = [
   {
     featured: true,
     label: 'Dr. Naman Aggarwal',
-    sub: 'MCh Urology · ASRM · Manipal Hospital, Dwarka',
-    image: { url: drNaman, alt: 'Dr. Naman Aggarwal — Consultant Urologist, Manipal Hospital Dwarka' },
+    sub: 'MCh Urology · ASRM · Consultant Urologist, Delhi',
+    image: { url: drNaman, alt: 'Dr. Naman Aggarwal — Consultant Urologist, Delhi' },
   },
   {
     label: 'OPD Consultation',
-    sub: 'Manipal Hospital · Dwarka',
-    image: { url: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80', alt: "Dr. Naman Aggarwal's OPD consultation room at Manipal Hospital, Dwarka, Delhi" },
+    sub: 'Consultation room · Delhi',
+    image: { url: 'https://images.unsplash.com/photo-1758691461957-474a7686e388?auto=format&fit=crop&w=800&q=80', alt: "Dr. Naman Aggarwal's OPD consultation room in Delhi" },
   },
   {
     label: 'Surgical Suite',
     sub: 'Minimally invasive · Laparoscopic',
-    image: { url: 'https://images.unsplash.com/photo-1758206523711-f20bb01033a5?auto=format&fit=crop&w=800&q=80', alt: 'Minimally invasive laparoscopic surgical suite used by Dr. Naman Aggarwal, urologist in Dwarka, Delhi' },
+    image: { url: 'https://images.unsplash.com/photo-1758206523711-f20bb01033a5?auto=format&fit=crop&w=800&q=80', alt: 'Minimally invasive laparoscopic surgical suite used by Dr. Naman Aggarwal, urologist in Delhi' },
   },
   {
     label: 'Endoscopy Unit',
     sub: 'RIRS · Ureteroscopy · PCNL',
-    image: { url: 'https://plus.unsplash.com/premium_photo-1661627109539-69d7096ea354?auto=format&fit=crop&w=800&q=80', alt: 'Endoscopy unit for RIRS, ureteroscopy and PCNL kidney stone procedures at Manipal Hospital, Dwarka' },
+    image: { url: 'https://plus.unsplash.com/premium_photo-1661627109539-69d7096ea354?auto=format&fit=crop&w=800&q=80', alt: 'Endoscopy unit for RIRS, ureteroscopy and PCNL kidney stone procedures in Delhi' },
   },
   {
     label: 'Patient Care',
@@ -76,7 +76,7 @@ export default function PhotoGallery() {
         <motion.div className={styles.head} {...fadeUp()}>
           <span className="eyebrow">In Practice</span>
           <h2>The doctor &amp; <em>the clinic</em></h2>
-          <p className="lead">Eleven years of focused urological practice at Manipal Hospital, Dwarka — where precision meets patient-first care.</p>
+          <p className="lead">Eleven years of focused urological practice across Delhi — where precision meets patient-first care.</p>
         </motion.div>
 
         <motion.div className={styles.stage} {...fadeUp(0.1)}>

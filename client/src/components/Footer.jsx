@@ -8,7 +8,7 @@ const fadeUp = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transi
 const FOOTER_COLUMNS_FALLBACK = [
   { title: 'Practice', links: [{ url: '#expertise', label: 'Urology' }, { url: '#expertise', label: 'Andrology' }, { url: '#expertise', label: 'Uro-oncology' }, { url: '#expertise', label: 'Renal Transplant' }] },
   { title: 'Explore', links: [{ url: '/about', label: 'About Dr. Aggarwal' }, { url: '/blog', label: 'Blog & Insights' }, { url: '#journey', label: 'Journey' }, { url: '#research', label: 'Research' }] },
-  { title: 'Clinic', links: [{ url: '#contact', label: 'Book a consultation' }, { url: '#contact', label: 'Manipal Hospital, Dwarka' }, { url: '#contact', label: 'Referrals' }, { url: '#contact', label: 'Teleconsultation' }] },
+  { title: 'Clinic', links: [{ url: '#contact', label: 'Book a consultation' }, { url: '#contact', label: 'Clinic Locations' }, { url: '#contact', label: 'Referrals' }, { url: '#contact', label: 'Teleconsultation' }] },
 ]
 const SOCIAL_FALLBACK = [
   { platform: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/andrologistdelhi/' },
@@ -66,7 +66,7 @@ export default function Footer() {
         <motion.div className={styles.brand} variants={fadeUp}>
           <div className={styles.brandLogo}>N</div>
           <h4>Dr. Naman Aggarwal</h4>
-          <p>Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon · Manipal Hospital, Dwarka, Delhi. 11 years experience.</p>
+          <p>Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon · Delhi. 11 years experience.</p>
           <div className={styles.socialSection}>
             <p className={styles.socialLabel}>Follow &amp; Connect</p>
             <div className={styles.socialRow}>
@@ -98,7 +98,7 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
           <span>{copyright}</span>
-          <span>Manipal Hospital · Dwarka Sector 6, Delhi, India</span>
+          <span>Men's Health Corner &amp; Veena Nursing Home, Delhi, India</span>
         </div>
       </div>
     </footer>

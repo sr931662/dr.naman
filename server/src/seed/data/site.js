@@ -13,10 +13,10 @@ export const settings = {
     jobTitle: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon',
     qualifications: 'MBBS, MS General Surgery, MCh Urology / Genito-Urinary Surgery',
     experienceYears: 11,
-    bio: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon at Manipal Hospital, Dwarka, Delhi. ASRM-certified in andrology and holder of the Devon Traveling Fellowship in advanced laparoscopic and robotic urological surgery.',
+    bio: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi. ASRM-certified in andrology and holder of the Devon Traveling Fellowship in advanced laparoscopic and robotic urological surgery.',
     medicalSpecialty: ['Urology', 'Andrology', 'Laparoscopic Surgery'],
-    hospital: 'Manipal Hospital, Dwarka',
-    addressLocality: 'Dwarka, Delhi',
+    hospital: '',
+    addressLocality: 'Delhi',
     addressRegion: 'Delhi',
     addressCountry: 'IN',
   },
@@ -38,13 +38,13 @@ export const settings = {
   medicalDisclaimer: 'The information on this website is for general education and does not replace a consultation with a qualified doctor. If your symptoms are severe or worsening, seek medical care immediately.',
   integrations: {
     googleAnalyticsId: '',
-    googleMapsEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
+    googleMapsEmbed: '',
     practoUrl: '',
   },
   seo: {
-    title: 'Urologist in Dwarka, Delhi | Dr. Naman Aggarwal',
-    description: 'Consultant Urologist & Andrologist at Manipal Hospital, Dwarka, Delhi. MCh Urology, 11 years experience in kidney stones, HoLEP, male infertility and renal transplant.',
-    keywords: 'urologist Dwarka, kidney stone treatment Delhi, HoLEP, male infertility, renal transplant, RIRS',
+    title: 'Urologist in Delhi | Dr. Naman Aggarwal',
+    description: 'Consultant Urologist & Andrologist serving patients across Delhi. MCh Urology, 11 years experience in kidney stones, HoLEP, male infertility and renal transplant.',
+    keywords: 'urologist Delhi, kidney stone treatment Delhi, HoLEP, male infertility, renal transplant, RIRS',
     noindex: false,
   },
 }
@@ -99,7 +99,7 @@ export const navigation = {
       title: 'Visit',
       links: [
         { label: 'Book a consultation', url: '/contact' },
-        { label: 'Manipal Hospital, Dwarka', url: '/contact' },
+        { label: 'Clinic Locations', url: '/contact' },
         { label: 'Teleconsultation', url: '/contact' },
       ],
     },
@@ -111,9 +111,9 @@ export const navigation = {
 }
 
 export const hero = {
-  eyebrow: 'Consultant Urologist · Dwarka, Delhi',
+  eyebrow: 'Consultant Urologist · Delhi',
   headlineWords: ['Surgical', 'precision,', 'profoundly', 'human', 'care.'],
-  subheading: 'Urology, andrology and laparoscopic surgery at Manipal Hospital, Dwarka — eleven years of focused practice in kidney stones, prostate disease, male fertility and renal transplantation.',
+  subheading: 'Urology, andrology and laparoscopic surgery across Delhi — eleven years of focused practice in kidney stones, prostate disease, male fertility and renal transplantation.',
   ctas: [
     { label: 'Book a consultation', url: '/contact', variant: 'primary' },
     { label: 'Explore treatments', url: '#treatments', variant: 'ghost' },
@@ -131,15 +131,15 @@ export const sections = [
   { key: 'home-advice', eyebrow: "The Doctor's Advice", heading: 'When should you <em>call</em>?', lead: 'A quick triage guide — what the symptom usually means, and how urgently it needs attention.', order: 1 },
   { key: 'home-atlas', eyebrow: 'The Living Atlas', heading: 'A surgeon\'s <em>map</em>', lead: 'Urology, andrology, uro-oncology and transplantation — four disciplines, one continuum of care.', order: 2 },
   { key: 'home-reels', eyebrow: 'Watch & Learn', heading: 'Explained in <em>minutes</em>', lead: "Short, clear videos on urological conditions — from Dr. Aggarwal's clinical perspective.", order: 3 },
-  { key: 'home-gallery', eyebrow: 'In Practice', heading: 'The doctor & <em>the clinic</em>', lead: 'Eleven years of focused urological practice at Manipal Hospital, Dwarka — where precision meets patient-first care.', order: 4 },
+  { key: 'home-gallery', eyebrow: 'In Practice', heading: 'The doctor & <em>the clinic</em>', lead: 'Eleven years of focused urological practice across Delhi — where precision meets patient-first care.', order: 4 },
   { key: 'home-philosophy', eyebrow: 'The Philosophy', heading: 'How care is <em>practised</em>', lead: '"A scan shows me the disease. A conversation shows me the person. I refuse to treat one without the other."', order: 5 },
   { key: 'home-journey', eyebrow: 'The Making of a Surgeon', heading: 'Training that crosses<br/>borders &amp; disciplines.', lead: '', order: 6 },
   { key: 'home-research', eyebrow: 'On the Podium', heading: 'Research &amp; talks', lead: 'A regular voice at international and national urological forums — sharing technique, evidence and outcomes with the wider surgical community.', order: 7 },
   { key: 'home-voices', eyebrow: 'In Their Words', heading: 'Voices of <em>patients</em>', lead: '', order: 8 },
   { key: 'home-blog', eyebrow: 'Reading Room', heading: 'Notes from <em>practice</em>', lead: 'Evidence-based writing on the conditions patients ask about most.', order: 9 },
   { key: 'home-faq', eyebrow: 'Common Questions', heading: 'Before you <em>visit</em>', lead: '', order: 10 },
-  { key: 'home-cta', eyebrow: 'Next Step', heading: 'Book a <em>consultation</em>', lead: 'In-person at Manipal Hospital Dwarka, or by teleconsultation. Response within 24 hours.', ctaLabel: 'Book now', ctaUrl: '/contact', order: 11 },
-  { key: 'contact-hero', eyebrow: 'Reach Out', heading: 'Book a <em>consultation</em>', lead: 'Manipal Hospital, Dwarka, Delhi · Teleconsultation available · Response within 24 hours', order: 12 },
+  { key: 'home-cta', eyebrow: 'Next Step', heading: 'Book a <em>consultation</em>', lead: "In-person at Men's Health Corner or Veena Nursing Home, or by teleconsultation. Response within 24 hours.", ctaLabel: 'Book now', ctaUrl: '/contact', order: 11 },
+  { key: 'contact-hero', eyebrow: 'Reach Out', heading: 'Book a <em>consultation</em>', lead: "Men's Health Corner & Veena Nursing Home, Delhi · Teleconsultation available · Response within 24 hours", order: 12 },
   { key: 'contact-form', eyebrow: '', heading: 'Send a message', lead: "Fill in your details and we'll get back to you within 24 hours to confirm your appointment.", order: 13 },
   { key: 'blog-hero', eyebrow: 'Reading Room', heading: 'Notes from <em>practice</em>', lead: 'Patient education, surgical advances and evidence-based urology.', order: 14 },
 ]

@@ -24,6 +24,7 @@ export default defineType({
         { value: 'oncall', label: 'On-call basis' },
       ],
     },
+    { name: 'image', type: 'image', label: 'Photo', help: 'Shown on the Contact page location card.' },
     { name: 'addressLine', type: 'text', label: 'Address', group: 'Address' },
     { name: 'landmark', type: 'string', label: 'Landmark', group: 'Address' },
     { name: 'city', type: 'string', label: 'City', group: 'Address' },

@@ -2,7 +2,7 @@
   "name": "dr-naman-aggarwal",
   "version": "1.0.0",
   "private": true,
-  "description": "Practice website and CMS for Dr. Naman Aggarwal — Urology, Dwarka, Delhi",
+  "description": "Practice website and CMS for Dr. Naman Aggarwal — Urology, Delhi",
   "engines": {
     "node": ">=20"
   },
