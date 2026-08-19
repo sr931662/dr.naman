@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Seo from '../components/Seo'
+import ClinicLocations from '../components/ClinicLocations'
 import { SITE_URL, DOCTOR } from '../config/seo'
 import { getContactInfo, submitAppointment } from '../lib/api'
+import { LOCATIONS_FALLBACK } from '../data/locations'
 import styles from './Contact.module.css'
 
 const CONTACT_FALLBACK = {
@@ -11,52 +13,6 @@ const CONTACT_FALLBACK = {
   phoneLabel: "Men's Health Corner",
   responseTime: 'Response within 24 hours',
 }
-
-const DEFAULT_BADGE = {
-  primary: "Dr. Aggarwal's Clinic",
-  secondary: 'Also Consults Here',
-  oncall: 'On-Call',
-}
-
-// TODO: placeholder — no verified address/phone/hours for Men's Health Corner were
-// available yet; update via CMS → Clinic Locations (same note as the seed data).
-const LOCATIONS_FALLBACK = [
-  {
-    kind: 'primary',
-    name: "Men's Health Corner",
-    addressLine: 'Address to be confirmed',
-    city: 'Delhi',
-    schedule: [{ days: 'Add via CMS', hours: 'Hours to be confirmed' }],
-    directions: [],
-  },
-  {
-    kind: 'secondary',
-    name: 'Manipal Hospital, Dwarka',
-    addressLine: 'Palam Vihar Colony, Sector 6, Dwarka, Delhi',
-    landmark: 'Near MTNL Office',
-    schedule: [
-      { days: 'Tue & Sat', hours: '9:00 AM – 3:00 PM' },
-      { days: 'Wed & Thu', hours: '11:00 AM – 3:00 PM' },
-    ],
-    consultationFee: 1500,
-    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.151058565209!2d77.06684367614186!3d28.595244775685092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b3ae0cf4f6f%3A0xec55552f03c1526d!2sManipal%20Hospital%20Delhi!5e0!3m2!1sen!2sin!4v1782467063048!5m2!1sen!2sin',
-    mapLink: 'https://maps.google.com/?q=Manipal+Hospital+Dwarka+Delhi',
-  },
-  {
-    kind: 'secondary',
-    name: 'Veena Nursing Home',
-    badgeLabel: 'His Own Hospital',
-    addressLine: 'Pocket A-1, Sector 8, Near Deepali Chowk, Delhi',
-    schedule: [{ days: 'Mon–Sat', hours: '6:30–8:30 AM & 7:00–9:00 PM' }],
-    consultationFee: 1000,
-  },
-  {
-    kind: 'oncall',
-    name: 'Maharaja Agarsain Hospital',
-    addressLine: 'D Block, Ashok Vihar Phase 1, Delhi',
-    schedule: [{ days: 'On-call basis', hours: '' }],
-  },
-]
 
 // Street address, geo-coordinates and hours are intentionally omitted until the
 // real Men's Health Corner details are entered via CMS → Clinic Locations — see
@@ -102,7 +58,6 @@ export default function ContactPage() {
   const contact = contactData?.contact && Object.keys(contactData.contact).length ? contactData.contact : CONTACT_FALLBACK
   const locations = contactData?.locations?.length ? contactData.locations : LOCATIONS_FALLBACK
   const primary = locations.find(l => l.kind === 'primary') || locations[0]
-  const clinicCards = locations.filter(l => l.kind === 'primary' || l.kind === 'secondary')
   const onCall = locations.filter(l => l.kind === 'oncall')
 
   const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -140,47 +95,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Clinic location cards */}
-      {clinicCards.length > 0 && (
-        <section className={styles.locSection}>
-          <div className="wrap">
-            <motion.div className={styles.sHead} {...fadeUp()}>
-              <span className="eyebrow">Clinic Locations</span>
-              <h2>Where to <em>find him</em></h2>
-            </motion.div>
-            <div className={styles.locGrid}>
-              {clinicCards.map((loc, i) => (
-                <motion.div key={loc.name} className={styles.locCard} {...fadeUp(0.08 + i * 0.08)}>
-                  {loc.image?.url && (
-                    <div className={styles.locImage}>
-                      <img src={loc.image.url} alt={loc.image.alt || loc.name} loading="lazy"/>
-                    </div>
-                  )}
-                  <div className={styles.locBody}>
-                    <span className={styles.locBadge}>{loc.badgeLabel || DEFAULT_BADGE[loc.kind] || 'Consulting At'}</span>
-                    <h3>{loc.name}</h3>
-                    <p className={styles.locAddress}>
-                      {loc.addressLine}{loc.landmark ? `, ${loc.landmark}` : ''}{loc.city ? `, ${loc.city}` : ''}{loc.pincode ? ` – ${loc.pincode}` : ''}
-                    </p>
-                    {loc.schedule?.length > 0 && (
-                      <ul className={styles.locSchedule}>
-                        {loc.schedule.map((s, si) => (
-                          <li key={si}><b>{s.days}</b><span>{s.hours}{s.note ? ` (${s.note})` : ''}</span></li>
-                        ))}
-                      </ul>
-                    )}
-                    {loc.consultationFee ? <p className={styles.locFee}>Consultation fee: ₹{loc.consultationFee}</p> : null}
-                    <div className={styles.locActions}>
-                      {loc.phone && <a href={`tel:${loc.phone}`} className="btn btn-ghost">Call</a>}
-                      {loc.mapLink && <a href={loc.mapLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Get directions <span className="arr">→</span></a>}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <ClinicLocations locations={locations}/>
 
       <section className={styles.mainSection}>
         <div className="wrap">

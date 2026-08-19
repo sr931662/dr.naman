@@ -73,6 +73,7 @@ export const navigation = {
     { label: 'Research', url: '#research' },
     { label: 'Voices', url: '#voices' },
     { label: 'FAQ', url: '#faq' },
+    { label: 'Locations', url: '#locations' },
   ],
   footerColumns: [
     {
@@ -113,7 +114,7 @@ export const navigation = {
 export const hero = {
   eyebrow: 'Consultant Urologist · Delhi',
   headlineWords: ['Surgical', 'precision,', 'profoundly', 'human', 'care.'],
-  subheading: 'Urology, andrology and laparoscopic surgery across Delhi — eleven years of focused practice in kidney stones, prostate disease, male fertility and renal transplantation.',
+  subheading: "Consultant Urologist, Andrologist & Laparoscopic Surgeon based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home. Eleven years of focused practice in kidney stones, prostate disease, male fertility and renal transplantation.",
   ctas: [
     { label: 'Book a consultation', url: '/contact', variant: 'primary' },
     { label: 'Explore treatments', url: '#treatments', variant: 'ghost' },

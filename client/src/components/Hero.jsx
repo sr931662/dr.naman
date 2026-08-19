@@ -8,7 +8,7 @@ import styles from './Hero.module.css'
 
 const WORDS_FALLBACK = ['Surgical', 'precision,', 'profoundly', 'human', 'care.']
 const EYEBROW_FALLBACK = 'Urology · Andrology · Uro-oncology · Renal Transplant'
-const SUBHEADING_FALLBACK = 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal.'
+const SUBHEADING_FALLBACK = "Consultant Urologist, Andrologist & Laparoscopic Surgeon based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal."
 const CTAS_FALLBACK = [
   { label: 'Book a consultation', url: '/contact', variant: 'primary' },
   { label: 'Enter the Atlas', url: '#expertise', variant: 'ghost' },

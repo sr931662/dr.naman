@@ -15,6 +15,7 @@ const LINKS_FALLBACK = [
   { url: '#research', label: 'Research' },
   { url: '#voices', label: 'Voices' },
   { url: '#faq', label: 'FAQ' },
+  { url: '#locations', label: 'Locations' },
 ]
 
 export default function SectionRail() {

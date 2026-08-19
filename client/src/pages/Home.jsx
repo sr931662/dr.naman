@@ -15,6 +15,7 @@ import Testimonials from '../components/Testimonials'
 import PhotoGallery from '../components/PhotoGallery'
 import BlogPreview from '../components/BlogPreview'
 import FAQ from '../components/FAQ'
+import ClinicLocations from '../components/ClinicLocations'
 import CTA from '../components/CTA'
 import SectionRail from '../components/SectionRail'
 
@@ -70,6 +71,7 @@ export default function Home() {
       <Testimonials/>
       <BlogPreview/>
       <FAQ/>
+      <ClinicLocations id="locations"/>
       <CTA/>
       <SectionRail/>
     </>

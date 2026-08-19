@@ -23,6 +23,8 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }
 })
 
+const AUTOPLAY_MS = 4500
+
 const PHOTOS_FALLBACK = [
   {
     featured: true,
@@ -58,6 +60,7 @@ export default function PhotoGallery() {
   const featuredIndex = Math.max(0, PHOTOS.findIndex(p => p.featured))
 
   const [active, setActive] = useState(featuredIndex)
+  const [paused, setPaused] = useState(false)
   const thumbRefs = useRef([])
   const current = PHOTOS[active] || PHOTOS[0]
 
@@ -70,6 +73,14 @@ export default function PhotoGallery() {
     thumbRefs.current[active]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }, [active])
 
+  // Auto-advances every few seconds; the effect re-arms on each change of
+  // `active` so a manual click resets the countdown instead of double-firing.
+  useEffect(() => {
+    if (paused || PHOTOS.length <= 1) return
+    const id = setInterval(() => setActive(a => (a + 1) % PHOTOS.length), AUTOPLAY_MS)
+    return () => clearInterval(id)
+  }, [active, paused, PHOTOS.length])
+
   return (
     <section className={styles.section} id="gallery">
       <div className="wrap">
@@ -79,7 +90,14 @@ export default function PhotoGallery() {
           <p className="lead">Eleven years of focused urological practice across Delhi — where precision meets patient-first care.</p>
         </motion.div>
 
-        <motion.div className={styles.stage} {...fadeUp(0.1)}>
+        <motion.div
+          className={styles.stage}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+          {...fadeUp(0.1)}
+        >
           <div className={styles.preview}>
             <AnimatePresence mode="wait">
               <motion.div
