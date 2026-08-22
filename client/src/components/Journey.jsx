@@ -8,7 +8,7 @@ const ITEMS_FALLBACK = [
   { side: 'right', year: 'Observership · Dubai', title: 'First IVF, Dubai (UAE)', desc: 'International observership in advanced reproductive medicine, deepening expertise in andrology and assisted fertility.' },
   { side: 'left', year: '2022 · Fellowship', title: 'Devon Traveling Fellowship', desc: 'A competitive traveling fellowship recognising surgical promise and a commitment to evolving urological practice.' },
   { side: 'right', year: '2022 · Symposium', title: 'KUACON · Davangere PG Symposium', desc: 'Active contribution to the postgraduate urological community through regional academic symposia.' },
-  { side: 'left', year: 'Present · Delhi', title: 'Consultant Urologist — Delhi', desc: "Practising urology, andrology, laparoscopic and minimally-invasive urological surgery across Delhi." },
+  { side: 'left', year: 'Present · Delhi', title: "Urologist, Kidney Transplant Surgeon and Men's Health Specialist — Delhi", desc: "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, practising across kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation." },
 ]
 
 function TimelineRow({ item }) {

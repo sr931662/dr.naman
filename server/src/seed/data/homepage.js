@@ -48,8 +48,8 @@ export const journey = [
   {
     side: 'left',
     year: 'Present · Delhi',
-    title: 'Consultant Urologist — Delhi',
-    desc: 'Practising urology, andrology, laparoscopic and minimally-invasive urological surgery across Delhi.',
+    title: "Urologist, Kidney Transplant Surgeon and Men's Health Specialist — Delhi",
+    desc: "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, practising across kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation.",
   },
 ]
 
