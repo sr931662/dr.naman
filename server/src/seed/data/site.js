@@ -10,10 +10,10 @@ export const settings = {
   logoText: 'N',
   doctor: {
     name: 'Dr. Naman Aggarwal',
-    jobTitle: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon',
+    jobTitle: "Urologist, Kidney transplant surgeon and Men's health specialist",
     qualifications: 'MBBS, MS General Surgery, MCh Urology / Genito-Urinary Surgery',
     experienceYears: 11,
-    bio: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi. ASRM-certified in andrology and holder of the Devon Traveling Fellowship in advanced laparoscopic and robotic urological surgery.',
+    bio: "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation.",
     medicalSpecialty: ['Urology', 'Andrology', 'Laparoscopic Surgery'],
     hospital: '',
     addressLocality: 'Delhi',
@@ -43,7 +43,7 @@ export const settings = {
   },
   seo: {
     title: 'Urologist in Delhi | Dr. Naman Aggarwal',
-    description: 'Consultant Urologist & Andrologist serving patients across Delhi. MCh Urology, 11 years experience in kidney stones, HoLEP, male infertility and renal transplant.',
+    description: "Consultant urologist, kidney transplant surgeon & men's health specialist based out of Delhi — more than a decade of focused urological practice.",
     keywords: 'urologist Delhi, kidney stone treatment Delhi, HoLEP, male infertility, renal transplant, RIRS',
     noindex: false,
   },
@@ -112,9 +112,9 @@ export const navigation = {
 }
 
 export const hero = {
-  eyebrow: 'Consultant Urologist · Delhi',
+  eyebrow: "Urologist, Kidney transplant surgeon and Men's health specialist · Delhi",
   headlineWords: ['Surgical', 'precision,', 'profoundly', 'human', 'care.'],
-  subheading: "Consultant Urologist, Andrologist & Laparoscopic Surgeon based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home. Eleven years of focused practice in kidney stones, prostate disease, male fertility and renal transplantation.",
+  subheading: "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation. Based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home.",
   ctas: [
     { label: 'Book a consultation', url: '/contact', variant: 'primary' },
     { label: 'Explore treatments', url: '#treatments', variant: 'ghost' },

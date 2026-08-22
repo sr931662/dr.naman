@@ -8,7 +8,7 @@ import styles from './Hero.module.css'
 
 const WORDS_FALLBACK = ['Surgical', 'precision,', 'profoundly', 'human', 'care.']
 const EYEBROW_FALLBACK = 'Urology · Andrology · Uro-oncology · Renal Transplant'
-const SUBHEADING_FALLBACK = "Consultant Urologist, Andrologist & Laparoscopic Surgeon based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home — uniting minimally-invasive technique with a calm, deeply personal bedside that patients remember long after they heal."
+const SUBHEADING_FALLBACK = "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation. Based at Men's Health Corner, with additional OPD hours at Manipal Hospital and Veena Nursing Home."
 const CTAS_FALLBACK = [
   { label: 'Book a consultation', url: '/contact', variant: 'primary' },
   { label: 'Enter the Atlas', url: '#expertise', variant: 'ghost' },
@@ -75,7 +75,7 @@ export default function Hero() {
               {eyebrow}
             </motion.span>
             <h1 className={styles.h1}>
-              <span className="visually-hidden">Dr. Naman Aggarwal — Urologist, Andrologist &amp; Laparoscopic Surgeon in Delhi. </span>
+              <span className="visually-hidden">Dr. Naman Aggarwal — Urologist, Kidney transplant surgeon and Men's health specialist in Delhi. </span>
               {WORDS.map((word, i) => (
                 <motion.span
                   key={i}

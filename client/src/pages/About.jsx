@@ -60,7 +60,7 @@ export default function AboutPage() {
     <main className={styles.page}>
       <Seo
         title="About Dr. Naman Aggarwal"
-        description="MBBS, MS General Surgery, MCh Urology (PGIMER) · Devon Fellow (UK) · ASRM Certified. 11 years of experience in urology, andrology & laparoscopic surgery across Delhi."
+        description="MBBS, MS General Surgery, MCh Urology (PGIMER) · Devon Fellow (UK) · ASRM Certified. Urologist, kidney transplant surgeon and men's health specialist with more than a decade of focused practice across Delhi."
         path="/about"
       />
       {/* Hero */}
@@ -69,11 +69,11 @@ export default function AboutPage() {
         <div className="wrap">
           <div className={styles.heroContent}>
             <motion.div className={styles.heroCopy} {...fadeUp(0.1)}>
-              <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Consultant Urologist · Delhi</span>
+              <span className="eyebrow" style={{ color: 'rgba(255,255,255,.6)' }}>Urologist, Kidney transplant surgeon and Men's health specialist · Delhi</span>
               <h1 className={styles.heroH1}>Dr. Naman <em>Aggarwal</em></h1>
               <p className={styles.heroPhilo}>Surgical precision, profoundly human care.</p>
               <p className={styles.heroLead}>
-                MBBS · MS General Surgery · MCh Urology. Urologist, Andrologist &amp; Laparoscopic Surgeon with 11 years of experience — bringing rigorous, evidence-based technique to every patient across Delhi.
+                MBBS · MS General Surgery · MCh Urology. Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation.
               </p>
               <div className={styles.heroActions}>
                 <Link to="/contact" className="btn btn-primary">Book a consultation</Link>

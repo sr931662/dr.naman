@@ -48,7 +48,7 @@ const ARTICLE_BODY = {
 }
 
 const FALLBACK_BODY = [
-  "Dr. Naman Aggarwal is a Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon practising across Delhi. He holds MBBS, MS General Surgery, and MCh Urology/Genito-Urinary Surgery with 11 years of overall experience. He is ASRM-certified in andrology and holds the Devon Traveling Fellowship (UK) in advanced laparoscopic and robotic urological surgery.",
+  "Dr. Naman Aggarwal is a Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation. He holds MBBS, MS General Surgery, and MCh Urology/Genito-Urinary Surgery. He is ASRM-certified in andrology and holds the Devon Traveling Fellowship (UK) in advanced laparoscopic and robotic urological surgery.",
   "His clinical practice spans the full spectrum of urological conditions, with particular expertise in minimally invasive techniques including Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches for uro-oncological surgery.",
   "If you have questions about your urological health or wish to book a consultation, please use the contact form on this website. Dr. Aggarwal's team will respond within 24 hours.",
 ]
@@ -147,7 +147,7 @@ export default function BlogPostPage() {
               <div className={styles.authorAvatar}>N</div>
               <div className={styles.authorInfo}>
                 <span className={styles.authorName}>Dr. Naman Aggarwal</span>
-                <span className={styles.authorTitle}>Consultant Urologist · Delhi</span>
+                <span className={styles.authorTitle}>Urologist, Kidney transplant surgeon and Men's health specialist · Delhi</span>
               </div>
             </div>
           </motion.div>
@@ -177,7 +177,7 @@ export default function BlogPostPage() {
                   <div className={styles.authorCardAvatar}>N</div>
                   <div>
                     <span className={styles.authorCardName}>Dr. Naman Aggarwal</span>
-                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Delhi</span>
+                    <span className={styles.authorCardTitle}>Urologist, Kidney transplant surgeon and Men's health specialist · Delhi</span>
                     <span className={styles.authorCardCreds}>MCh Urology (PGIMER) · Devon Fellow · ASRM Certified</span>
                   </div>
                 </div>

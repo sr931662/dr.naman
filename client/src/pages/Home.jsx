@@ -54,7 +54,7 @@ export default function Home() {
     <>
       <Seo
         title="Urologist in Delhi"
-        description="Dr. Naman Aggarwal — Consultant Urologist, Andrologist & Laparoscopic Surgeon, practising across Delhi at Men's Health Corner (main clinic), Manipal Hospital and Veena Nursing Home. MBBS, MS, MCh Urology. 11 years experience in kidney stones, HoLEP, male infertility & renal transplant."
+        description="Dr. Naman Aggarwal — Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation. Practising at Men's Health Corner (main clinic), Manipal Hospital and Veena Nursing Home."
         path="/"
         jsonLd={[PHYSICIAN_JSON_LD, faqJsonLd]}
       />

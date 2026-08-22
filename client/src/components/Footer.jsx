@@ -66,7 +66,7 @@ export default function Footer() {
         <motion.div className={styles.brand} variants={fadeUp}>
           <div className={styles.brandLogo}>N</div>
           <h4>Dr. Naman Aggarwal</h4>
-          <p>Consultant Urologist, Andrologist &amp; Laparoscopic Surgeon · Delhi. 11 years experience.</p>
+          <p>Urologist, Kidney transplant surgeon and Men's health specialist · Delhi. More than a decade of focused practice.</p>
           <div className={styles.socialSection}>
             <p className={styles.socialLabel}>Follow &amp; Connect</p>
             <div className={styles.socialRow}>

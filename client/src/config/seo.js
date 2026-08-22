@@ -9,7 +9,7 @@ export const SITE_NAME = 'Dr. Naman Aggarwal — Urology, Andrology & Laparoscop
 // has the same placeholder-until-confirmed treatment for the CMS-backed locations).
 export const DOCTOR = {
   name: 'Dr. Naman Aggarwal',
-  jobTitle: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon',
+  jobTitle: "Urologist, Kidney transplant surgeon and Men's health specialist",
   medicalSpecialty: ['Urology', 'Andrology', 'Laparoscopic Surgery'],
   addressLocality: 'Delhi',
   addressRegion: 'Delhi',

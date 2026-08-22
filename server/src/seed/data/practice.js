@@ -61,12 +61,12 @@ export const pages = [
   {
     title: 'About Dr. Naman Aggarwal',
     slug: 'about',
-    summary: 'Consultant Urologist, Andrologist & Laparoscopic Surgeon serving patients across Delhi — eleven years of focused urological practice.',
+    summary: "Consultant urologist, kidney transplant surgeon and men's health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation.",
     blocks: [
       {
         type: 'prose',
         heading: 'A surgeon shaped by two disciplines',
-        body: '<p>Dr. Naman Aggarwal is a Consultant Urologist, Andrologist and Laparoscopic Surgeon serving patients across Delhi. He holds an MBBS, an MS in General Surgery, and an MCh in Urology / Genito-Urinary Surgery, with eleven years of overall clinical experience.</p><p>His practice spans the full spectrum of urological conditions, with particular depth in minimally invasive technique — Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches to uro-oncological surgery.</p>',
+        body: '<p>Dr. Naman Aggarwal is a Consultant urologist, kidney transplant surgeon and men\'s health specialist based out of Delhi, with more than a decade of focused practice in kidney stones, prostate disease, genitourinary cancers, male fertility and renal transplantation. He holds an MBBS, an MS in General Surgery, and an MCh in Urology / Genito-Urinary Surgery.</p><p>His practice spans the full spectrum of urological conditions, with particular depth in minimally invasive technique — Retrograde Intrarenal Surgery (RIRS) for kidney stones, Holmium Laser Enucleation of the Prostate (HoLEP) for benign prostatic hyperplasia, and laparoscopic approaches to uro-oncological surgery.</p>',
       },
       {
         type: 'stats',
@@ -91,8 +91,8 @@ export const pages = [
       },
     ],
     seo: {
-      title: 'About Dr. Naman Aggarwal — Consultant Urologist, Delhi',
-      description: 'MBBS, MS, MCh Urology. ASRM-certified in andrology, Devon Traveling Fellow. Eleven years of urological practice across Delhi.',
+      title: 'About Dr. Naman Aggarwal — Urologist, Kidney Transplant Surgeon, Delhi',
+      description: "MBBS, MS, MCh Urology. ASRM-certified in andrology, Devon Traveling Fellow. Urologist & kidney transplant surgeon in Delhi.",
     },
   },
   {

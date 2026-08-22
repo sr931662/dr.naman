@@ -239,7 +239,7 @@ export default function TreatmentDetailPage() {
                   <div className={styles.authorCardAvatar}>N</div>
                   <div>
                     <span className={styles.authorCardName}>Dr. Naman Aggarwal</span>
-                    <span className={styles.authorCardTitle}>Consultant Urologist, Andrologist &amp; Renal Transplant Surgeon · Delhi</span>
+                    <span className={styles.authorCardTitle}>Urologist, Kidney transplant surgeon and Men's health specialist · Delhi</span>
                     <span className={styles.authorCardCreds}>MCh Urology (PGIMER) · Devon Fellow · ASRM Certified</span>
                   </div>
                 </div>
